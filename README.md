@@ -26,11 +26,3 @@ wiki:https://github.com/cgfly/jeecf/wiki
 3.提供客户端服务支持  
 4.提供docker-compose支持  
 5.优化代码若干  
-## 总体架构
-![Image text](https://github.com/jianym/jeecf/blob/master/jeecf-module-manager/src/main/resources/static/images/jeecf_architecture.png)
-## MVC架构  
-![Image text](https://github.com/jianym/jeecf/blob/master/jeecf-module-manager/src/main/resources/static/images/jeecf_architecture_mvc.png)
-## 代码生成架构  
-![Image text](https://github.com/jianym/jeecf/blob/master/jeecf-module-manager/src/main/resources/static/images/jeecf_architecture_gen.png)
-## OSGI插件架构  
-![Image text](https://github.com/jianym/jeecf/blob/master/jeecf-module-manager/src/main/resources/static/images/jeecf_architecture_osgi.png)
