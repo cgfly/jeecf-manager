@@ -19,10 +19,4 @@ Jee Code Factory 是基于模版化的代码生成平台，致力于解决企业
 3.基于插件进行功能扩展  
 4.提供命令行客户端  
 ## 使用说明  
-wiki:https://github.com/cgfly/jeecf/wiki 
-## v2.0 新功能与优化  
-1.基于like和正则的模块匹配策略  
-2.加入全量模版  
-3.提供客户端服务支持  
-4.提供docker-compose支持  
-5.优化代码若干  
+wiki:https://github.com/cgfly/jeecf-manager/wiki 
