@@ -11,7 +11,7 @@ Jee Code Factory 是基于模版化的代码生成平台，致力于解决企业
 3.启动Application，默认端口8801，用户名：admin,密码：123456  
 4.例子模版文件在 dist/example-tmpl文件夹下  
 5.插件模版文件在 dist/example-plugin文件夹下  
-6.基于docker-compose启动，jeecf-parent/docker-compose 文件夹下  
+6.基于docker-compose启动，docker-compose 文件夹下  
 7.命令行客户端项目地址:https://github.com/cgfly/jeecf-cli
 ## 功能优势
 1.基于模版化，适用于不同语言  
