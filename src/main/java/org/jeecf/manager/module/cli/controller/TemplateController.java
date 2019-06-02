@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.jeecf.common.enums.SplitCharEnum;
 import org.jeecf.common.exception.BusinessException;
 import org.jeecf.common.lang.StringUtils;
 import org.jeecf.common.model.Response;
@@ -158,20 +159,29 @@ public class TemplateController {
         SysNamespace sysNamespace = sysNamespaceService.get(userId, genModel.getNamespace());
         if (sysNamespace != null) {
             SysDbsourceResult sysDbsourceResult = DbsourceUtils.getSysDbsource(genModel.getDbsource());
+            GenSingleModel genSingleModel = genModel.getGenSingleModel();
             if (sysDbsourceResult == null) {
                 throw new BusinessException(BusinessErrorEnum.DARASOURCE_NOT);
             }
+            if (genSingleModel == null || StringUtils.isEmpty(genSingleModel.getTemplate())) {
+                throw new BusinessException(BusinessErrorEnum.DATA_NOT_EXIT);
+            }
+
             List<String> validPermissions = new ArrayList<>();
             validPermissions.add(sysNamespace.getPermission());
             validPermissions.add(sysDbsourceResult.getPermission());
-            GenSingleModel genSingleModel = genModel.getGenSingleModel();
+
             userAuthService.auth(userId, validPermissions);
             threadLocalProperties.set(DynamicDataSourceAspect.THREAD_DB_NAME, sysDbsourceResult.getKeyName());
             threadLocalProperties.set(DbsourceUtils.DBSOURCE_ID, sysDbsourceResult.getId());
             threadLocalProperties.set(NamespaceUtils.NAMESPACE_ID, sysNamespace.getId());
             GenTemplateQuery genTemplateQuery = new GenTemplateQuery();
             genTemplateQuery.setSysNamespaceId(Integer.valueOf(sysNamespace.getId()));
-            genTemplateQuery.setName(genSingleModel.getTemplate());
+            String[] template = genSingleModel.getTemplate().split(SplitCharEnum.COLON.getName());
+            genTemplateQuery.setName(template[0]);
+            if (template.length > 1) {
+                genTemplateQuery.setVersion(template[1]);
+            }
             GenTemplatePO genTemplatePO = new GenTemplatePO(genTemplateQuery);
             Response<List<GenTemplateResult>> genTemplateResultListRes = genTemplateService.findList(genTemplatePO);
             if (CollectionUtils.isNotEmpty(genTemplateResultListRes.getData())) {

@@ -28,6 +28,9 @@
 				<if test="data.name != null and data.name != '' ">
 					And genTemplate.name = #{data.name}
 				</if>
+                <if test="data.version != null and data.version != '' ">
+                    And genTemplate.version = #{data.version}
+                </if>
 				<if test="data.sysNamespaceId != null ">
 					And genTemplate.sys_namespace_id =
 					#{data.sysNamespaceId}
