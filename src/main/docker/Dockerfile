@@ -4,7 +4,7 @@ MAINTAINER YiMing jian "3502168163@qq.com"
 
 ENV DIST_NAME=jeecf-manager \
     JAVA_OPTS=" -Xms512M -Xmx512M" \
-    JEECF_HOME=/Users/jeecf \
+    JEECF_HOME=$HOME/jeecf \
     SERVER_PORT=8801 \
     DB_NAME=jeecf \
     DB_HOST="127.0.0.1" \

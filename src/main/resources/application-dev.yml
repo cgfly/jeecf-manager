@@ -4,6 +4,7 @@ spring:
          url: jdbc:mysql://127.0.0.1:3306/jeecf?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull
          username: root
          password: 12345678
+
 redis:
    host: 127.0.0.1
    port: 6379
@@ -13,21 +14,23 @@ redis:
    testWhileIdle: true
    timeBetweenEvictionRunsMillis: 30000
    minEvictableIdleTimeMillis: 1800000
+   
 file:
    plugin:
       upload:
-         path: /Users/jianyiming/jeecf/plugin/real
+         path: ${HOME}/jeecf/plugin/real
          tmp: 
-            path: /Users/jianyiming/jeecf/plugin/tmp
+            path: ${HOME}/jeecf/plugin/tmp
       suffix: jar
    tmpl:
       download:
          prefix:
-            path: /Users/jianyiming/jeecf/tmpl/download
+            path: ${HOME}/jeecf/tmpl/download
       upload:
-         path: /Users/jianyiming/jeecf/tmpl/real
+         path: ${HOME}/jeecf/tmpl/real
          tmp:
-            path: /Users/jianyiming/jeecf/tmpl/tmp
+            path: ${HOME}/jeecf/tmpl/tmp
       suffix: zip
+      
 encrypt:
-   key: 12345678     
+   key: 12345678    

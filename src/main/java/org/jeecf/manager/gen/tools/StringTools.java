@@ -168,4 +168,16 @@ public class StringTools {
         return Arrays.asList(result);
     }
 
+    /**
+     * 替换字符串
+     * 
+     * @param text
+     * @param searchString
+     * @param replacement
+     * @return
+     */
+    public String replace(String text, String searchString, String replacement) {
+        return StringUtils.replace(text, searchString, replacement);
+    }
+
 }
