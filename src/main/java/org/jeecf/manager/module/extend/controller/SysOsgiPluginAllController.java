@@ -87,7 +87,7 @@ public class SysOsgiPluginAllController implements CurdController<SysOsgiPluginQ
     public Response<SysOsgiPluginResult> save(@RequestBody @Validated({ Add.class }) SysOsgiPlugin sysOsgiPlugin) {
         if (sysOsgiPlugin.isNewRecord()) {
             SysOsgiPluginQuery query = new SysOsgiPluginQuery();
-            query.setName(sysOsgiPlugin.getName());
+            query.setPluginName(sysOsgiPlugin.getPluginName());
             List<SysOsgiPluginResult> sysOsgiPluginList = sysOsgiPluginService.findList(new SysOsgiPluginPO(query)).getData();
             if (CollectionUtils.isNotEmpty(sysOsgiPluginList)) {
                 throw new BusinessException(BusinessErrorEnum.DATA_EXIT);
@@ -124,7 +124,7 @@ public class SysOsgiPluginAllController implements CurdController<SysOsgiPluginQ
     @ApiOperation(value = "插件文件下载", notes = "下载")
     public void templateDownload(@PathVariable("id") String id, HttpServletResponse response) throws IOException {
         SysOsgiPlugin sysOsgiPlugin = sysOsgiPluginService.get(new SysOsgiPlugin(id)).getData();
-        DownloadUtils.downloadFile(response, PluginUtils.getFilePath(sysOsgiPlugin.getName()));
+        DownloadUtils.downloadFile(response, PluginUtils.getFilePath(sysOsgiPlugin.getPluginName()));
         return;
     }
 
@@ -136,7 +136,7 @@ public class SysOsgiPluginAllController implements CurdController<SysOsgiPluginQ
         SysOsgiPluginResult sysOsgiPluginResult = sysOsgiPluginService.get(new SysOsgiPlugin(id)).getData();
         if (sysOsgiPluginResult != null) {
             SysOsgiPluginQuery query = new SysOsgiPluginQuery();
-            query.setName(sysOsgiPluginResult.getName());
+            query.setPluginName(sysOsgiPluginResult.getPluginName());
             query.setSysNamespaceId(NamespaceUtils.getNamespaceId());
             List<SysOsgiPluginResult> sysOsgiPlugins = sysOsgiPluginService.findList(new SysOsgiPluginPO(query)).getData();
             if (CollectionUtils.isEmpty(sysOsgiPlugins)) {
@@ -156,7 +156,7 @@ public class SysOsgiPluginAllController implements CurdController<SysOsgiPluginQ
         SysOsgiPluginResult sysOsgiPluginResult = sysOsgiPluginService.get(new SysOsgiPlugin(id)).getData();
         if (sysOsgiPluginResult != null) {
             SysOsgiPlugin sysOsgiPlugin = new SysOsgiPlugin();
-            sysOsgiPlugin.setName(sysOsgiPluginResult.getName());
+            sysOsgiPlugin.setPluginName(sysOsgiPluginResult.getPluginName());
             sysOsgiPlugin.setDelFlag(DelFlagEnum.NO.getCode());
             return sysOsgiPluginService.updateByName(sysOsgiPlugin);
         }
@@ -171,7 +171,7 @@ public class SysOsgiPluginAllController implements CurdController<SysOsgiPluginQ
         SysOsgiPluginResult sysOsgiPluginResult = sysOsgiPluginService.get(new SysOsgiPlugin(id)).getData();
         if (sysOsgiPluginResult != null) {
             SysOsgiPlugin sysOsgiPlugin = new SysOsgiPlugin();
-            sysOsgiPlugin.setName(sysOsgiPluginResult.getName());
+            sysOsgiPlugin.setPluginName(sysOsgiPluginResult.getPluginName());
             sysOsgiPlugin.setDelFlag(DelFlagEnum.YES.getCode());
             return sysOsgiPluginService.updateByName(sysOsgiPlugin);
         }

@@ -80,6 +80,7 @@ public class ShiroConfiguration {
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<String, String>();
         // anon：它对应的过滤器里面是空的,什么都没做
         filterChainDefinitionMap.put("/login", "anon");
+        filterChainDefinitionMap.put("/images/**", "anon");
         filterChainDefinitionMap.put("/css/**", "anon");
         filterChainDefinitionMap.put("/js/**", "anon");
         filterChainDefinitionMap.put("/libs/**", "anon");

@@ -56,6 +56,15 @@ define([ 'app', '$httpRequest', '$page', '$ctx', '$jBoxcm' ], function(app,
 			$scope.currentRouteUrl = $state.current.url;
 			$scope.request = {page : {current : "",size : ""},data : {}};
 			$page.init($scope, $page.getPageSize());
+			$scope.searchOsgiBoundleTypeList = [{"name":"-- 全部 --"}]
+			$ctx.getEnum($rootScope,"osgiBoundleTypeEnum",function(result){
+				$scope.$apply(function () {
+					$scope.osgiBoundleTypeEnums = result;
+					for(var i in result){
+						$scope.searchOsgiBoundleTypeList.push(result[i]);
+					}
+				});
+			});
 		}
 		
 		$scope.downloadModal = function (index){

@@ -24,22 +24,19 @@ import org.jeecf.manager.common.utils.UserUtils;
 import org.jeecf.manager.gen.utils.GenUtils;
 import org.jeecf.manager.module.config.model.domain.SysNamespace;
 import org.jeecf.manager.module.extend.service.SysOsgiPluginService;
+import org.jeecf.manager.module.template.facade.GenTemplateFacade;
 import org.jeecf.manager.module.template.model.domain.GenTemplate;
 import org.jeecf.manager.module.template.model.po.GenFieldColumnPO;
-import org.jeecf.manager.module.template.model.po.GenFieldPO;
 import org.jeecf.manager.module.template.model.po.GenTablePO;
 import org.jeecf.manager.module.template.model.po.GenTemplatePO;
 import org.jeecf.manager.module.template.model.query.GenFieldColumnQuery;
-import org.jeecf.manager.module.template.model.query.GenFieldQuery;
 import org.jeecf.manager.module.template.model.query.GenTableQuery;
 import org.jeecf.manager.module.template.model.query.GenTemplateQuery;
 import org.jeecf.manager.module.template.model.result.GenFieldColumnResult;
-import org.jeecf.manager.module.template.model.result.GenFieldResult;
 import org.jeecf.manager.module.template.model.result.GenTableResult;
 import org.jeecf.manager.module.template.model.result.GenTemplateResult;
 import org.jeecf.manager.module.template.model.schema.GenTemplateSchema;
 import org.jeecf.manager.module.template.service.GenFieldColumnService;
-import org.jeecf.manager.module.template.service.GenFieldService;
 import org.jeecf.manager.module.template.service.GenTableService;
 import org.jeecf.manager.module.template.service.GenTemplateService;
 import org.jeecf.manager.module.userpower.model.domain.SysUser;
@@ -76,7 +73,7 @@ public class GenTemplateController implements CurdController<GenTemplateQuery, G
     private GenTemplateService genTemplateService;
 
     @Autowired
-    private GenFieldService genFieldService;
+    private GenTemplateFacade genTemplateFacade;
 
     @Autowired
     private GenFieldColumnService genFieldColumnService;
@@ -123,9 +120,9 @@ public class GenTemplateController implements CurdController<GenTemplateQuery, G
         String fileName = StringUtils.substringBeforeLast(paths[1], ".");
         if (genTemplate.isNewRecord()) {
             GenTemplateQuery query = new GenTemplateQuery();
-            query.setName(genTemplate.getName());
-            if (StringUtils.isEmpty(genTemplate.getName())) {
-                query.setName(fileName);
+            query.setTemplateName(genTemplate.getTemplateName());
+            if (StringUtils.isEmpty(genTemplate.getTemplateName())) {
+                query.setTemplateName(fileName);
             }
             query.setSysNamespaceId(Integer.valueOf(sysNamespace.getId()));
             List<GenTemplateResult> genTemplateList = genTemplateService.findList(new GenTemplatePO(query)).getData();
@@ -133,10 +130,10 @@ public class GenTemplateController implements CurdController<GenTemplateQuery, G
                 throw new BusinessException(BusinessErrorEnum.DATA_EXIT);
             }
         }
-        TemplateUtils.unzip(paths[0], paths[1], sysNamespace.getName());
+        TemplateUtils.unzip(paths[0], paths[1], sysNamespace.getNamespaceName());
         genTemplate.setFileBasePath(paths[0] + File.separator + fileName);
-        genTemplate.setName(fileName);
-        return genTemplateService.saveByAuth(genTemplate);
+        genTemplate.setTemplateName(fileName);
+        return genTemplateFacade.save(genTemplate);
     }
 
     @PostMapping(value = { "delete/{id}" })
@@ -145,30 +142,20 @@ public class GenTemplateController implements CurdController<GenTemplateQuery, G
     @ApiOperation(value = "删除", notes = "删除模版配置数据")
     @Override
     public Response<Integer> delete(@PathVariable("id") String id) {
-
         GenTemplate genTemplate = genTemplateService.getByAuth(new GenTemplate(id)).getData();
         if (genTemplate != null) {
             String userId = UserUtils.getCurrentUserId();
             SysNamespace sysNamespace = NamespaceUtils.getNamespace(userId);
             if (sysNamespace != null) {
-                Response<Integer> res = genTemplateService.deleteByAuth(new GenTemplate(id));
+                Response<Integer> res = genTemplateFacade.delete(new GenTemplate(id));
                 if (res.getData() != 0) {
                     String filePath = StringUtils.substringBeforeLast(genTemplate.getFileBasePath(), SplitCharEnum.SLASH.getName());
-                    TemplateUtils.delDownload(filePath, sysNamespace.getName());
+                    TemplateUtils.delDownload(filePath, sysNamespace.getNamespaceName());
                     return res;
                 }
             }
-
         }
         return new Response<Integer>();
-    }
-
-    @PostMapping(value = { "field" })
-    @ResponseBody
-    @RequiresPermissions("${permission.genTemplate.view}")
-    @ApiOperation(value = "查询", notes = "查询模版参数")
-    public Response<List<GenFieldResult>> getField() {
-        return genFieldService.findListByAuth(new GenFieldPO(new GenFieldQuery()));
     }
 
     @PostMapping(value = { "upload" })
@@ -181,13 +168,13 @@ public class GenTemplateController implements CurdController<GenTemplateQuery, G
         return new Response<>(TemplateUtils.upload(file, sysNamespace));
     }
 
-    @PostMapping(value = { "params/{genFieldId}" })
+    @PostMapping(value = { "params/{genTemplateId}" })
     @ResponseBody
     @RequiresPermissions("${permission.genTemplate.view}")
     @ApiOperation(value = "参数", notes = "查询模版参数")
-    public Response<List<GenFieldColumnResult>> params(@PathVariable("genFieldId") Integer genFieldId) throws IOException {
+    public Response<List<GenFieldColumnResult>> params(@PathVariable("genTemplateId") Integer genTemplateId) throws IOException {
         GenFieldColumnQuery columns = new GenFieldColumnQuery();
-        columns.setGenFieldId(genFieldId);
+        columns.setGenTemplateId(genTemplateId);
         return genFieldColumnService.findList(new GenFieldColumnPO(columns));
     }
 
@@ -201,7 +188,7 @@ public class GenTemplateController implements CurdController<GenTemplateQuery, G
         String result = TemplateUtils.upload(file, sysNamespace);
         if (StringUtils.isNotEmpty(result)) {
             fileBasePath = StringUtils.substringBeforeLast(fileBasePath, SplitCharEnum.SLASH.getName());
-            TemplateUtils.delDownload(fileBasePath, sysNamespace.getName());
+            TemplateUtils.delDownload(fileBasePath, sysNamespace.getNamespaceName());
         }
         return new Response<>(result);
     }
@@ -218,7 +205,7 @@ public class GenTemplateController implements CurdController<GenTemplateQuery, G
             SysUser sysUser = UserUtils.getCurrentUser();
             SysNamespace sysNamespace = NamespaceUtils.getNamespace(sysUser.getId());
             if (sysNamespace != null) {
-                String sourcePath = TemplateUtils.getUnzipPath(genTemplate.getFileBasePath(), sysNamespace.getName());
+                String sourcePath = TemplateUtils.getUnzipPath(genTemplate.getFileBasePath(), sysNamespace.getNamespaceName());
                 String outPath = GenUtils.build(entity.getParams(), entity.getTableName(), sourcePath, genTemplate.getLanguage(), sysNamespace, sysUser,
                         sysOsgiPluginService.findFilePathByBoundleType(BoundleEnum.GEN_HANDLER_PLUGIN_BOUNDLE).getData());
                 if (StringUtils.isNotEmpty(outPath)) {
@@ -238,7 +225,7 @@ public class GenTemplateController implements CurdController<GenTemplateQuery, G
     public void genDownload(@PathVariable("path") String path, @PathVariable("tableName") String tableName, HttpServletResponse response) throws IOException {
         SysUser sysUser = UserUtils.getCurrentUser();
         SysNamespace sysNamespace = NamespaceUtils.getNamespace(sysUser.getId());
-        String sourcePath = TemplateUtils.getUnzipPath(path + SplitCharEnum.SLASH.getName() + tableName, sysNamespace.getName());
+        String sourcePath = TemplateUtils.getUnzipPath(path + SplitCharEnum.SLASH.getName() + tableName, sysNamespace.getNamespaceName());
         DownloadUtils.downloadFile(response, TemplateUtils.getDownloadPath(sourcePath));
         return;
     }
@@ -253,7 +240,7 @@ public class GenTemplateController implements CurdController<GenTemplateQuery, G
             SysUser sysUser = UserUtils.getCurrentUser();
             SysNamespace sysNamespace = NamespaceUtils.getNamespace(sysUser.getId());
             if (sysNamespace != null) {
-                String zipFilePath = TemplateUtils.getZipFilePath(genTemplate.getFileBasePath(), sysNamespace.getName());
+                String zipFilePath = TemplateUtils.getZipFilePath(genTemplate.getFileBasePath(), sysNamespace.getNamespaceName());
                 DownloadUtils.downloadFile(response, zipFilePath);
             }
         }

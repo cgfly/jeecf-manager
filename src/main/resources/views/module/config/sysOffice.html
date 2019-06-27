@@ -13,14 +13,14 @@
 		<form class="form-inline" ng-submit="searchForm()">
 			<div class="form-group">
 				<label>名称:</label> <input type="text" class="form-control"
-					 ng-model="request.data.name" />
+					 ng-model="request.data.nodeName" />
 			</div>
 			<div class="form-group">
 				<label>英文名称:</label> <input type="text" class="form-control"
 					 ng-model="request.data.enname" />
 			</div>
 			<div class="form-group">
-				<button type="submit" class="btn btn-default">提交</button>
+				<button type="submit" class="btn btn-default">查询</button>
 			</div>
 		</form>
 
@@ -42,9 +42,9 @@
 					data-tt-parent-id="{{sysOffice.parentId}}"
 					repeat-finish="renderFinish(this)">
 					<td>{{ $index+1 }}</td>
-					<td>{{ sysOffice.name }}</td>
+					<td>{{ sysOffice.nodeName }}</td>
 					<td>{{ sysOffice.enname }}</td>
-					<td>{{ sysOffice.level }}</td>
+					<td>{{ sysOffice.nodeLevel }}</td>
 					<td>{{ sysOffice.sort }}</td>
 					<td shiro:hasPermission="config:sysOffice:edit">
 					   <span><a href="javascript:void(0)" ng-click="addModal($index)">添加下级组织</a></span> 
@@ -74,7 +74,7 @@
 								<div class="col-sm-10">
 									<div class="col-sm-8" style="padding-left: 0">
 										<selection data-id="updateTreeId" class="btn-group treeTable"
-											data-msg="{ tableFields:[{name:'姓名',label:'name'},{name:'等级',label:'level'},{name:'排序',label:'sort'}],name:'name',value:'id',key:'parentId',ttId:'id',ttParentId:'parentId'}"
+											data-msg="{ tableFields:[{name:'姓名',label:'nodeName'},{name:'等级',label:'nodeLevel'},{name:'排序',label:'sort'}],name:'nodeName',value:'id',key:'parentId',ttId:'id',ttParentId:'parentId'}"
 											data-ops="{url:'config/sysOffice/getTreeData',title:'父级',width:500,height:300}">
 										</selection>
 									</div>
@@ -84,14 +84,14 @@
 								<label class="col-sm-2 control-label">名称：</label>
 								<div class="col-sm-8">
 									<div class="col-sm-6" style="padding-left: 0">
-										<input type="text" class="form-control" id="updateName" name="name"
-											ng-model="updateSysOffice.name" placeholder="请输入名称"
+										<input type="text" class="form-control" id="updateNodeName" name="nodename"
+											ng-model="updateSysOffice.nodeName" placeholder="请输入名称"
 											required="required" />
 									</div>
 									<div class="col-sm-6">
 										<span style="color: red"
-											ng-show="updateSysOfficeForm.name.$dirty &amp;&amp; updateSysOfficeForm.name.$invalid">
-											<span ng-show="updateSysOfficeForm.name.$error.required">名称是必须的。</span>
+											ng-show="updateSysOfficeForm.nodename.$dirty &amp;&amp; updateSysOfficeForm.nodename.$invalid">
+											<span ng-show="updateSysOfficeForm.nodename.$error.required">名称是必须的。</span>
 										</span>
 									</div>
 								</div>
@@ -154,7 +154,7 @@
 					<div class="col-sm-4">
 						<div class="col-sm-8" style="padding-left: 0">
 							<selection data-id="insertTreeId" class="btn-group treeTable"
-								data-msg="{ tableFields:[{name:'姓名',label:'name'},{name:'等级',label:'level'},{name:'排序',label:'sort'}],name:'name',value:'id',key:'parentId',ttId:'id',ttParentId:'parentId'}"
+								data-msg="{ tableFields:[{name:'姓名',label:'nodeName'},{name:'等级',label:'nodeLevel'},{name:'排序',label:'sort'}],name:'nodeName',value:'id',key:'parentId',ttId:'id',ttParentId:'parentId'}"
 								data-ops="{url:'config/sysOffice/getTreeData',title:'父级',width:500,height:300}">
 							</selection>
 						</div>
@@ -164,15 +164,15 @@
 					<label class="col-sm-2 control-label">名称：</label>
 					<div class="col-sm-4">
 						<div class="col-sm-6" style="padding-left: 0">
-							<input type="text" class="form-control" id="name" name="name"
-								ng-model="sysOffice.name" placeholder="请输入名称"
-								required="required" />
+							 <input type="text" class="form-control" id="nodename" name="nodename"
+								ng-model="sysOffice.nodeName" placeholder="请输入名称"
+								required="required" /> 
 						</div>
 						<div class="col-sm-6">
-							<span style="color: red"
-								ng-show="sysOfficeForm.name.$dirty &amp;&amp; sysOfficeForm.name.$invalid">
-								<span ng-show="sysOfficeForm.name.$error.required">名称是必须的。</span>
-							</span>
+							<!-- <span style="color: red"
+								ng-show="sysOfficeForm.nodename.$dirty &amp;&amp; sysOfficeForm.nodename.$invalid">
+								<span ng-show="sysOfficeForm.nodename.$error.required">名称是必须的。</span>
+							</span> -->
 						</div>
 					</div>
 				</div>

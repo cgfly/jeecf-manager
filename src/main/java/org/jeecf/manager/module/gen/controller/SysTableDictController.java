@@ -83,8 +83,8 @@ public class SysTableDictController implements CurdController<SysTableDictQuery,
     public Response<SysTableDictResult> save(@RequestBody @Validated({ Add.class }) SysTableDict sysTableDict) {
         if (sysTableDict.isNewRecord()) {
             SysTableDictQuery query = new SysTableDictQuery();
-            query.setName(sysTableDict.getName());
-            query.setTableName(sysTableDict.getTableName());
+            query.setDictName(sysTableDict.getDictName());
+            query.setDictTableName(sysTableDict.getDictTableName());
             query.setSysDbsourceId(DbsourceUtils.getSysDbsourceId());
             query.setSysNamespaceId(NamespaceUtils.getNamespaceId());
             List<SysTableDictResult> sysTableDictList = sysTableDictService.findList(new SysTableDictPO(query)).getData();

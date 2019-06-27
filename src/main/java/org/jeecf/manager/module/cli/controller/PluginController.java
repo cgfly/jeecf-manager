@@ -72,7 +72,7 @@ public class PluginController {
             Response<List<SysOsgiPluginResult>> sysOsgiPluginResultListRes = sysOsgiPluginService.findList(sysOsgiPluginPO);
             if (CollectionUtils.isNotEmpty(sysOsgiPluginResultListRes.getData())) {
                 sysOsgiPluginResultListRes.getData().forEach(sysOsgiPluginResult -> {
-                    pluginList.add(sysOsgiPluginResult.getName());
+                    pluginList.add(sysOsgiPluginResult.getPluginName());
                 });
             }
             return new Response<>(pluginList);
@@ -89,7 +89,7 @@ public class PluginController {
             userAuthService.authPermission(sysUserResultRes.getData().getId(), sysNamespace.getPermission());
             SysOsgiPluginQuery sysOsgiPluginQuery = new SysOsgiPluginQuery();
             sysOsgiPluginQuery.setSysNamespaceId(Integer.valueOf(sysNamespace.getId()));
-            sysOsgiPluginQuery.setName(name);
+            sysOsgiPluginQuery.setPluginName(name);
             SysOsgiPluginPO sysOsgiPluginPO = new SysOsgiPluginPO(sysOsgiPluginQuery);
             Response<List<SysOsgiPluginResult>> sysOsgiPluginResultListRes = sysOsgiPluginService.findList(sysOsgiPluginPO);
             if (CollectionUtils.isNotEmpty(sysOsgiPluginResultListRes.getData())) {

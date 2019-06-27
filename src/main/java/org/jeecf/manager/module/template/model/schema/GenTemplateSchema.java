@@ -18,18 +18,13 @@ public class GenTemplateSchema {
     /**
      * 名称
      */
-    @ApiModelProperty(value = "名称", name = "name")
-    private boolean name = true;
+    @ApiModelProperty(value = "名称", name = "templateName")
+    private boolean templateName = true;
     /**
      * 语言
      */
     @ApiModelProperty(value = "语言", name = "language")
     private boolean language = true;
-    /**
-     * 关联gen_field
-     */
-    @ApiModelProperty(value = "关联gen_field", name = "genFieldId")
-    private boolean genFieldId = true;
     /**
      * 模版文件基础路径
      */
@@ -46,6 +41,11 @@ public class GenTemplateSchema {
     @ApiModelProperty(value = "版本号", name = "version")
     private boolean version = true;
     /**
+     * 标签
+     */
+    @ApiModelProperty(value = "标签", name = "tags")
+    private boolean tags = true;
+    /**
      * 描述
      */
     @ApiModelProperty(value = "描述", name = "description")
@@ -60,12 +60,6 @@ public class GenTemplateSchema {
      */
     @ApiModelProperty(value = "更新时间", name = "updateDate")
     private boolean updateDate = true;
-
-    /**
-     * 代码属性名称
-     */
-    @ApiModelProperty(value = "代码属性名称", name = "genFieldName")
-    private boolean genFieldName = true;
     /**
      * 命名空间
      */
@@ -80,12 +74,12 @@ public class GenTemplateSchema {
         this.id = id;
     }
 
-    public boolean isName() {
-        return name;
+    public boolean isTemplateName() {
+        return templateName;
     }
 
-    public void setName(boolean name) {
-        this.name = name;
+    public void setTemplateName(boolean templateName) {
+        this.templateName = templateName;
     }
 
     public boolean isLanguage() {
@@ -94,14 +88,6 @@ public class GenTemplateSchema {
 
     public void setLanguage(boolean language) {
         this.language = language;
-    }
-
-    public boolean isGenFieldId() {
-        return genFieldId;
-    }
-
-    public void setGenFieldId(boolean genFieldId) {
-        this.genFieldId = genFieldId;
     }
 
     public boolean isFileBasePath() {
@@ -136,14 +122,6 @@ public class GenTemplateSchema {
         this.description = description;
     }
 
-    public boolean isGenFieldName() {
-        return genFieldName;
-    }
-
-    public void setGenFieldName(boolean genFieldName) {
-        this.genFieldName = genFieldName;
-    }
-
     public boolean isCreateBy() {
         return createBy;
     }
@@ -166,6 +144,14 @@ public class GenTemplateSchema {
 
     public void setSysNamespaceId(boolean sysNamespaceId) {
         this.sysNamespaceId = sysNamespaceId;
+    }
+
+    public boolean isTags() {
+        return tags;
+    }
+
+    public void setTags(boolean tags) {
+        this.tags = tags;
     }
 
 }

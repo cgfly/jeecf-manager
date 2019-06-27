@@ -54,11 +54,11 @@ define([ 'app', '$httpRequest','$page','$ctx','$jBoxcm' ], function(app, $httpRe
 			});
 		}
 		$scope.addModal = function(index){
-			$scope.sysPower.name = undefined;
+			$scope.sysPower.nodeName = undefined;
 			$scope.sysPower.permission = undefined;
 			$scope.sysPower.parentId = $scope.sysPowerList[index].id;
 			$scope.sysPower.sort = parseInt($scope.sysPowerList[index].sort)+10;
-		    $('#sysPowerFormTab #insertTreeId').find('input[name="selectedName"]').val($scope.sysPowerList[index].name);
+		    $('#sysPowerFormTab #insertTreeId').find('input[name="selectedName"]').val($scope.sysPowerList[index].nodeName);
 			$scope.sysPower.remark = undefined;
 			$('#top-tab a[href="#sysPowerFormTab"]').tab('show');
 		}
@@ -68,7 +68,7 @@ define([ 'app', '$httpRequest','$page','$ctx','$jBoxcm' ], function(app, $httpRe
 			$('#updateModal').modal('show');
 			angular.copy($scope.sysPowerList[index], $scope.updateSysPower);
 			if($scope.updateSysPower.parent != null){
-			   $('#updateModal #updateTreeId').find('input[name="selectedName"]').val($scope.updateSysPower.parent.name);
+			   $('#updateModal #updateTreeId').find('input[name="selectedName"]').val($scope.updateSysPower.parent.nodeName);
 			}
 		}
 		

@@ -5,13 +5,13 @@
 
 	<sql id="columnList">
 		sysMenu.id As "id",
-		sysMenu.name As "name",
+		sysMenu.node_name As "nodeName",
 		sysMenu.label As
 		"label",
 		sysMenu.parent_id As "parentId",
 		sysMenu.parent_ids As
 		"parentIds",
-		sysMenu.level As "level",
+		sysMenu.node_level As "nodeLevel",
 		sysMenu.module_label As
 		"moduleLabel",
 		sysMenu.sort As "sort",
@@ -22,7 +22,7 @@
 		sysMenu.remark As "remark",
 
 		parent.id As "parent.id",
-		parent.name As "parent.name",
+		parent.node_name As "parent.nodeName",
 
 		sysMenu.create_by As "createBy",
 		sysMenu.create_date As "createDate",
@@ -33,8 +33,8 @@
 	<sql id="commonWhere">
 		<where>
 			<if test="data != null">
-				<if test="data.name != null and data.name != '' ">
-					And sysMenu.name = #{data.name}
+				<if test="data.nodeName != null and data.nodeName != '' ">
+					And sysMenu.node_name = #{data.nodeName}
 				</if>
 				<if test="data.label != null and data.label != '' ">
 					And sysMenu.label = #{data.label}
@@ -46,8 +46,8 @@
 					And sysMenu.parent_ids like
 					CONCAT('%',#{data.parentIds},'%')
 				</if>
-				<if test="data.level != null and data.level != '' ">
-					And sysMenu.level = #{data.level}
+				<if test="data.nodeLevel != null and data.nodeLevel != '' ">
+					And sysMenu.node_level = #{data.nodeLevel}
 				</if>
 				<if test="data.moduleLabel != null and data.moduleLabel != '' ">
 					And sysMenu.module_label = #{data.moduleLabel}
@@ -143,8 +143,8 @@
 	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
 		insert into sys_menu
 		<trim prefix="(" suffix=")" suffixOverrides=",">
-			<if test="name != null">
-				name,
+			<if test="nodeName != null">
+				node_name,
 			</if>
 			<if test="label != null">
 				label,
@@ -155,8 +155,8 @@
 			<if test="parentIds != null">
 				parent_ids,
 			</if>
-			<if test="level != null">
-				level,
+			<if test="nodeLevel != null">
+				node_level,
 			</if>
 			<if test="moduleLabel != null">
 				module_label,
@@ -194,8 +194,8 @@
 		</trim>
 		values
 		<trim prefix="(" suffix=")" suffixOverrides=",">
-			<if test="name != null">
-				#{name},
+			<if test="nodeName != null">
+				#{nodeName},
 			</if>
 			<if test="label != null">
 				#{label},
@@ -206,8 +206,8 @@
 			<if test="parentIds != null">
 				#{parentIds},
 			</if>
-			<if test="level != null">
-				#{level},
+			<if test="nodeLevel != null">
+				#{nodeLevel},
 			</if>
 			<if test="moduleLabel != null">
 				#{moduleLabel},
@@ -248,8 +248,8 @@
 	<update id="update">
 		update sys_menu
 		<set>
-			<if test="name != null">
-				name = #{name},
+			<if test="nodeName != null">
+				node_name = #{nodeName},
 			</if>
 			<if test="label != null">
 				label = #{label},
@@ -260,8 +260,8 @@
 			<if test="parentIds != null">
 				parent_ids = #{parentIds},
 			</if>
-			<if test="level != null">
-				level = #{level},
+			<if test="nodeLevel != null">
+				node_level = #{nodeLevel},
 			</if>
 			<if test="moduleLabel != null">
 				module_label = #{moduleLabel},

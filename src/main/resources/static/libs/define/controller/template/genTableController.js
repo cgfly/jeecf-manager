@@ -76,9 +76,9 @@ define([ 'app', '$httpRequest', '$page', '$ctx','$genHelper','$jBoxcm'], functio
 			$page.init($scope, $page.getPageSize());
 		}
         $('.queryBaseTableColumn').click(function(e) {
-        	var name = $scope.selectedTable.name;
-			$scope.table.className = $genHelper.toField(name);
-			$scope.table.name = name;
+        	var genTableName = $scope.selectedTable.genTableName;
+			$scope.table.className = $genHelper.toField(genTableName);
+			$scope.table.genTableName = genTableName;
         	$scope.queryBaseTableColumnList();
         });
 		$('#top-tab a[href="#genTableForm"]').click(function(e) {
@@ -95,7 +95,7 @@ define([ 'app', '$httpRequest', '$page', '$ctx','$genHelper','$jBoxcm'], functio
 		};
 		
 		$scope.queryBaseTableColumnList = function() { 
-			$httpRequest.post("/template/genTable/queryBaseTableColumnList/"+$scope.table.name).then(
+			$httpRequest.post("/template/genTable/queryBaseTableColumnList/"+$scope.table.genTableName).then(
 					function(res) { // 调用承诺API获取数据 .resolve
 						$scope.isInsertCheck = undefined;
 						$scope.isNullCheck = undefined;
@@ -103,13 +103,13 @@ define([ 'app', '$httpRequest', '$page', '$ctx','$genHelper','$jBoxcm'], functio
 						$scope.isListCheck = undefined;
 						$scope.isQueryCheck = undefined;
 						
-						$scope.table.comment = undefined;
+						$scope.table.comments = undefined;
 						$scope.table.parentTable = undefined;
 						$scope.table.parentTableFk = undefined;
 						var  data =res.data;
 						if(data[0].genTable != undefined){
-							if(data[0].genTable.comment != undefined){
-								$scope.table.comment = data[0].genTable.comment;
+							if(data[0].genTable.comments != undefined){
+								$scope.table.comments = data[0].genTable.comments;
 							}
 							if(data[0].genTable.parentTable != undefined){
 								$scope.table.parentTable = data[0].genTable.parentTable;
@@ -119,7 +119,7 @@ define([ 'app', '$httpRequest', '$page', '$ctx','$genHelper','$jBoxcm'], functio
 							}
 						}
 						for( i in data){
-							var field = $genHelper.toField(data[i].name);
+							var field = $genHelper.toField(data[i].genColumnName);
 							var formType = $genHelper.toFormType(data[i].jdbcType);
 							var queryTypes = $genHelper.getQueryTypes();
 							var formTypes = $genHelper.getFormTypes();
@@ -224,7 +224,7 @@ define([ 'app', '$httpRequest', '$page', '$ctx','$genHelper','$jBoxcm'], functio
 		
 		$scope.detailModal = function(index){
 			$scope.detailTable = $scope.genTableList[index];
-			$httpRequest.post("/template/genTable/queryBaseTableColumnList/"+$scope.detailTable.name).then(
+			$httpRequest.post("/template/genTable/queryBaseTableColumnList/"+$scope.detailTable.genTableName).then(
 					function(res) { 
 						$scope.detailTable.columns = res.data;
 						$('#detailModal').modal('show');

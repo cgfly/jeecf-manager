@@ -4,11 +4,10 @@
 
 	<sql id="columnList">
 		sysDict.id AS "id",
-		sysDict.type AS "type",
-		sysDict.name AS
-		"name",
+		sysDict.dict_type AS "dictType",
+		sysDict.dict_name AS "dictName",
 		sysDict.label AS "label",
-		sysDict.value AS "value",
+		sysDict.dict_value AS "dictValue",
 		sysDict.description AS "description",
 		sysDict.sys_namespace_id AS
 		"sysNamespaceId",
@@ -24,17 +23,17 @@
 	<sql id="commonWhere">
 		<where>
 			<if test="data != null">
-				<if test="data.type != null and data.type != '' ">
-					And sysDict.type = #{data.type}
+				<if test="data.dictType != null and data.dictType != '' ">
+					And sysDict.dict_type = #{data.dictType}
 				</if>
-				<if test="data.name != null and data.name != '' ">
-					And sysDict.name LIKE concat('%',#{data.name},'%')
+				<if test="data.dictName != null and data.dictName != '' ">
+					And sysDict.dict_name LIKE concat('%',#{data.dictName},'%')
 				</if>
 				<if test="data.label != null and data.label != '' ">
 					And sysDict.label = #{data.label}
 				</if>
-				<if test="data.value != null and data.value != '' ">
-					And sysDict.value = #{data.value}
+				<if test="data.dictValue != null and data.dictValue != '' ">
+					And sysDict.dict_value = #{data.dictValue}
 				</if>
 				<if test="data.description != null and data.description != '' ">
 					And sysDict.description = #{data.description}
@@ -89,7 +88,7 @@
 			</foreach>
 		</if>
 		<if test="sorts == null">
-			ORDER BY sysDict.type desc,sysDict.value asc
+			ORDER BY sysDict.dict_type desc,sysDict.dict_value asc
 		</if>
 	</sql>
 
@@ -129,17 +128,17 @@
 	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
 		insert into sys_dict
 		<trim prefix="(" suffix=")" suffixOverrides=",">
-			<if test="type != null">
-				type,
+			<if test="dictType != null">
+				dict_type,
 			</if>
-			<if test="name != null">
-				name,
+			<if test="dictName != null">
+				dict_name,
 			</if>
 			<if test="label != null">
 				label,
 			</if>
-			<if test="value != null">
-				value,
+			<if test="dictValue != null">
+				dict_value,
 			</if>
 			<if test="description != null">
 				description,
@@ -165,17 +164,17 @@
 		</trim>
 		values
 		<trim prefix="(" suffix=")" suffixOverrides=",">
-			<if test="type != null">
-				#{type},
+			<if test="dictType != null">
+				#{dictType},
 			</if>
-			<if test="name != null">
-				#{name},
+			<if test="dictName != null">
+				#{dictName},
 			</if>
 			<if test="label != null">
 				#{label},
 			</if>
-			<if test="value != null">
-				#{value},
+			<if test="dictValue != null">
+				#{dictValue},
 			</if>
 			<if test="description != null">
 				#{description},
@@ -204,17 +203,17 @@
 	<update id="update">
 		update sys_dict
 		<set>
-			<if test="type != null">
-				type = #{type},
+			<if test="dictType != null">
+				dict_type = #{dictType},
 			</if>
-			<if test="name != null">
-				name = #{name},
+			<if test="dictName != null">
+				dict_name = #{dictName},
 			</if>
 			<if test="label != null">
 				label = #{label},
 			</if>
-			<if test="value != null">
-				value = #{value},
+			<if test="dictValue != null">
+				dict_value = #{dictValue},
 			</if>
 			<if test="description != null">
 				description = #{description},

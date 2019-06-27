@@ -19,7 +19,7 @@ import io.swagger.annotations.ApiModelProperty;
  * @version 1.0
  */
 @ScriptAssert.List({
-        @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.name)", message = "{namespace.name.isEmpty}", groups = { Add.class }),
+        @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.namespaceName)", message = "{namespace.namespaceName.isEmpty}", groups = { Add.class }),
         @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.description)", message = "{namespace.description.isEmpty}", groups = {
                 Add.class }) })
 @ApiModel(value = "sysNamespace", description = "命名空间配置实体")
@@ -29,8 +29,8 @@ public class SysNamespace extends PermissionEntity implements Serializable {
     /**
      * 名称
      */
-    @ApiModelProperty(value = "名称", name = "name")
-    private String name;
+    @ApiModelProperty(value = "名称", name = "namespaceName")
+    private String namespaceName;
     /**
      * 描述
      */
@@ -45,14 +45,14 @@ public class SysNamespace extends PermissionEntity implements Serializable {
         super(id);
     }
 
-    @Length(min = 1, max = 20, message = "{namespace.name.length}", groups = { Add.class })
-    @Pattern(regexp = "^[a-zA-Z0-9_.-]+$", message = "{namespace.name.pattern}", groups = { Add.class })
-    public String getName() {
-        return name;
+    @Length(min = 1, max = 20, message = "{namespace.namespaceName.length}", groups = { Add.class })
+    @Pattern(regexp = "^[a-zA-Z0-9_.-]+$", message = "{namespace.namespaceName.pattern}", groups = { Add.class })
+    public String getNamespaceName() {
+        return namespaceName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setNamespaceName(String namespaceName) {
+        this.namespaceName = namespaceName;
     }
 
     @Length(min = 1, max = 50, message = "{namespace.description.length}", groups = { Add.class })

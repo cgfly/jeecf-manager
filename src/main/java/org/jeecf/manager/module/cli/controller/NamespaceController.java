@@ -56,7 +56,7 @@ public class NamespaceController {
         Response<SysUserResult> sysUserRes = userAuthService.auth(authModel);
         SysNamespace sysNamespace = NamespaceUtils.getNamespace(sysUserRes.getData().getId());
         if (sysNamespace != null) {
-            return new Response<>(sysNamespace.getName());
+            return new Response<>(sysNamespace.getNamespaceName());
         }
         return new Response<>("");
     }
@@ -75,7 +75,7 @@ public class NamespaceController {
                 sysNamespaceResultList.forEach(sysNamespace -> {
                     permissionsRes.getData().forEach(premission -> {
                         if (sysNamespace.getPermission().equals(premission)) {
-                            result.add(sysNamespace.getName());
+                            result.add(sysNamespace.getNamespaceName());
                         }
                     });
                 });
@@ -92,7 +92,7 @@ public class NamespaceController {
         Set<String> permissions = authModelResultRes.getData().getPermissions();
         if (CollectionUtils.isNotEmpty(permissions)) {
             SysNamespaceQuery sysNamespaceQuery = new SysNamespaceQuery();
-            sysNamespaceQuery.setName(name);
+            sysNamespaceQuery.setNamespaceName(name);
             SysNamespacePO sysNamespacePO = new SysNamespacePO(sysNamespaceQuery);
             Response<List<SysNamespaceResult>> sysNamespaceResultListRes = sysNamespaceService.findList(sysNamespacePO);
             List<SysNamespaceResult> sysNamespaceResultList = sysNamespaceResultListRes.getData();

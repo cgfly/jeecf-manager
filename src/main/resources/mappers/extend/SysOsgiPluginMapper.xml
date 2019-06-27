@@ -5,7 +5,7 @@
 
     <sql id="columnList">
         sysOsgiPlugin.id AS "id",
-        sysOsgiPlugin.name AS "name",
+        sysOsgiPlugin.plugin_name AS "pluginName",
         sysOsgiPlugin.boundle_type AS "boundleType",
         sysOsgiPlugin.sys_namespace_id AS "sysNamespaceId",
         sysOsgiPlugin.wiki_uri AS "wikiUri",
@@ -19,8 +19,8 @@
     <sql id="commonWhere">
         <where>
             <if test="data != null">
-                <if test="data.name != null and data.name != '' ">
-                    AND sysOsgiPlugin.name = #{data.name}
+                <if test="data.pluginName != null and data.pluginName != '' ">
+                    AND sysOsgiPlugin.plugin_name = #{data.pluginName}
                 </if>
                 <if test="data.delFlag != null ">
                     AND sysOsgiPlugin.del_flag = #{data.delFlag}
@@ -103,8 +103,8 @@
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO sys_osgi_plugin
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="name != null">
-                name,
+            <if test="pluginName != null">
+                plugin_name,
             </if>
             <if test="sysNamespaceId != null">
                 sys_namespace_id,
@@ -136,8 +136,8 @@
         </trim>
         VALUES
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="name != null">
-                #{name},
+            <if test="pluginName != null">
+                #{pluginName},
             </if>
             <if test="sysNamespaceId != null">
                 #{sysNamespaceId},
@@ -209,8 +209,8 @@
             <if test="id != null and id != '' ">
                 AND id = #{id}
             </if>
-            <if test="name != null">
-                AND name = #{name}
+            <if test="pluginName != null">
+                AND plugin_name = #{pluginName}
             </if>
             <if test="sysNamespaceId != null">
                 AND sys_namespace_id = #{sysNamespaceId}
@@ -250,7 +250,7 @@
                 remark = #{remark}
             </if>
         </set>
-        where name = #{name}
+        where plugin_name = #{pluginName}
         <if test="sysNamespaceId != null">
             AND sys_namespace_id = #{sysNamespaceId}
         </if>

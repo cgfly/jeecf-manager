@@ -11,7 +11,15 @@
 			<li class="active">数表配置</li>
 			<li class="active">列表</li>
 		</ol>
-
+		<form class="form-inline" ng-submit="searchForm()">
+			<div class="form-group">
+				<label>名称:</label> <input type="text" class="form-control"
+					id="searchName" ng-model="request.data.genTableName" />
+			</div>
+			<div class="form-group">
+				<button type="submit" class="btn btn-default">查询</button>
+			</div>
+		</form>
 		<table class="table table-striped">
 			<thead>
 				<tr>
@@ -27,13 +35,14 @@
 			<tbody>
 				<tr ng-repeat="genTable in genTableList">
 					<td>{{ $index+1 }}</td>
-					<td>{{ genTable.name }}</td>
-					<td>{{ genTable.comment }}</td>
+					<td>{{ genTable.genTableName }}</td>
+					<td>{{ genTable.comments }}</td>
 					<td>{{ genTable.className }}</td>
 					<td>{{ genTable.createByName }}</td>
-					<td>{{ genTable.updateDate | date:'yyyy-MM-dd hh:mm:ss' }}</td>
+					<td>{{ genTable.updateDate | date:'yyyy-MM-dd HH:mm:ss' }}</td>
 					<td><span shiro:hasPermission="template:genTable:edit"><a
-							href="javascript:void(0)" data-content="{{ $index }}" class="target-click" data-confirm="data-confirm">删除</a></span> <span><a
+							href="javascript:void(0)" data-content="{{ $index }}"
+							class="target-click" data-confirm="data-confirm">删除</a></span> <span><a
 							href="javascript:void(0)" ng-click="detailModal($index)">详情</a></span></td>
 				</tr>
 			</tbody>
@@ -55,7 +64,7 @@
 						<div class="form-group">
 							<div class="col-sm-10" style="padding-left: 0">
 								<div class="col-sm-8" style="margin-left: 40px; padding-left: 0">
-									<span><label>表名：</label>{{ detailTable.name }}</span>
+									<span><label>表名：</label>{{ detailTable.genTableName }}</span>
 								</div>
 							</div>
 						</div>
@@ -69,7 +78,7 @@
 						<div class="form-group">
 							<div class="col-sm-10" style="padding-left: 0">
 								<div class="col-sm-8" style="margin-left: 40px; padding-left: 0">
-									<span><label>说明：</label>{{ detailTable.comment }}</span>
+									<span><label>说明：</label>{{ detailTable.comments }}</span>
 								</div>
 							</div>
 						</div>
@@ -97,7 +106,7 @@
 										<th>物理类型</th>
 										<th>属性名称</th>
 										<th>主键</th>
-										<th>非空 </th>
+										<th>非空</th>
 										<th>插入</th>
 										<th>编辑</th>
 										<th>列表</th>
@@ -109,8 +118,8 @@
 								</thead>
 								<tbody>
 									<tr ng-repeat="column in detailTable.columns">
-										<td>{{ column.name }}</td>
-										<td>{{ column.comment }}</td>
+										<td>{{ column.genColumnName }}</td>
+										<td>{{ column.comments }}</td>
 										<td>{{ column.jdbcType }}</td>
 										<td>{{ column.field }}</td>
 										<td>{{ column.isKeyName }}</td>
@@ -149,7 +158,7 @@
 						style="font-size: 18px; padding-top: 2px">表名：</label>
 					<div class="col-sm-3">
 						<select class="form-control" ng-model="selectedTable"
-							ng-options="table.name for table in tableList">
+							ng-options="table.genTableName for table in tableList">
 						</select>
 					</div>
 					<div class="col-sm-2">
@@ -167,7 +176,7 @@
 				<div class="form-group">
 					<label class="control-label">说明:</label>
 					<div style="display: inline-block;">
-						<input type="text" ng-model="table.comment" id="tableComments"
+						<input type="text" ng-model="table.comments" id="tableComments"
 							name="tableComments" class="form-control" required="required" />
 					</div>
 					<span style="color: red"
@@ -218,8 +227,8 @@
 						</thead>
 						<tbody>
 							<tr ng-repeat="column in tableColumn">
-								<td>{{ column.name }}</td>
-								<td><input type="text" ng-model="column.comment"
+								<td>{{ column.genColumnName }}</td>
+								<td><input type="text" ng-model="column.comments"
 									class="form-control pull-right" /></td>
 								<td>{{ column.jdbcType }}</td>
 								<td><input type="text" ng-model="column.field"

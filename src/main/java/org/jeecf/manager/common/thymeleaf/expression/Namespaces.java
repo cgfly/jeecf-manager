@@ -24,7 +24,7 @@ public final class Namespaces {
         if (sysNamespace == null) {
             return NO_NAMESPACE;
         }
-        return sysNamespace.getName();
+        return sysNamespace.getNamespaceName();
     }
 
 }

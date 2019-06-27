@@ -201,18 +201,18 @@ public class SysDbsourceController implements CurdController<SysDbsourceQuery, S
                 if (CollectionUtils.isNotEmpty(schemaTableRes.getData())) {
                     schemaTableRes.getData().forEach(schemaTable -> {
                         GenTableQuery queryTable = new GenTableQuery();
-                        queryTable.setName(schemaTable.getName());
+                        queryTable.setGenTableName(schemaTable.getName());
                         List<GenTableResult> genTableList = genTableService.findListByAuth(new GenTablePO(queryTable)).getData();
                         if (CollectionUtils.isEmpty(genTableList)) {
                             GenTable genTable = new GenTable();
                             BeanUtils.copyProperties(schemaTable, genTable);
-                            genTable.setClassName(HumpUtils.lineToHump(genTable.getName()));
+                            genTable.setClassName(HumpUtils.lineToHump(genTable.getGenTableName()));
                             Response<List<SchemaTableColumn>> genTableColumnRes = targetTableProxy.findTableColumn(schemaTable.getName());
                             List<GenTableColumnResult> genTableColumnList = new ArrayList<>();
                             genTableColumnRes.getData().forEach(column -> {
                                 GenTableColumnResult result = new GenTableColumnResult();
                                 BeanUtils.copyProperties(column, result);
-                                result.setField(HumpUtils.lineToHump(result.getName()));
+                                result.setField(HumpUtils.lineToHump(result.getGenColumnName()));
                                 genTableColumnList.add(result);
                             });
                             genTable.setGenTableColumns(genTableColumnList);

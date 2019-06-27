@@ -1,6 +1,7 @@
 package org.jeecf.manager.module.template.model.domain;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -34,18 +35,13 @@ public class GenTemplate extends NamespaceAuthEntity implements Serializable {
     /**
      * 名称
      */
-    @ApiModelProperty(value = "名称", name = "name")
-    private String name;
+    @ApiModelProperty(value = "名称", name = "templateName")
+    private String templateName;
     /**
      * 语言
      */
     @ApiModelProperty(value = "语言", name = "language")
     private Integer language;
-    /**
-     * 关联gen_field
-     */
-    @ApiModelProperty(value = "关联gen_field", name = "genFieldId")
-    private Integer genFieldId;
     /**
      * 模版文件基础路径
      */
@@ -62,10 +58,20 @@ public class GenTemplate extends NamespaceAuthEntity implements Serializable {
     @ApiModelProperty(value = "wiki地址", name = "wikiUri")
     private String wikiUri;
     /**
+     * 标签
+     */
+    @ApiModelProperty(value = "标签", name = "tags")
+    private String tags;
+    /**
      * 描述
      */
     @ApiModelProperty(value = "描述", name = "description")
     private String description;
+    /**
+     * 属性参数
+     */
+    @ApiModelProperty(value = "属性参数", name = "genFieldColumn")
+    private List<GenFieldColumn> genFieldColumn;
 
     public GenTemplate() {
         super();
@@ -75,13 +81,13 @@ public class GenTemplate extends NamespaceAuthEntity implements Serializable {
         super(id);
     }
 
-    @Pattern(regexp = "^[a-zA-Z0-9_.-]+$", message = "{genTemplate.name.pattern}", groups = { Add.class })
-    public String getName() {
-        return name;
+    @Pattern(regexp = "^[a-zA-Z0-9_.-]+$", message = "{genTemplate.templateName.pattern}", groups = { Add.class })
+    public String getTemplateName() {
+        return templateName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTemplateName(String templateName) {
+        this.templateName = templateName;
     }
 
     @Min(value = 1, message = "{genTemplate.language.min}", groups = { Add.class })
@@ -92,14 +98,6 @@ public class GenTemplate extends NamespaceAuthEntity implements Serializable {
 
     public void setLanguage(Integer language) {
         this.language = language;
-    }
-
-    public Integer getGenFieldId() {
-        return genFieldId;
-    }
-
-    public void setGenFieldId(Integer genFieldId) {
-        this.genFieldId = genFieldId;
     }
 
     @Length(min = 1, max = 100, message = "{genTemplate.fileBasePath.length}", groups = { Add.class })
@@ -136,6 +134,23 @@ public class GenTemplate extends NamespaceAuthEntity implements Serializable {
 
     public void setVersion(String version) {
         this.version = version;
+    }
+
+    public List<GenFieldColumn> getGenFieldColumn() {
+        return genFieldColumn;
+    }
+
+    public void setGenFieldColumn(List<GenFieldColumn> genFieldColumn) {
+        this.genFieldColumn = genFieldColumn;
+    }
+
+    @Length(min = 1, max = 64, message = "{genTemplate.tags.length}", groups = { Add.class })
+    public String getTags() {
+        return tags;
+    }
+
+    public void setTags(String tags) {
+        this.tags = tags;
     }
 
 }

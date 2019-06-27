@@ -7,10 +7,10 @@
 		sysUser.id AS "id",
 		sysUser.username AS "username",
 		sysUser.password AS "password",
-		sysUser.name AS "name",
+		sysUser.real_name AS "realName",
 		sysUser.sys_office_id AS "sysOfficeId",
-		sysOffice.name AS
-		"sysOffice.name",
+		sysOffice.node_name AS
+		"sysOffice.nodeName",
 		sysOffice.enname AS "sysOffice.enname",
 		sysOffice.parent_id AS "sysOffice.parentId",
 
@@ -35,8 +35,8 @@
 				<if test="data.sysOfficeId != null and data.sysOfficeId != '' ">
 					And sysUser.sys_office_id = #{data.sysOfficeId}
 				</if>
-				<if test="data.name != null and data.name != '' ">
-					And sysUser.name = #{data.name}
+				<if test="data.realName != null and data.realName != '' ">
+					And sysUser.real_name = #{data.realName}
 				</if>
 				<if test="data.delFlag != null  ">
 					And sysUser.del_flag = #{data.delFlag}
@@ -149,8 +149,8 @@
 			<if test="sysOfficeId != null">
 				sys_office_id,
 			</if>
-			<if test="name != null">
-				name,
+			<if test="realName != null">
+				real_name,
 			</if>
 			<if test="remark != null">
 				remark,
@@ -182,8 +182,8 @@
 			<if test="sysOfficeId != null">
 				#{sysOfficeId},
 			</if>
-			<if test="name != null">
-				#{name},
+			<if test="realName != null">
+				#{realName},
 			</if>
 			<if test="remark != null">
 				#{remark},
@@ -212,8 +212,8 @@
 			<if test="password != null">
 				password = #{password},
 			</if>
-			<if test="name != null">
-				name = #{name},
+			<if test="realName != null">
+				real_name = #{realName},
 			</if>
 			<if test="sysOfficeId != null">
 				sys_office_id = #{sysOfficeId},

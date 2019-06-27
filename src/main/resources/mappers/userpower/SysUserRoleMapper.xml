@@ -6,7 +6,7 @@
 	<sql id="columnList">
 		sysUserRole.user_id AS "sysUser.id",
 		sysUserRole.role_id AS "sysRole.id",
-		sysRole.name AS "sysRole.name",
+		sysRole.role_name AS "sysRole.roleName",
 	    sysRole.enname AS "sysRole.enname"
 	</sql>
 

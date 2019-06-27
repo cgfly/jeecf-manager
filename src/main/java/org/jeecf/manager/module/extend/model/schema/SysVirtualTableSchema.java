@@ -18,13 +18,13 @@ public class SysVirtualTableSchema {
     /**
      * 名称
      */
-    @ApiModelProperty(value = "名称", name = "name")
-    private boolean name = true;
+    @ApiModelProperty(value = "名称", name = "virtualTableName")
+    private boolean virtualTableName = true;
     /**
      * 注释
      */
     @ApiModelProperty(value = "注释", name = "comments")
-    private boolean comment = true;
+    private boolean comments = true;
     /**
      * 命名空间
      */
@@ -54,20 +54,20 @@ public class SysVirtualTableSchema {
         this.id = id;
     }
 
-    public boolean isName() {
-        return name;
+    public boolean isVirtualTableName() {
+        return virtualTableName;
     }
 
-    public void setName(boolean name) {
-        this.name = name;
+    public void setVirtualTableName(boolean virtualTableName) {
+        this.virtualTableName = virtualTableName;
     }
 
-    public boolean isComment() {
-        return comment;
+    public boolean isComments() {
+        return comments;
     }
 
-    public void setComment(boolean comment) {
-        this.comment = comment;
+    public void setComments(boolean comments) {
+        this.comments = comments;
     }
 
     public boolean isSysNamespaceId() {

@@ -20,11 +20,6 @@ public class GenTemplateResult extends GenTemplate implements Serializable {
      */
     private static final long serialVersionUID = 1L;
     /**
-     * 代码属性名称
-     */
-    @ApiModelProperty(value = "代码属性名称", name = "genFieldName")
-    private String genFieldName;
-    /**
      * 语言名称
      */
     @ApiModelProperty(value = "语言名称", name = "languageName")
@@ -35,14 +30,6 @@ public class GenTemplateResult extends GenTemplate implements Serializable {
     @ApiModelProperty(value = "是否存在", name = "isExit")
     private Integer isExit;
 
-    public String getGenFieldName() {
-        return genFieldName;
-    }
-
-    public void setGenFieldName(String genFieldName) {
-        this.genFieldName = genFieldName;
-    }
-
     public String getLanguageName() {
         return languageName;
     }
@@ -50,7 +37,7 @@ public class GenTemplateResult extends GenTemplate implements Serializable {
     public void setLanguageName(String languageName) {
         this.languageName = languageName;
     }
-    
+
     public Integer getIsExit() {
         return isExit;
     }

@@ -25,7 +25,7 @@ import io.swagger.annotations.ApiModelProperty;
  *
  */
 @ScriptAssert.List({ 
-    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.name)", message = "{genTable.name.isEmpty}", groups = { Add.class }),
+    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.genTableName)", message = "{genTable.genTableName.isEmpty}", groups = { Add.class }),
     @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.className)", message = "{genTable.className.isEmpty}", groups = { Add.class }),
     @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notNull(_this.id,_this.genTableColumns)", message = "{genTable.genTableColumns.isNull}", groups = { Add.class }) 
 })
@@ -40,8 +40,8 @@ public class GenTable extends NamespaceAndDbAuthEntity implements Serializable {
     /**
      * 名称
      */
-    @ApiModelProperty(value = "名称", name = "name")
-    private String name;
+    @ApiModelProperty(value = "名称", name = "genTableName")
+    private String genTableName;
 
     /**
      * 类名
@@ -53,7 +53,7 @@ public class GenTable extends NamespaceAndDbAuthEntity implements Serializable {
      * 注释
      */
     @ApiModelProperty(value = "注释", name = "comments")
-    private String comment;
+    private String comments;
 
     /**
      * 父表id
@@ -80,20 +80,20 @@ public class GenTable extends NamespaceAndDbAuthEntity implements Serializable {
         super(id);
     }
 
-    @Length(min = 1, max = 20, message = "{genTable.name.length}", groups = { Add.class })
-    @Pattern(regexp = "^[a-zA-Z]+[a-zA-Z_]*[a-zA-Z]$", message = "{genTable.name.pattern}", groups = { Add.class })
-    public String getName() {
-        return name;
+    @Length(min = 1, max = 30, message = "{genTable.genTableName.length}", groups = { Add.class })
+    @Pattern(regexp = "^[a-zA-Z]+[a-zA-Z_]*[a-zA-Z]$", message = "{genTable.tableName.pattern}", groups = { Add.class })
+    public String getGenTableName() {
+        return genTableName;
     }
 
-    public void setName(String name) {
-        if (StringUtils.isNotEmpty(name)) {
-            name = StringUtils.lowerCase(HumpUtils.humpToLine2(name));
+    public void setGenTableName(String genTableName) {
+        if (StringUtils.isNotEmpty(genTableName)) {
+            genTableName = StringUtils.lowerCase(HumpUtils.humpToLine2(genTableName));
         }
-        this.name = name;
+        this.genTableName = genTableName;
     }
 
-    @Length(min = 1, max = 20, message = "{genTable.className.length}", groups = { Add.class })
+    @Length(min = 1, max = 30, message = "{genTable.className.length}", groups = { Add.class })
     @Pattern(regexp = "^[a-zA-Z]+$", message = "{genTable.className.pattern}", groups = { Add.class })
     public String getClassName() {
         return className;
@@ -103,13 +103,13 @@ public class GenTable extends NamespaceAndDbAuthEntity implements Serializable {
         this.className = className;
     }
 
-    @Length(min = 1, max = 50, message = "{genTable.comment.length}", groups = { Add.class })
-    public String getComment() {
-        return comment;
+    @Length(min = 1, max = 50, message = "{genTable.comments.length}", groups = { Add.class })
+    public String getComments() {
+        return comments;
     }
 
-    public void setComment(String comment) {
-        this.comment = comment;
+    public void setComments(String comments) {
+        this.comments = comments;
     }
 
     @Valid

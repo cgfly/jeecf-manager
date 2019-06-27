@@ -12,7 +12,15 @@
 			<li class="active">虚表配置</li>
 			<li class="active">列表</li>
 		</ol>
-
+		<form class="form-inline" ng-submit="searchForm()">
+			<div class="form-group">
+				<label>名称:</label> <input type="text" class="form-control"
+					id="searchName" ng-model="request.data.virtualTableName" />
+			</div>
+			<div class="form-group">
+				<button type="submit" class="btn btn-default">查询</button>
+			</div>
+		</form>
 		<table class="table table-striped">
 			<thead>
 				<tr>
@@ -27,13 +35,13 @@
 			<tbody>
 				<tr ng-repeat="sysVirtualTable in sysVirtualTableList">
 					<td>{{ $index+1 }}</td>
-					<td>{{ sysVirtualTable.name }}</td>
-					<td>{{ sysVirtualTable.comment }}</td>
+					<td>{{ sysVirtualTable.virtualTableName }}</td>
+					<td>{{ sysVirtualTable.comments }}</td>
 					<td>{{ sysVirtualTable.createByName }}</td>
-					<td>{{ sysVirtualTable.updateDate | date:'yyyy-MM-dd hh:mm:ss'
+					<td>{{ sysVirtualTable.updateDate | date:'yyyy-MM-dd HH:mm:ss'
 						}}</td>
-					<td><span><a
-							href="javascript:void(0)" ng-click="detailModal($index)">详情</a></span> <span
+					<td><span><a href="javascript:void(0)"
+							ng-click="detailModal($index)">详情</a></span> <span
 						shiro:hasPermission="extend:sysVirtualTable:edit"><a
 							href="javascript:void(0)" data-content="{{ $index }}"
 							class="target-click" data-confirm="data-confirm">删除</a></span> <span
@@ -69,14 +77,15 @@
 						<div class="form-group">
 							<div class="col-sm-8">
 								<div class="col-sm-6">
-									<span><label>表名：</label>{{ detailSysVirtualTable.name }}</span>
+									<span><label>表名：</label>{{ detailSysVirtualTable.virtualTableName }}</span>
 								</div>
 							</div>
 						</div>
 						<div class="form-group">
 							<div class="col-sm-8">
 								<div class="col-sm-6">
-									<span><label>注释：</label>{{ detailSysVirtualTable.comment }}</span>
+									<span><label>注释：</label>{{ detailSysVirtualTable.comments
+										}}</span>
 								</div>
 							</div>
 						</div>
@@ -95,10 +104,11 @@
 									<th style="width: 5%">自增</th>
 								</thead>
 								<tbody>
-									<tr ng-repeat="sysVirtualTableColumn in detailSysVirtualTable.sysVirtualTableColumns">
-										<td>{{ sysVirtualTableColumn.name }}</td>
-										<td>{{ sysVirtualTableColumn.comment }}</td>
-										<td>{{ sysVirtualTableColumn.typeName }}</td>
+									<tr
+										ng-repeat="sysVirtualTableColumn in detailSysVirtualTable.sysVirtualTableColumns">
+										<td>{{ sysVirtualTableColumn.tableColumnName }}</td>
+										<td>{{ sysVirtualTableColumn.comments }}</td>
+										<td>{{ sysVirtualTableColumn.columnTypeName }}</td>
 										<td>{{ sysVirtualTableColumn.length }}</td>
 										<td>{{ sysVirtualTableColumn.decimalLength }}</td>
 										<td>{{ sysVirtualTableColumn.defaultValue }}</td>
@@ -138,15 +148,15 @@
 								<label class="col-sm-2 control-label">表名：</label>
 								<div class="col-sm-8">
 									<div class="col-sm-6" style="padding-left: 0">
-										<input type="text" class="form-control" id="updateName"
-											name="name" ng-model="updateSysVirtualTable.name"
+										<input type="text" class="form-control" id="updateVirtualTableName"
+											name="virtualTableName" ng-model="updateSysVirtualTable.virtualTableName"
 											placeholder="请输入表名" required="required" />
 									</div>
 									<div class="col-sm-6">
 										<span style="color: red"
-											ng-show="updateSysVirtualTableForm.name.$dirty &amp;&amp; updateSysVirtualTableForm.name.$invalid">
+											ng-show="updateSysVirtualTableForm.virtualTableName.$dirty &amp;&amp; updateSysVirtualTableForm.virtualTableName.$invalid">
 											<span
-											ng-show="updateSysVirtualTableForm.name.$error.required">表名是必须的。</span>
+											ng-show="updateSysVirtualTableForm.virtualTableName.$error.required">表名是必须的。</span>
 										</span>
 									</div>
 								</div>
@@ -155,15 +165,15 @@
 								<label class="col-sm-2 control-label">注释：</label>
 								<div class="col-sm-8">
 									<div class="col-sm-6" style="padding-left: 0">
-										<input type="text" class="form-control" id="updateComment"
-											name="comment" ng-model="updateSysVirtualTable.comment"
+										<input type="text" class="form-control" id="updateComments"
+											name="comments" ng-model="updateSysVirtualTable.comments"
 											placeholder="注释" />
 									</div>
 									<div class="col-sm-6">
 										<span style="color: red"
-											ng-show="updateSysVirtualTableForm.comment.$dirty &amp;&amp; updateSysVirtualTableForm.comment.$invalid">
+											ng-show="updateSysVirtualTableForm.comments.$dirty &amp;&amp; updateSysVirtualTableForm.comments.$invalid">
 											<span
-											ng-show="updateSysVirtualTableForm.comment.$error.required">注释是必须的。</span>
+											ng-show="updateSysVirtualTableForm.comments.$error.required">注释是必须的。</span>
 										</span>
 									</div>
 								</div>
@@ -188,12 +198,12 @@
 										<tr
 											ng-repeat="sysVirtualTableColumn in updateSysVirtualTable.sysVirtualTableColumns">
 											<td><input style="width: 100%"
-												ng-model="sysVirtualTableColumn.name" /></td>
+												ng-model="sysVirtualTableColumn.tableColumnName" /></td>
 											<td><input style="width: 100%"
-												ng-model="sysVirtualTableColumn.comment" /></td>
+												ng-model="sysVirtualTableColumn.comments" /></td>
 											<td><select class="form-control"
-												ng-model="sysVirtualTableColumn.type" id="type"
-												style="height: 25px;" name="type"
+												ng-model="sysVirtualTableColumn.columnType" id="updateColumnType"
+												style="height: 25px;" name="columnType"
 												ng-options="tableTypeEnum.code as tableTypeEnum.name for tableTypeEnum in tableTypeEnums"></select>
 											</td>
 											<td><input style="width: 100%"
@@ -247,24 +257,24 @@
 				<div class="form-group">
 					<label class="control-label">表名:</label>
 					<div style="display: inline-block;">
-						<input type="text" ng-model="sysVirtualTable.name" name="name"
+						<input type="text" ng-model="sysVirtualTable.virtualTableName" name="virtualTableName"
 							class="form-control" required="required" />
 					</div>
 					<span style="color: red"
-						ng-show="tableForm.name.$dirty &amp;&amp; tableForm.name.$invalid">
-						<span ng-show="tableForm.name.$error.required">表名是必须的。</span>
+						ng-show="tableForm.virtualTableName.$dirty &amp;&amp; tableForm.virtualTableName.$invalid">
+						<span ng-show="tableForm.virtualTableName.$error.required">表名是必须的。</span>
 					</span>
 				</div>
 				<div class="form-group">
 					<label class="control-label">注释:</label>
 					<div style="display: inline-block;">
-						<input type="text" ng-model="sysVirtualTable.comment"
-							id="tableComment" name="tableComment" class="form-control"
+						<input type="text" ng-model="sysVirtualTable.comments"
+							id="tableComments" name="tableComments" class="form-control"
 							required="required" />
 					</div>
 					<span style="color: red"
-						ng-show="tableForm.tableComment.$dirty &amp;&amp; tableForm.tableComment.$invalid">
-						<span ng-show="tableForm.tableComment.$error.required">注释是必须的。</span>
+						ng-show="tableForm.tableComments.$dirty &amp;&amp; tableForm.tableComments.$invalid">
+						<span ng-show="tableForm.tableComments.$error.required">注释是必须的。</span>
 					</span>
 				</div>
 				<div class="form-group">
@@ -285,13 +295,13 @@
 							<tr
 								ng-repeat="sysVirtualTableColumn in sysVirtualTable.sysVirtualTableColumns">
 								<td><input style="width: 100%"
-									ng-model="sysVirtualTableColumn.name" /></td>
+									ng-model="sysVirtualTableColumn.tableColumnName" /></td>
 								<td><input style="width: 100%"
-									ng-model="sysVirtualTableColumn.comment" /></td>
+									ng-model="sysVirtualTableColumn.comments" /></td>
 								<td><select class="form-control"
-									ng-model="sysVirtualTableColumn.type"
-									ng-init="sysVirtualTableColumn.type=1" id="type"
-									style="height: 25px;" name="type"
+									ng-model="sysVirtualTableColumn.columnType"
+									ng-init="sysVirtualTableColumn.columnType=1" id="columnType"
+									style="height: 25px;" name="columnType"
 									ng-options="tableTypeEnum.code as tableTypeEnum.name for tableTypeEnum in tableTypeEnums"></select>
 								</td>
 								<td><input style="width: 100%"

@@ -15,12 +15,12 @@ public class SysTableDictSchema {
     /**
      * 名称
      */
-    private boolean name = true;
+    private boolean dictName = true;
 
     /**
      * 表名
      */
-    private boolean tableName = true;
+    private boolean dictTableName = true;
 
     /**
      * 属性
@@ -29,7 +29,7 @@ public class SysTableDictSchema {
     /**
      * 注释
      */
-    private boolean comment = true;
+    private boolean comments = true;
     /**
      * 描述
      */
@@ -51,20 +51,20 @@ public class SysTableDictSchema {
         this.id = id;
     }
 
-    public boolean isName() {
-        return name;
+    public boolean isDictName() {
+        return dictName;
     }
 
-    public void setName(boolean name) {
-        this.name = name;
+    public void setDictName(boolean dictName) {
+        this.dictName = dictName;
     }
 
-    public boolean isTableName() {
-        return tableName;
+    public boolean isDictTableName() {
+        return dictTableName;
     }
 
-    public void setTableName(boolean tableName) {
-        this.tableName = tableName;
+    public void setDictTableName(boolean dictTableName) {
+        this.dictTableName = dictTableName;
     }
 
     public boolean isField() {
@@ -99,11 +99,11 @@ public class SysTableDictSchema {
         this.createDate = createDate;
     }
 
-    public boolean isComment() {
-        return comment;
+    public boolean isComments() {
+        return comments;
     }
 
-    public void setComment(boolean comment) {
-        this.comment = comment;
+    public void setComments(boolean comments) {
+        this.comments = comments;
     }
 }

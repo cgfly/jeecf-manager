@@ -39,9 +39,9 @@ public class SysOfficeService extends AbstractTreeService<SysOfficeDao, SysOffic
                 sysOffice.setParentIds(parentSysOffice.getParentIds() + "," + parentSysOffice.getId());
             }
             sysOffice.setParentId(parentSysOffice.getId());
-            sysOffice.setLevel(parentSysOffice.getLevel() + 1);
+            sysOffice.setNodeLevel(parentSysOffice.getNodeLevel() + 1);
         } else {
-            sysOffice.setLevel(1);
+            sysOffice.setNodeLevel(1);
             sysOffice.setParentIds("");
         }
         if (!sysOffice.isNewRecord()) {
@@ -95,7 +95,7 @@ public class SysOfficeService extends AbstractTreeService<SysOfficeDao, SysOffic
                 SysOffice tempSysOffice = childList.get(i);
                 String parentIds = tempSysOffice.getParentIds();
                 String[] tempParentIds = parentIds.split(",");
-                int level = tempSysOffice.getLevel();
+                int level = tempSysOffice.getNodeLevel();
                 if (tempParentIds != null && tempParentIds.length > 2 && tempParentIds[0].equals(sysOffice.getId())) {
                     tempParentIds = parentIds.split(sysOffice.getId() + ",");
                     if (StringUtils.isEmpty(sysOffice.getParentIds())) {
@@ -103,10 +103,10 @@ public class SysOfficeService extends AbstractTreeService<SysOfficeDao, SysOffic
                     } else {
                         parentIds = sysOffice.getParentIds() + "," + sysOffice.getId() + "," + tempParentIds[1];
                     }
-                    level = sysOffice.getLevel() + tempParentIds[1].split(",").length + 1;
+                    level = sysOffice.getNodeLevel() + tempParentIds[1].split(",").length + 1;
                 } else if (tempParentIds != null && tempParentIds.length > 2 && tempParentIds[tempParentIds.length - 1].equals(sysOffice.getId())) {
                     parentIds = sysOffice.getParentIds() + "," + sysOffice.getId();
-                    level = sysOffice.getLevel() + 1;
+                    level = sysOffice.getNodeLevel() + 1;
                 } else if (tempParentIds != null && tempParentIds.length > 2) {
                     tempParentIds = parentIds.split("," + sysOffice.getId() + ",");
                     if (StringUtils.isEmpty(sysOffice.getParentIds())) {
@@ -114,24 +114,24 @@ public class SysOfficeService extends AbstractTreeService<SysOfficeDao, SysOffic
                     } else {
                         parentIds = sysOffice.getParentIds() + "," + sysOffice.getId() + "," + tempParentIds[1];
                     }
-                    level = sysOffice.getLevel() + tempParentIds[1].split(",").length + 1;
+                    level = sysOffice.getNodeLevel() + tempParentIds[1].split(",").length + 1;
                 } else if (tempParentIds != null && tempParentIds.length == 2 && tempParentIds[0].equals(sysOffice.getId())) {
                     if (StringUtils.isEmpty(sysOffice.getParentIds())) {
                         parentIds = sysOffice.getId() + "," + tempSysOffice.getParentId();
                     } else {
                         parentIds = sysOffice.getParentIds() + "," + sysOffice.getId() + "," + tempSysOffice.getParentId();
                     }
-                    level = sysOffice.getLevel() + 2;
+                    level = sysOffice.getNodeLevel() + 2;
                 } else {
                     if (StringUtils.isEmpty(sysOffice.getParentIds())) {
                         parentIds = sysOffice.getId();
                     } else {
                         parentIds = sysOffice.getParentIds() + "," + sysOffice.getId();
                     }
-                    level = sysOffice.getLevel() + 1;
+                    level = sysOffice.getNodeLevel() + 1;
                 }
                 tempSysOffice.setParentIds(parentIds);
-                tempSysOffice.setLevel(level);
+                tempSysOffice.setNodeLevel(level);
                 super.save(tempSysOffice);
             }
         }

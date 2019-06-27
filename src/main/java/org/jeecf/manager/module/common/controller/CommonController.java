@@ -6,7 +6,6 @@ import java.util.Map;
 import org.jeecf.common.model.Response;
 import org.jeecf.engine.mysql.enums.TableTypeEnum;
 import org.jeecf.manager.common.enums.PermissionLabelEnum;
-import org.jeecf.manager.common.enums.TreeEventEnum;
 import org.jeecf.manager.common.utils.NamespaceUtils;
 import org.jeecf.manager.common.utils.UserUtils;
 import org.jeecf.manager.module.config.model.domain.SysNamespace;
@@ -36,7 +35,6 @@ public class CommonController {
     @ApiOperation(value = "枚举", notes = "查询枚举列表")
     public Response<Map<String, String>> enums() {
         Map<String, String> result = new HashMap<>(12);
-        result.put("treeEventEnum", TreeEventEnum.toJsonString());
         result.put("tableTypeEnum", TableTypeEnum.toJsonString());
         result.put("osgiBoundleTypeEnum", BoundleEnum.toJsonString());
         result.put("languageEnum", LanguageEnum.toJsonString());
@@ -49,7 +47,7 @@ public class CommonController {
     @ApiOperation(value = "命名空间", notes = "当前命名空间")
     public Response<String> namespace() {
         SysNamespace sysNamespace = NamespaceUtils.getNamespace(UserUtils.getCurrentUserId());
-        return new Response<>(sysNamespace.getName());
+        return new Response<>(sysNamespace.getNamespaceName());
     }
 
 }

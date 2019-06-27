@@ -14,13 +14,13 @@ define([ 'app' ], function(app) {
 					 var data = res.data;
 					 $urlRouterProvider.when('',"/doc");
 				     for(var i in data){
-				    	 if(data[i].level == 1 ){
+				    	 if(data[i].nodeLevel == 1 ){
 				    		 var newData = getFirstRoute(data[i].id,data);
 				    		 if(newData != undefined){
 				    			 setSate({"routeName":data[i].routeName,"label":newData.label,"moduleLabel":newData.moduleLabel});
 				    		 }
 						 }
-				    	 if(data[i].level != 1 && data[i].route == 1){
+				    	 if(data[i].nodeLevel != 1 && data[i].route == 1){
 				    		 setSate({"routeName":data[i].routeName,"label":data[i].label,"moduleLabel":data[i].moduleLabel});
 				    	 }
 				     }

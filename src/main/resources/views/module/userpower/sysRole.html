@@ -13,14 +13,14 @@
 		<form class="form-inline" ng-submit="searchForm()">
             <div class="form-group">
 				<label>中文名:</label>
-				<input type="text" class="form-control"  ng-model="request.data.name" />
+				<input type="text" class="form-control"  ng-model="request.data.roleName" />
 			</div>
             <div class="form-group">
 				<label>英文名:</label>
 				<input type="text" class="form-control"  ng-model="request.data.enname" />
 			</div>
 			<div class="form-group">
-			    <button type="submit" class="btn btn-default">提交</button>
+			    <button type="submit" class="btn btn-default">查询</button>
 			</div>
 		</form>
         
@@ -39,10 +39,10 @@
 			<tbody>
 				<tr ng-repeat="sysRole in sysRoleList">
 					<td>{{ $index+1 }}</td>
-				    <td>{{ sysRole.name }}</td> 
+				    <td>{{ sysRole.roleName }}</td> 
 				    <td>{{ sysRole.enname }}</td> 
 				    <td>{{ sysRole.remark }}</td> 
-				    <td>{{ sysRole.createDate | date:'yyyy-MM-dd hh:mm:ss' }}</td>
+				    <td>{{ sysRole.createDate | date:'yyyy-MM-dd HH:mm:ss' }}</td>
 				    <td shiro:hasPermission="userpower:sysRole:edit">
 				       <span><a href="javascript:void(0)" ng-click="updateModal($index)">修改</a></span>
 				       <span><a href="javascript:void(0)" data-content="{{ $index }}" class="target-click" data-confirm="data-confirm">删除</a></span>
@@ -68,12 +68,12 @@
 				            	<label class="col-sm-2 control-label">中文名：</label>
 								<div class="col-sm-8">
 					   	 			<div class="col-sm-6" style="padding-left:0">
-										<input type="text" class="form-control" id="updateName" name="name"
-											ng-model="updateSysRole.name"  placeholder="请输入中文名"  required="required"  />
+										<input type="text" class="form-control" id="updateRoleName" name="roleName"
+											ng-model="updateSysRole.roleName"  placeholder="请输入中文名"  required="required"  />
                         			</div>
 					    			<div class="col-sm-6">
-										<span style="color:red" ng-show="updateSysRoleForm.name.$dirty &amp;&amp; updateSysRoleForm.name.$invalid">
-											<span ng-show="updateSysRoleForm.name.$error.required">中文名是必须的。</span>
+										<span style="color:red" ng-show="updateSysRoleForm.roleName.$dirty &amp;&amp; updateSysRoleForm.roleName.$invalid">
+											<span ng-show="updateSysRoleForm.roleName.$error.required">中文名是必须的。</span>
                         				</span>
                         			</div>
 								</div>							
@@ -132,12 +132,12 @@
 					<label class="col-sm-2 control-label">中文名：</label>
 					<div class="col-sm-4">
 					    <div class="col-sm-6" style="padding-left:0">
-							<input type="text" class="form-control" id="name" name="name"
-								ng-model="sysRole.name"  placeholder="请输入中文名"  required="required"  />
+							<input type="text" class="form-control" id="roleName" name="roleName"
+								ng-model="sysRole.roleName"  placeholder="请输入中文名"  required="required"  />
                         </div>
 					    <div class="col-sm-6">
-							<span style="color:red" ng-show="sysRoleForm.name.$dirty &amp;&amp; sysRoleForm.name.$invalid">
-								<span ng-show="sysRoleForm.name.$error.required">中文名是必须的。</span>
+							<span style="color:red" ng-show="sysRoleForm.roleName.$dirty &amp;&amp; sysRoleForm.roleName.$invalid">
+								<span ng-show="sysRoleForm.roleName.$error.required">中文名是必须的。</span>
                         	</span>
                         </div>
 					</div>

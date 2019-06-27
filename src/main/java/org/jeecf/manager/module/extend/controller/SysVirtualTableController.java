@@ -112,7 +112,7 @@ public class SysVirtualTableController implements CurdController<SysVirtualTable
     public Response<SysVirtualTableResult> save(@RequestBody @Validated({ Add.class }) SysVirtualTable sysVirtualTable) {
         if (sysVirtualTable.isNewRecord()) {
             SysVirtualTableQuery query = new SysVirtualTableQuery();
-            query.setName(sysVirtualTable.getName());
+            query.setVirtualTableName(sysVirtualTable.getVirtualTableName());
             query.setSysNamespaceId(NamespaceUtils.getNamespaceId());
             query.setSysDbsourceId(DbsourceUtils.getSysDbsourceId());
             List<SysVirtualTableResult> sysVirtualTableResultList = sysVirtualTableService.findList(new SysVirtualTablePO(query)).getData();
@@ -129,7 +129,7 @@ public class SysVirtualTableController implements CurdController<SysVirtualTable
     @ApiOperation(value = "删除", notes = "删除虚表数据")
     @Override
     public Response<Integer> delete(@PathVariable("id") String id) {
-        return sysVirtualTableService.delete(new SysVirtualTable(id));
+        return sysVirtualTableFacade.delete(new SysVirtualTable(id));
     }
 
     @PostMapping(value = { "column/{sysVirtualTableId}" })
@@ -160,7 +160,7 @@ public class SysVirtualTableController implements CurdController<SysVirtualTable
             Response<List<SysVirtualTableColumnResult>> sysVirtualTableColumnRes = sysVirtualTableColumnService.findList(new SysVirtualTableColumnPO(query));
 
             GenTableQuery queryTable = new GenTableQuery();
-            queryTable.setName(tableRes.getData().getName());
+            queryTable.setGenTableName(tableRes.getData().getVirtualTableName());
             List<GenTableResult> genTableList = genTableService.findListByAuth(new GenTablePO(queryTable)).getData();
             if (CollectionUtils.isNotEmpty(genTableList)) {
                 throw new BusinessException(BusinessErrorEnum.DATA_EXIT);
@@ -169,14 +169,14 @@ public class SysVirtualTableController implements CurdController<SysVirtualTable
             GenTable genTable = new GenTable();
             BeanUtils.copyProperties(tableRes.getData(), genTable);
             genTable.setId(null);
-            genTable.setClassName(HumpUtils.lineToHump(tableRes.getData().getName()));
+            genTable.setClassName(HumpUtils.lineToHump(tableRes.getData().getVirtualTableName()));
             List<GenTableColumnResult> genTableColumns = new ArrayList<>();
             if (CollectionUtils.isNotEmpty(sysVirtualTableColumnRes.getData())) {
                 sysVirtualTableColumnRes.getData().forEach(tableColumn -> {
                     GenTableColumnResult genTableColumn = new GenTableColumnResult();
                     BeanUtils.copyProperties(tableColumn, genTableColumn);
-                    genTableColumn.setJdbcType(SqlHelper.toJdbcType(tableColumn.getType(), tableColumn.getLength(), tableColumn.getDecimalLength()));
-                    genTableColumn.setField(genTableColumn.getName());
+                    genTableColumn.setJdbcType(SqlHelper.toJdbcType(tableColumn.getColumnType(), tableColumn.getLength(), tableColumn.getDecimalLength()));
+                    genTableColumn.setField(genTableColumn.getGenColumnName());
                     genTableColumn.setIsNull(tableColumn.getIsNotNull());
                     genTableColumns.add(genTableColumn);
                 });
@@ -196,7 +196,7 @@ public class SysVirtualTableController implements CurdController<SysVirtualTable
         Response<SysVirtualTableResult> tableRes = sysVirtualTableService.getByAuth(new SysVirtualTable(id));
         if (tableRes.getData() != null) {
             SysVirtualTableResult table = tableRes.getData();
-            Response<SchemaTable> schemaTableRes = targetTableProxy.getTable(table.getName());
+            Response<SchemaTable> schemaTableRes = targetTableProxy.getTable(table.getVirtualTableName());
             if (schemaTableRes.getData() != null) {
                 throw new BusinessException(BusinessErrorEnum.TARGET_TABLE_EXIST);
             }
@@ -206,15 +206,15 @@ public class SysVirtualTableController implements CurdController<SysVirtualTable
             List<CreateTableColumn> createTableColumns = new ArrayList<>();
             sysVirtualTableColumnRes.getData().forEach(tableColumn -> {
                 Builder builder = CreateTableColumn.builder();
-                builder.setColumnName(tableColumn.getName()).setType(SqlHelper.toJdbcType(tableColumn.getType(), tableColumn.getLength(), tableColumn.getDecimalLength()))
-                        .setComment(tableColumn.getComment());
+                builder.setColumnName(tableColumn.getTableColumnName()).setType(SqlHelper.toJdbcType(tableColumn.getColumnType(), tableColumn.getLength(), tableColumn.getDecimalLength()))
+                        .setComment(tableColumn.getComments());
                 if (tableColumn.getIsKey() == IfTypeEnum.YES.getCode()) {
                     boolean isAuto = tableColumn.getIsAuto() == IfTypeEnum.YES.getCode();
                     builder.isPrimaryKey(isAuto);
                 }
                 createTableColumns.add(builder.build());
             });
-            CreateTable createTable = CreateTable.builder().setTableName(table.getName()).setComment(table.getComment()).addCreateTableColumns(createTableColumns).build();
+            CreateTable createTable = CreateTable.builder().setTableName(table.getVirtualTableName()).setComment(table.getComments()).addCreateTableColumns(createTableColumns).build();
             return targetTableProxy.create(createTable);
         }
         throw new BusinessException(BusinessErrorEnum.DATA_NOT_EXIT);
@@ -228,11 +228,11 @@ public class SysVirtualTableController implements CurdController<SysVirtualTable
         Response<SysVirtualTableResult> tableRes = sysVirtualTableService.getByAuth(new SysVirtualTable(id));
         if (tableRes.getData() != null) {
             SysVirtualTableResult table = tableRes.getData();
-            Response<SchemaTable> schemaTableRes = targetTableProxy.getTable(table.getName());
+            Response<SchemaTable> schemaTableRes = targetTableProxy.getTable(table.getVirtualTableName());
             if (schemaTableRes.getData() == null) {
                 throw new BusinessException(BusinessErrorEnum.TARGET_TABLE_NOT_EXIST);
             }
-            return targetTableProxy.drop(table.getName());
+            return targetTableProxy.drop(table.getVirtualTableName());
         }
         throw new BusinessException(BusinessErrorEnum.DATA_NOT_EXIT);
     }

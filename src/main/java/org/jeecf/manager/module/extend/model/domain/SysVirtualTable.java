@@ -20,8 +20,8 @@ import io.swagger.annotations.ApiModelProperty;
  *
  */
 @ScriptAssert.List({ 
-    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.name)", message = "{virtualTable.name.isEmpty}", groups = { Add.class }),
-    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.comment)", message = "{virtualTable.comment.isEmpty}", groups = { Add.class }),
+    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.virtualTableName)", message = "{virtualTable.virtualTableName.isEmpty}", groups = { Add.class }),
+    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.comments)", message = "{virtualTable.comments.isEmpty}", groups = { Add.class }),
     @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notNull(_this.id,_this.sysVirtualTableColumns)", message = "{virtualTable.tableColumns.isEmpty}", groups = { Add.class }) 
 })
 public class SysVirtualTable extends NamespaceAndDbAuthEntity implements Serializable {
@@ -41,35 +41,35 @@ public class SysVirtualTable extends NamespaceAndDbAuthEntity implements Seriali
     /**
      * 表名
      */
-    @ApiModelProperty(value = "表名", name = "name")
-    private String name;
+    @ApiModelProperty(value = "表名", name = "virtualTableName")
+    private String virtualTableName;
     /**
      * 注释
      */
-    @ApiModelProperty(value = "注释", name = "comment")
-    private String comment;
+    @ApiModelProperty(value = "注释", name = "comments")
+    private String comments;
     /**
      * 表字段
      */
     @ApiModelProperty(value = "表字段", name = "sysVirtualTableColumns")
     private List<SysVirtualTableColumn> sysVirtualTableColumns;
 
-    @Length(min = 1, max = 20, message = "{virtualTable.name.length}", groups = { Add.class })
-    public String getName() {
-        return name;
+    @Length(min = 1, max = 20, message = "{virtualTable.virtualTableName.length}", groups = { Add.class })
+    public String getVirtualTableName() {
+        return virtualTableName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setVirtualTableName(String virtualTableName) {
+        this.virtualTableName = virtualTableName;
     }
 
-    @Length(min = 1, max = 50, message = "{virtualTable.comment.length}", groups = { Add.class })
-    public String getComment() {
-        return comment;
+    @Length(min = 1, max = 50, message = "{virtualTable.comments.length}", groups = { Add.class })
+    public String getComments() {
+        return comments;
     }
 
-    public void setComment(String comment) {
-        this.comment = comment;
+    public void setComments(String comments) {
+        this.comments = comments;
     }
 
     @Valid

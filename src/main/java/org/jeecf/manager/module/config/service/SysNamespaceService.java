@@ -29,7 +29,7 @@ public class SysNamespaceService extends PermissionAuthService<SysNamespaceDao, 
             sysNamespace = NamespaceUtils.getNamespace(userId);
         } else {
             SysNamespaceQuery sysNamespaceQuery = new SysNamespaceQuery();
-            sysNamespaceQuery.setName(namespaceName);
+            sysNamespaceQuery.setNamespaceName(namespaceName);
             SysNamespacePO sysNamespacePO = new SysNamespacePO(sysNamespaceQuery);
             Response<List<SysNamespaceResult>> sysNamespaceResultListRes = super.findList(sysNamespacePO);
             if (CollectionUtils.isNotEmpty(sysNamespaceResultListRes.getData())) {

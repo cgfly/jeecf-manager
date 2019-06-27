@@ -45,6 +45,7 @@ public class BaseEntity extends AbstractEntity {
             String sessionId = (String) SecurityUtils.getSubject().getSession().getId();
             String id = (String) RedisCacheUtils.getSysCache(sessionId);
             this.setUpdateBy(id);
+            this.setUpdateDate(new Date());
         } catch (UnavailableSecurityManagerException e) {
             this.setUpdateDate(new Date());
         }

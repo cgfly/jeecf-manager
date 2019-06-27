@@ -22,10 +22,14 @@ import org.jeecf.manager.module.config.model.domain.SysNamespace;
 import org.jeecf.manager.module.config.model.result.SysNamespaceResult;
 import org.jeecf.manager.module.config.service.SysNamespaceService;
 import org.jeecf.manager.module.template.model.domain.GenTemplate;
+import org.jeecf.manager.module.template.model.po.GenFieldColumnPO;
 import org.jeecf.manager.module.template.model.po.GenTemplatePO;
+import org.jeecf.manager.module.template.model.query.GenFieldColumnQuery;
 import org.jeecf.manager.module.template.model.query.GenTemplateQuery;
+import org.jeecf.manager.module.template.model.result.GenFieldColumnResult;
 import org.jeecf.manager.module.template.model.result.GenTemplateResult;
 import org.jeecf.manager.module.template.model.schema.GenTemplateSchema;
+import org.jeecf.manager.module.template.service.GenFieldColumnService;
 import org.jeecf.manager.module.template.service.GenTemplateService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,6 +62,9 @@ public class GenTemplateAllController implements BaseController {
     @Autowired
     private SysNamespaceService sysNamespaceService;
 
+    @Autowired
+    private GenFieldColumnService genFieldColumnService;
+
     @GetMapping(value = { "", "index" })
     @RequiresPermissions("${permission.genTemplateAll.view}")
     @ApiOperation(value = "视图", notes = "查看模版配置视图")
@@ -84,7 +91,7 @@ public class GenTemplateAllController implements BaseController {
                 ids.add(result.getSysNamespaceId());
                 if (CollectionUtils.isNotEmpty(templateResultList)) {
                     for (GenTemplateResult genTemplateResult : templateResultList) {
-                        if (result.getName().equals(genTemplateResult.getName())) {
+                        if (result.getTemplateName().equals(genTemplateResult.getTemplateName())) {
                             result.setIsExit(IfTypeEnum.YES.getCode());
                             break;
                         }
@@ -98,7 +105,7 @@ public class GenTemplateAllController implements BaseController {
                 response.getData().forEach(result -> {
                     for (SysNamespaceResult sysNamespaceResult : namespaceResultList) {
                         if (sysNamespaceResult.getId().equals(String.valueOf(result.getSysNamespaceId()))) {
-                            result.setName(sysNamespaceResult.getName() + SplitCharEnum.SLASH.getName() + result.getName());
+                            result.setTemplateName(sysNamespaceResult.getNamespaceName() + SplitCharEnum.SLASH.getName() + result.getTemplateName());
                         }
                     }
                 });
@@ -136,11 +143,21 @@ public class GenTemplateAllController implements BaseController {
         if (genTemplate != null) {
             SysNamespace sysNamespace = sysNamespaceService.get(new SysNamespace(String.valueOf(genTemplate.getSysNamespaceId()))).getData();
             if (sysNamespace != null) {
-                String zipFilePath = TemplateUtils.getZipFilePath(genTemplate.getFileBasePath(), sysNamespace.getName());
+                String zipFilePath = TemplateUtils.getZipFilePath(genTemplate.getFileBasePath(), sysNamespace.getNamespaceName());
                 DownloadUtils.downloadFile(response, zipFilePath);
             }
         }
         return;
+    }
+
+    @PostMapping(value = { "params/{genTemplateId}" })
+    @ResponseBody
+    @RequiresPermissions("${permission.genTemplateAll.view}")
+    @ApiOperation(value = "参数", notes = "查询模版参数")
+    public Response<List<GenFieldColumnResult>> params(@PathVariable("genTemplateId") Integer genTemplateId) throws IOException {
+        GenFieldColumnQuery columns = new GenFieldColumnQuery();
+        columns.setGenTemplateId(genTemplateId);
+        return genFieldColumnService.findList(new GenFieldColumnPO(columns));
     }
 
 }

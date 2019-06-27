@@ -39,9 +39,9 @@ public class SysTreeDictService extends AbstractTreeNamespaceAuthService<SysTree
                 sysTreeDict.setParentIds(parentSysTreeDict.getParentIds() + "," + parentSysTreeDict.getId());
             }
             sysTreeDict.setParentId(parentSysTreeDict.getId());
-            sysTreeDict.setLevel(parentSysTreeDict.getLevel() + 1);
+            sysTreeDict.setNodeLevel(parentSysTreeDict.getNodeLevel() + 1);
         } else {
-            sysTreeDict.setLevel(1);
+            sysTreeDict.setNodeLevel(1);
             sysTreeDict.setParentIds("");
         }
         if (!sysTreeDict.isNewRecord()) {
@@ -95,7 +95,7 @@ public class SysTreeDictService extends AbstractTreeNamespaceAuthService<SysTree
                 SysTreeDict tempSysTreeDict = childList.get(i);
                 String parentIds = tempSysTreeDict.getParentIds();
                 String[] tempParentIds = parentIds.split(",");
-                int level = tempSysTreeDict.getLevel();
+                int level = tempSysTreeDict.getNodeLevel();
                 if (tempParentIds != null && tempParentIds.length > 2 && tempParentIds[0].equals(sysTreeDict.getId())) {
                     tempParentIds = parentIds.split(sysTreeDict.getId() + ",");
                     if (StringUtils.isEmpty(sysTreeDict.getParentIds())) {
@@ -103,10 +103,10 @@ public class SysTreeDictService extends AbstractTreeNamespaceAuthService<SysTree
                     } else {
                         parentIds = sysTreeDict.getParentIds() + "," + sysTreeDict.getId() + "," + tempParentIds[1];
                     }
-                    level = sysTreeDict.getLevel() + tempParentIds[1].split(",").length + 1;
+                    level = sysTreeDict.getNodeLevel() + tempParentIds[1].split(",").length + 1;
                 } else if (tempParentIds != null && tempParentIds.length > 2 && tempParentIds[tempParentIds.length - 1].equals(sysTreeDict.getId())) {
                     parentIds = sysTreeDict.getParentIds() + "," + sysTreeDict.getId();
-                    level = sysTreeDict.getLevel() + 1;
+                    level = sysTreeDict.getNodeLevel() + 1;
                 } else if (tempParentIds != null && tempParentIds.length > 2) {
                     tempParentIds = parentIds.split("," + sysTreeDict.getId() + ",");
                     if (StringUtils.isEmpty(sysTreeDict.getParentIds())) {
@@ -114,24 +114,24 @@ public class SysTreeDictService extends AbstractTreeNamespaceAuthService<SysTree
                     } else {
                         parentIds = sysTreeDict.getParentIds() + "," + sysTreeDict.getId() + "," + tempParentIds[1];
                     }
-                    level = sysTreeDict.getLevel() + tempParentIds[1].split(",").length + 1;
+                    level = sysTreeDict.getNodeLevel() + tempParentIds[1].split(",").length + 1;
                 } else if (tempParentIds != null && tempParentIds.length == 2 && tempParentIds[0].equals(sysTreeDict.getId())) {
                     if (StringUtils.isEmpty(sysTreeDict.getParentIds())) {
                         parentIds = sysTreeDict.getId() + "," + tempSysTreeDict.getParentId();
                     } else {
                         parentIds = sysTreeDict.getParentIds() + "," + sysTreeDict.getId() + "," + tempSysTreeDict.getParentId();
                     }
-                    level = sysTreeDict.getLevel() + 2;
+                    level = sysTreeDict.getNodeLevel() + 2;
                 } else {
                     if (StringUtils.isEmpty(sysTreeDict.getParentIds())) {
                         parentIds = sysTreeDict.getId();
                     } else {
                         parentIds = sysTreeDict.getParentIds() + "," + sysTreeDict.getId();
                     }
-                    level = sysTreeDict.getLevel() + 1;
+                    level = sysTreeDict.getNodeLevel() + 1;
                 }
                 tempSysTreeDict.setParentIds(parentIds);
-                tempSysTreeDict.setLevel(level);
+                tempSysTreeDict.setNodeLevel(level);
                 super.saveByAuth(tempSysTreeDict);
             }
         }

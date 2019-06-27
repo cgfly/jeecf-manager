@@ -21,7 +21,7 @@ import io.swagger.annotations.ApiModelProperty;
  * @version 1.0
  */
 @ScriptAssert.List({ 
-    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.name)", message = "{role.name.isEmpty}", groups = { Add.class }),
+    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.roleName)", message = "{role.roleName.isEmpty}", groups = { Add.class }),
     @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.enname)", message = "{role.enname.isEmpty}", groups = { Add.class }),
     @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notNull(_this.id,_this.sysPowerIds)", message = "{role.powerIds.isNull}", groups = { Add.class }) 
 })
@@ -32,8 +32,8 @@ public class SysRole extends BaseEntity implements Serializable {
     /**
      * 中文名
      */
-    @ApiModelProperty(value = "中文名", name = "name")
-    private String name;
+    @ApiModelProperty(value = "中文名", name = "roleName")
+    private String roleName;
 
     /**
      * 英文名
@@ -54,13 +54,13 @@ public class SysRole extends BaseEntity implements Serializable {
         super(id);
     }
 
-    @Length(min = 1, max = 20, message = "{role.name.length}", groups = { Add.class })
-    public String getName() {
-        return name;
+    @Length(min = 1, max = 20, message = "{role.roleName.length}", groups = { Add.class })
+    public String getRoleName() {
+        return roleName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
     }
 
     @Length(min = 1, max = 20, message = "{role.enname.length}", groups = { Add.class })

@@ -151,11 +151,11 @@ public class PermissionUtils {
             if (CollectionUtils.isNotEmpty(sysPowerResultList)) {
                 SysPowerResult sysPowerResult = sysPowerResultList.get(0);
                 SysPower sysPower = new SysPower();
-                sysPower.setLevel(sysPowerResult.getLevel() + 1);
+                sysPower.setNodeLevel(sysPowerResult.getNodeLevel() + 1);
                 sysPower.setPermission(permission);
                 sysPower.setParentId(sysPowerResult.getId());
                 sysPower.setParentIds(sysPowerResult.getId());
-                sysPower.setName(prefixName + suffixPermission + POWER_PROPERTIES.getFunctionName());
+                sysPower.setNodeName(prefixName + suffixPermission + POWER_PROPERTIES.getFunctionName());
                 sysPower.setSort(10);
                 SYS_POWER_SERVICE.save(sysPower);
             }

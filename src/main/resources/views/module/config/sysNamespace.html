@@ -25,7 +25,7 @@
 			</div>
 			&nbsp;
 			<div class="form-group">
-				<button type="submit" class="btn btn-default">提交</button>
+				<button type="submit" class="btn btn-default">查询</button>
 			</div>
 			&nbsp;当前所用命名空间为:&nbsp;<span th:text="${#namespaces.getName()}"
 				style="color: red"></span>
@@ -47,11 +47,11 @@
 			<tbody>
 				<tr ng-repeat="sysNamespace in sysNamespaceList">
 					<td>{{ $index+1 }}</td>
-					<td>{{ sysNamespace.name }}</td>
+					<td>{{ sysNamespace.namespaceName }}</td>
 					<td>{{ sysNamespace.description }}</td>
 					<td>{{ sysNamespace.permission }}</td>
 					<td>{{ sysNamespace.remark }}</td>
-					<td>{{ sysNamespace.updateDate | date:'yyyy-MM-dd hh:mm:ss' }}</td>
+					<td>{{ sysNamespace.updateDate | date:'yyyy-MM-dd HH:mm:ss' }}</td>
 					<td><span shiro:hasPermission="config:sysNamespace:edit"
 						ng-show="delFlagVisible"><a href="javascript:void(0)"
 							ng-click="updateModal($index)">修改</a></span> <span
@@ -83,14 +83,14 @@
 								<label class="col-sm-2 control-label">名称：</label>
 								<div class="col-sm-8">
 									<div class="col-sm-6" style="padding-left: 0">
-										<input type="text" class="form-control" id="updateName"
-											name="name" ng-model="updateSysNamespace.name"
+										<input type="text" class="form-control" id="updateNamespaceName"
+											name="namespaceName" ng-model="updateSysNamespace.namespaceName"
 											placeholder="请输入名称" required="required" />
 									</div>
 									<div class="col-sm-6">
 										<span style="color: red"
-											ng-show="updateSysNamespaceForm.name.$dirty &amp;&amp; updateSysNamespaceForm.name.$invalid">
-											<span ng-show="updateSysNamespaceForm.name.$error.required">名称是必须的。</span>
+											ng-show="updateSysNamespaceForm.namespaceName.$dirty &amp;&amp; updateSysNamespaceForm.namespaceName.$invalid">
+											<span ng-show="updateSysNamespaceForm.namespaceName.$error.required">名称是必须的。</span>
 										</span>
 									</div>
 								</div>
@@ -158,14 +158,14 @@
 					<label class="col-sm-2 control-label">名称：</label>
 					<div class="col-sm-4">
 						<div class="col-sm-6" style="padding-left: 0">
-							<input type="text" class="form-control" id="name" name="name"
-								ng-model="sysNamespace.name" placeholder="请输入名称"
+							<input type="text" class="form-control" id="namespaceName" name="namespaceName"
+								ng-model="sysNamespace.namespaceName" placeholder="请输入名称"
 								required="required" />
 						</div>
 						<div class="col-sm-6">
 							<span style="color: red"
-								ng-show="sysNamespaceForm.name.$dirty &amp;&amp; sysNamespaceForm.name.$invalid">
-								<span ng-show="sysNamespaceForm.name.$error.required">名称是必须的。</span>
+								ng-show="sysNamespaceForm.namespaceName.$dirty &amp;&amp; sysNamespaceForm.namespaceName.$invalid">
+								<span ng-show="sysNamespaceForm.namespaceName.$error.required">名称是必须的。</span>
 							</span>
 						</div>
 					</div>

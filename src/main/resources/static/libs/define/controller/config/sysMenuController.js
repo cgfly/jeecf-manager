@@ -59,13 +59,13 @@ define([ 'app', '$httpRequest', '$page', '$ctx', '$jBoxcm' ], function(app,
 		
 		$scope.addModal = function (index){
 			$scope.sysMenu.label = undefined;
-			$scope.sysMenu.name = undefined;
+			$scope.sysMenu.nodeName = undefined;
 			$scope.sysMenu.permission = undefined;
 			$scope.sysMenu.isIcon = $scope.sysMenuList[index].isIcon;
 			$scope.sysMenu.route = $scope.sysMenuList[index].route+"";
 			$scope.sysMenu.moduleLabel = $scope.sysMenuList[index].moduleLabel;
 			$scope.sysMenu.parentId = $scope.sysMenuList[index].id;
-		    $('#sysMenuFormTab #insertTreeId').find('input[name="selectedName"]').val($scope.sysMenuList[index].name);
+		    $('#sysMenuFormTab #insertTreeId').find('input[name="selectedName"]').val($scope.sysMenuList[index].nodeName);
 			$scope.sysMenu.sort = parseInt($scope.sysMenuList[index].sort)+10;
 			$('#top-tab a[href="#sysMenuFormTab"]').tab('show');
 		}
@@ -75,7 +75,7 @@ define([ 'app', '$httpRequest', '$page', '$ctx', '$jBoxcm' ], function(app,
 			$('#updateModal').modal('show');
 			angular.copy($scope.sysMenuList[index], $scope.updateSysMenu);
 			if($scope.updateSysMenu.parent != null){
-			   $('#updateModal #updateTreeId').find('input[name="selectedName"]').val($scope.updateSysMenu.parent.name);
+			   $('#updateModal #updateTreeId').find('input[name="selectedName"]').val($scope.updateSysMenu.parent.nodeName);
 			}
 		}
 
@@ -85,7 +85,6 @@ define([ 'app', '$httpRequest', '$page', '$ctx', '$jBoxcm' ], function(app,
 		};
 
 		this.init = function() {
-			
 			$scope.currentRouteName = $state.current.name;
 			$scope.currentRouteUrl = $state.current.url;
 			$scope.request = {page:{current:"",size:""},data:{}};
@@ -137,7 +136,7 @@ define([ 'app', '$httpRequest', '$page', '$ctx', '$jBoxcm' ], function(app,
 
 		$scope.labelChange = function(nv) {
 		    var moduleLabel = nv.moduleLabel;
-		    var level = nv.level;
+		    var level = nv.nodeLevel;
 		    var label = nv.label;
 			if(level == 1 || moduleLabel == undefined){
 				if(label != undefined && label != ""){

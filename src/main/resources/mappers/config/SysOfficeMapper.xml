@@ -5,16 +5,16 @@
 
 	<sql id="columnList">
 		sysOffice.id AS "id",
-		sysOffice.name AS "name",
+		sysOffice.node_name AS "nodeName",
 		sysOffice.enname AS "enname",
 		sysOffice.parent_id AS "parentId",
 		sysOffice.parent_ids AS "parentIds",
-		sysOffice.level AS "level",
+		sysOffice.node_level AS "nodeLevel",
 		sysOffice.sort AS "sort",
 		sysOffice.remark AS "remark",
 		
 		parent.id As "parent.id",
-		parent.name As "parent.name",
+		parent.node_name As "parent.nodeName",
 		
 		sysOffice.create_date AS "createDate",
 		sysOffice.update_date AS "updateDate",
@@ -25,8 +25,8 @@
 	<sql id="commonWhere">
 		<where>
 			<if test="data != null">
-				<if test="data.name != null and data.name != '' ">
-					And sysOffice.name LIKE concat('%',#{data.name},'%')
+				<if test="data.nodeName != null and data.nodeName != '' ">
+					And sysOffice.node_name LIKE concat('%',#{data.nodeName},'%')
 				</if>
 				<if test="data.enname != null and data.enname != '' ">
 					And sysOffice.enname LIKE
@@ -38,8 +38,8 @@
 				<if test="data.parentIds != null and data.parentIds != '' ">
 					And sysOffice.parent_ids like CONCAT('%',#{data.parentIds},'%')
 				</if>
-				<if test="data.level != null and data.level != '' ">
-					And sysOffice.level = #{data.level}
+				<if test="data.nodeLevel != null and data.nodeLevel != '' ">
+					And sysOffice.node_level = #{data.nodeLevel}
 				</if>
 				<if test="data.sort != null and data.sort != '' ">
 					And sysOffice.sort = #{data.sort}
@@ -130,8 +130,8 @@
 	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
 		insert into sys_office
 		<trim prefix="(" suffix=")" suffixOverrides=",">
-			<if test="name != null">
-				name,
+			<if test="nodeName != null">
+				node_name,
 			</if>
 			<if test="enname != null">
 				enname,
@@ -142,8 +142,8 @@
 			<if test="parentIds != null">
 				parent_ids,
 			</if>
-			<if test="level != null">
-				level,
+			<if test="nodeLevel != null">
+				node_level,
 			</if>
 			<if test="sort != null">
 				sort,
@@ -166,8 +166,8 @@
 		</trim>
 		values
 		<trim prefix="(" suffix=")" suffixOverrides=",">
-			<if test="name != null">
-				#{name},
+			<if test="nodeName != null">
+				#{nodeName},
 			</if>
 			<if test="enname != null">
 				#{enname},
@@ -178,8 +178,8 @@
 			<if test="parentIds != null">
 				#{parentIds},
 			</if>
-			<if test="level != null">
-				#{level},
+			<if test="nodeLevel != null">
+				#{nodeLevel},
 			</if>
 			<if test="sort != null">
 				#{sort},
@@ -205,8 +205,8 @@
 	<update id="update">
 		update sys_office
 		<set>
-			<if test="name != null">
-				name = #{name},
+			<if test="nodeName != null">
+				node_name = #{nodeName},
 			</if>
 			<if test="enname != null">
 				enname = #{enname},
@@ -217,8 +217,8 @@
 			<if test="parentIds != null">
 				parent_ids = #{parentIds},
 			</if>
-			<if test="level != null">
-				level = #{level},
+			<if test="nodeLevel != null">
+				node_level = #{nodeLevel},
 			</if>
 			<if test="sort != null">
 				sort = #{sort},

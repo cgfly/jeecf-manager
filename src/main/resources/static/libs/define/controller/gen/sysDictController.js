@@ -67,10 +67,10 @@ define([ 'app', '$httpRequest','$page','$ctx','$jBoxcm' ], function(app, $httpRe
 		
 		$scope.addModal = function(index){
 			$scope.sysDict.label = undefined;
-			$scope.sysDict.name = undefined;
+			$scope.sysDict.dictName = undefined;
 			$scope.sysDict.remark = undefined;
-			$scope.sysDict.value = parseInt($scope.sysDictList[index].value)+1;
-			$scope.sysDict.type = $scope.sysDictList[index].type;
+			$scope.sysDict.dictValue = parseInt($scope.sysDictList[index].dictValue)+1;
+			$scope.sysDict.dictType = $scope.sysDictList[index].dictType;
 			$scope.sysDict.description = $scope.sysDictList[index].description;
 			$('#top-tab a[href="#sysDictFormTab"]').tab('show');
 		}

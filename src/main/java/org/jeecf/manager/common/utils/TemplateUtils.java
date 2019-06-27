@@ -58,7 +58,7 @@ public class TemplateUtils {
         if (sysNamespace != null) {
             int randomNumber = 5;
             String uuid = IdGenUtils.randomUUID(randomNumber);
-            String suffixPath = PROPERTIES.getUploadTmpPath() + File.separator + sysNamespace.getName() + File.separator + uuid;
+            String suffixPath = PROPERTIES.getUploadTmpPath() + File.separator + sysNamespace.getNamespaceName() + File.separator + uuid;
             String filePath = suffixPath + File.separator + file.getOriginalFilename();
             try {
                 FileUtils.createDirectory(suffixPath);

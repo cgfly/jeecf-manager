@@ -6,13 +6,13 @@
 	<sql id="columnList">
 		sysVirtualTableColumn.id AS "id",
 		sysVirtualTableColumn.sys_virtual_table_id AS "sysVirtualTableId",
-		sysVirtualTableColumn.name AS "name",
-		sysVirtualTableColumn.type AS "type",
+		sysVirtualTableColumn.table_column_name AS "tableColumnName",
+		sysVirtualTableColumn.column_type AS "columnType",
         sysVirtualTableColumn.length AS "length",
         sysVirtualTableColumn.decimal_length AS "decimalLength",
         sysVirtualTableColumn.is_not_null AS "isNotNull",
         sysVirtualTableColumn.default_value AS "defaultValue",  
-        sysVirtualTableColumn.comment AS "comment",  
+        sysVirtualTableColumn.comments AS "comments",  
         sysVirtualTableColumn.is_key AS "isKey",
         sysVirtualTableColumn.is_auto AS "isAuto",
 		sysVirtualTableColumn.create_date AS "createDate",
@@ -22,8 +22,8 @@
 	<sql id="commonWhere">
 		<where>
 			<if test="data != null">
-				<if test="data.name != null and data.name != '' ">
-					AND sysVirtualTableColumn.name = #{data.name}
+				<if test="data.tableColumnName != null and data.tableColumnName != '' ">
+					AND sysVirtualTableColumn.table_column_name = #{data.tableColumnName}
 				</if>
 				<if test="data.sysVirtualTableId != null ">
 					AND sysVirtualTableColumn.sys_virtual_table_id = #{data.sysVirtualTableId}
@@ -96,17 +96,17 @@
 	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO sys_virtual_table_column
 		<trim prefix="(" suffix=")" suffixOverrides=",">
-			<if test="name != null">
-				name,
+			<if test="tableColumnName != null">
+				table_column_name,
 			</if>
 		    <if test="sysVirtualTableId != null">
 				sys_virtual_table_id,
 			</if>
-			<if test="comment != null">
-				comment,
+			<if test="comments != null">
+				comments,
 			</if>
-			<if test="type != null">
-				type,
+			<if test="columnType != null">
+				column_type,
 			</if>
 			<if test="length != null">
 				length,
@@ -144,17 +144,17 @@
 		</trim>
 		VALUES
 		<trim prefix="(" suffix=")" suffixOverrides=",">
-			<if test="name != null">
-				#{name},
+			<if test="tableColumnName != null">
+				#{tableColumnName},
 			</if>
 		    <if test="sysVirtualTableId != null">
 				#{sysVirtualTableId},
 			</if>
-			<if test="comment != null">
-				#{comment},
+			<if test="comments != null">
+				#{comments},
 			</if>
-			<if test="type != null">
-				#{type},
+			<if test="columnType != null">
+				#{columnType},
 			</if>
 			<if test="length != null">
 				#{length},
@@ -195,17 +195,17 @@
 	<update id="update">
 		UPDATE sys_virtual_table_column
 		<set>
-			<if test="name != null">
-				name = #{name},
+			<if test="tableColumnName != null">
+				table_column_name = #{tableColumnName},
 			</if>
 			<if test="sysVirtualTableId != null">
 				sys_virtual_table_id = #{sysVirtualTableId},
 			</if>
-			<if test="comment != null">
-				comment = #{comment},
+			<if test="comments != null">
+				comments = #{comments},
 			</if>
-			<if test="type != null">
-				type = #{type},
+			<if test="columnType != null">
+				column_type = #{columnType},
 			</if>
 			<if test="length != null">
 				length = #{length},

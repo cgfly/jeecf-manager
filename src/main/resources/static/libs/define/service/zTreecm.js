@@ -2,7 +2,7 @@ define([ 'jquery', 'app' ], function($, app) {
 	app.factory('$zTreecm', function() {
 		return {
 			setting : function(config){
-			   return setting = {
+			   var  setting = {
 						check: {
 						   enable: true,
 						   chkStyle: "checkbox",
@@ -26,12 +26,10 @@ define([ 'jquery', 'app' ], function($, app) {
 						            demoIframe.attr("src", treeNode.file + ".html");
 						            return true;
 						        }
-						    },
-						    onCheck: function (e,treeId,treeNode){
-						    	config.onCheck(e,treeId,treeNode);
 						    }
 				      }
 			}
+			return $.extend( true, setting,config )  
 		 }
 	   }
 	});

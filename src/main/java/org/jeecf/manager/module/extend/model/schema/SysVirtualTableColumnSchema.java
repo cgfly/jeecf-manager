@@ -19,8 +19,8 @@ public class SysVirtualTableColumnSchema {
     /**
      * 字段名
      */
-    @ApiModelProperty(value = "字段名", name = "name")
-    private boolean name = true;
+    @ApiModelProperty(value = "字段名", name = "tableColumnName")
+    private boolean tableColumnName = true;
     /**
      * 虚表id
      */
@@ -29,13 +29,13 @@ public class SysVirtualTableColumnSchema {
     /**
      * 注释
      */
-    @ApiModelProperty(value = "注释", name = "comment")
-    private boolean comment = true;
+    @ApiModelProperty(value = "注释", name = "comments")
+    private boolean comments = true;
     /**
      * 类型
      */
-    @ApiModelProperty(value = "类型", name = "type")
-    private boolean type = true;
+    @ApiModelProperty(value = "类型", name = "columnType")
+    private boolean columnType = true;
     /**
      * 长度
      */
@@ -90,12 +90,12 @@ public class SysVirtualTableColumnSchema {
         this.id = id;
     }
 
-    public boolean isName() {
-        return name;
+    public boolean isTableColumnName() {
+        return tableColumnName;
     }
 
-    public void setName(boolean name) {
-        this.name = name;
+    public void setTableColumnName(boolean tableColumnName) {
+        this.tableColumnName = tableColumnName;
     }
 
     public boolean isSysVirtualTableId() {
@@ -106,20 +106,20 @@ public class SysVirtualTableColumnSchema {
         this.sysVirtualTableId = sysVirtualTableId;
     }
 
-    public boolean isComment() {
-        return comment;
+    public boolean isComments() {
+        return comments;
     }
 
-    public void setComment(boolean comment) {
-        this.comment = comment;
+    public void setComments(boolean comments) {
+        this.comments = comments;
     }
 
-    public boolean isType() {
-        return type;
+    public boolean isColumnType() {
+        return columnType;
     }
 
-    public void setType(boolean type) {
-        this.type = type;
+    public void setColumnType(boolean columnType) {
+        this.columnType = columnType;
     }
 
     public boolean isLength() {

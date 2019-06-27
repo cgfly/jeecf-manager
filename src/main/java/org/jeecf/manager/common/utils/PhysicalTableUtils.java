@@ -26,10 +26,10 @@ public class PhysicalTableUtils {
         SysNamespace sysNamespace = NamespaceUtils.getNamespace(UserUtils.getCurrentUserId());
         if (CollectionUtils.isNotEmpty(genTableList)) {
             genTableList.forEach(genTable -> {
-                String[] splitName = genTable.getName().split(SPLIT_MATCH);
+                String[] splitName = genTable.getGenTableName().split(SPLIT_MATCH);
                 if (splitName.length > 1) {
-                    if (splitName[1].equals(sysNamespace.getName())) {
-                        genTable.setName(splitName[0]);
+                    if (splitName[1].equals(sysNamespace.getNamespaceName())) {
+                        genTable.setGenTableName(splitName[0]);
                         resultList.add(genTable);
                     }
                 } else {
@@ -46,7 +46,7 @@ public class PhysicalTableUtils {
             schemaTableList.forEach(schemaTable -> {
                 String[] splitName = schemaTable.getName().split(SPLIT_MATCH);
                 if (splitName.length > 1) {
-                    if (splitName[1].equals(sysNamespace.getName())) {
+                    if (splitName[1].equals(sysNamespace.getNamespaceName())) {
                         resultList.add(schemaTable);
                     }
                 } else {

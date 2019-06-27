@@ -42,10 +42,10 @@ public class SysMenuService extends AbstractTreeService<SysMenuDao, SysMenuPO, S
             }
             sysMenu.setParentId(parentSysMenu.getId());
             sysMenu.setModuleLabel(parentSysMenu.getModuleLabel());
-            sysMenu.setLevel(parentSysMenu.getLevel() + 1);
+            sysMenu.setNodeLevel(parentSysMenu.getNodeLevel() + 1);
         } else {
             sysMenu.setModuleLabel(sysMenu.getLabel());
-            sysMenu.setLevel(1);
+            sysMenu.setNodeLevel(1);
         }
         if (!sysMenu.isNewRecord()) {
             this.updateChilds(sysMenu);
@@ -104,7 +104,7 @@ public class SysMenuService extends AbstractTreeService<SysMenuDao, SysMenuPO, S
                 SysMenu tempSysMenu = childList.get(i);
                 String parentIds = tempSysMenu.getParentIds();
                 String[] tempParentIds = parentIds.split(",");
-                int level = tempSysMenu.getLevel();
+                int level = tempSysMenu.getNodeLevel();
                 if (tempParentIds != null && tempParentIds.length > 2 && tempParentIds[0].equals(sysMenu.getId())) {
                     tempParentIds = parentIds.split(sysMenu.getId() + ",");
                     if (StringUtils.isEmpty(sysMenu.getParentIds())) {
@@ -112,10 +112,10 @@ public class SysMenuService extends AbstractTreeService<SysMenuDao, SysMenuPO, S
                     } else {
                         parentIds = sysMenu.getParentIds() + "," + sysMenu.getId() + "," + tempParentIds[1];
                     }
-                    level = sysMenu.getLevel() + tempParentIds[1].split(",").length + 1;
+                    level = sysMenu.getNodeLevel() + tempParentIds[1].split(",").length + 1;
                 } else if (tempParentIds != null && tempParentIds.length > 2 && tempParentIds[tempParentIds.length - 1].equals(sysMenu.getId())) {
                     parentIds = sysMenu.getParentIds() + "," + sysMenu.getId();
-                    level = sysMenu.getLevel() + 1;
+                    level = sysMenu.getNodeLevel() + 1;
                 } else if (tempParentIds != null && tempParentIds.length > 2) {
                     tempParentIds = parentIds.split("," + sysMenu.getId() + ",");
                     if (StringUtils.isEmpty(sysMenu.getParentIds())) {
@@ -123,24 +123,24 @@ public class SysMenuService extends AbstractTreeService<SysMenuDao, SysMenuPO, S
                     } else {
                         parentIds = sysMenu.getParentIds() + "," + sysMenu.getId() + "," + tempParentIds[1];
                     }
-                    level = sysMenu.getLevel() + tempParentIds[1].split(",").length + 1;
+                    level = sysMenu.getNodeLevel() + tempParentIds[1].split(",").length + 1;
                 } else if (tempParentIds != null && tempParentIds.length == 2 && tempParentIds[0].equals(sysMenu.getId())) {
                     if (StringUtils.isEmpty(sysMenu.getParentIds())) {
                         parentIds = sysMenu.getId() + "," + tempSysMenu.getParentId();
                     } else {
                         parentIds = sysMenu.getParentIds() + "," + sysMenu.getId() + "," + tempSysMenu.getParentId();
                     }
-                    level = sysMenu.getLevel() + 2;
+                    level = sysMenu.getNodeLevel() + 2;
                 } else {
                     if (StringUtils.isEmpty(sysMenu.getParentIds())) {
                         parentIds = sysMenu.getId();
                     } else {
                         parentIds = sysMenu.getParentIds() + "," + sysMenu.getId();
                     }
-                    level = sysMenu.getLevel() + 1;
+                    level = sysMenu.getNodeLevel() + 1;
                 }
                 tempSysMenu.setParentIds(parentIds);
-                tempSysMenu.setLevel(level);
+                tempSysMenu.setNodeLevel(level);
                 tempSysMenu.setModuleLabel(sysMenu.getModuleLabel());
                 String parentPermission = sysMenu.getPermission();
                 String moduleLabelPermission = parentPermission.split(":")[0];

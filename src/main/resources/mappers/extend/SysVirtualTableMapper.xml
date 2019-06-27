@@ -5,8 +5,8 @@
 
 	<sql id="columnList">
 		sysVirtualTable.id AS "id",
-		sysVirtualTable.name AS "name",
-		sysVirtualTable.comment AS "comment",
+		sysVirtualTable.virtual_table_name AS "virtualTableName",
+		sysVirtualTable.comments AS "comments",
         sysVirtualTable.sys_namespace_id AS "sysNamespaceId",
         sysVirtualTable.sys_dbsource_id AS "SysDbsourceId",
         sysVirtualTable.create_by AS "createBy",
@@ -17,8 +17,8 @@
 	<sql id="commonWhere">
 		<where>
 			<if test="data != null">
-				<if test="data.name != null and data.name != '' ">
-					AND sysVirtualTable.name = #{data.name}
+				<if test="data.virtualTableName != null and data.virtualTableName != '' ">
+					AND sysVirtualTable.virtual_table_name = #{data.virtualTableName}
 				</if>
 				<if test="data.sysNamespaceId != null ">
 					AND sysVirtualTable.sys_namespace_id = #{data.sysNamespaceId}
@@ -100,11 +100,11 @@
 	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO sys_virtual_table
 		<trim prefix="(" suffix=")" suffixOverrides=",">
-			<if test="name != null">
-				name,
+			<if test="virtualTableName != null">
+				virtual_table_name,
 			</if>
-			<if test="comment != null">
-				comment,
+			<if test="comments != null">
+				comments,
 			</if>
 			<if test="sysNamespaceId != null">
 				sys_namespace_id,
@@ -130,11 +130,11 @@
 		</trim>
 		VALUES
 		<trim prefix="(" suffix=")" suffixOverrides=",">
-			<if test="name != null">
-				#{name},
+			<if test="virtualTableName != null">
+				#{virtualTableName},
 			</if>
-			<if test="comment != null">
-				#{comment},
+			<if test="comments != null">
+				#{comments},
 			</if>
 			<if test="sysNamespaceId != null">
 				#{sysNamespaceId},
@@ -163,11 +163,11 @@
 	<update id="update">
 		UPDATE sys_virtual_table
 		<set>
-			<if test="name != null">
-				name = #{name},
+			<if test="virtualTableName != null">
+				virtual_table_name = #{virtualTableName},
 			</if>
-			<if test="comment != null">
-				comment = #{comment},
+			<if test="comments != null">
+				comments = #{comments},
 			</if>
 			<if test="updateBy != null">
 				update_by = #{updateBy},

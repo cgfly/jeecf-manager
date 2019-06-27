@@ -20,10 +20,9 @@ import io.swagger.annotations.ApiModelProperty;
  *
  * @param <T>
  */
-@ScriptAssert.List({ 
-    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.name)", message = "{tree.name.isEmpty}", groups = { Add.class }),
-    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notNull(_this.id,_this.sort)", message = "{tree.sort.isEmpty}", groups = { Add.class })
-})
+@ScriptAssert.List({
+        @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.nodeName)", message = "{tree.nodeName.isEmpty}", groups = { Add.class }),
+        @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notNull(_this.id,_this.sort)", message = "{tree.sort.isEmpty}", groups = { Add.class }) })
 public abstract class AbstractTreePermissionEntity<T> extends PermissionEntity implements Serializable {
 
     /**
@@ -34,8 +33,8 @@ public abstract class AbstractTreePermissionEntity<T> extends PermissionEntity i
     /**
      * 名称
      */
-    @ApiModelProperty(value = "名称", name = "name")
-    private String name;
+    @ApiModelProperty(value = "名称", name = "nodeName")
+    private String nodeName;
 
     /**
      * 父层索引
@@ -52,8 +51,8 @@ public abstract class AbstractTreePermissionEntity<T> extends PermissionEntity i
     /**
      * 等级
      */
-    @ApiModelProperty(value = "等级", name = "level")
-    private Integer level;
+    @ApiModelProperty(value = "等级", name = "nodeLevel")
+    private Integer nodeLevel;
 
     /**
      * 同级排序
@@ -82,13 +81,13 @@ public abstract class AbstractTreePermissionEntity<T> extends PermissionEntity i
         super(id);
     }
 
-    @Length(min = 1, max = 20, message = "{tree.name.length}", groups = { Add.class })
-    public String getName() {
-        return name;
+    @Length(min = 1, max = 20, message = "{tree.nodeName.length}", groups = { Add.class })
+    public String getNodeName() {
+        return nodeName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setNodeName(String nodeName) {
+        this.nodeName = nodeName;
     }
 
     public String getParentId() {
@@ -107,12 +106,12 @@ public abstract class AbstractTreePermissionEntity<T> extends PermissionEntity i
         this.parentIds = parentIds;
     }
 
-    public Integer getLevel() {
-        return level;
+    public Integer getNodeLevel() {
+        return nodeLevel;
     }
 
-    public void setLevel(Integer level) {
-        this.level = level;
+    public void setNodeLevel(Integer nodeLevel) {
+        this.nodeLevel = nodeLevel;
     }
 
     @Min(value = 1, message = "{tree.sort.min}", groups = { Add.class })

@@ -76,14 +76,14 @@ public class SysDictController implements CurdController<SysDictQuery, SysDictRe
     @ApiOperation(value = "更新", notes = "更新系统字典数据")
     @Override
     public Response<SysDictResult> save(@RequestBody @Validated({ Add.class }) SysDict sysDict) {
-        sysDict.setType(StringUtils.lowerCase(sysDict.getType()));
+        sysDict.setDictType(StringUtils.lowerCase(sysDict.getDictType()));
         if (!sysDict.getLabel().contains(SplitCharEnum.UNDERLINE.getName())) {
             sysDict.setLabel(HumpUtils.humpToLine2(sysDict.getLabel()));
         }
         sysDict.setLabel(StringUtils.upperCase(sysDict.getLabel()));
         if (sysDict.isNewRecord()) {
             SysDictQuery query = new SysDictQuery();
-            query.setType(sysDict.getType());
+            query.setDictType(sysDict.getDictType());
             query.setLabel(sysDict.getLabel());
             query.setSysNamespaceId(NamespaceUtils.getNamespaceId());
             List<SysDictResult> sysDictList = sysDictService.findList(new SysDictPO(query)).getData();

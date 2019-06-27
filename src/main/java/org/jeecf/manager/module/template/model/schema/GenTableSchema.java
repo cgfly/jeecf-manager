@@ -17,8 +17,8 @@ public class GenTableSchema {
     /**
      * 名称
      */
-    @ApiModelProperty(value = "名称", name = "name")
-    private boolean name = true;
+    @ApiModelProperty(value = "名称", name = "genTableName")
+    private boolean genTableName = true;
 
     /**
      * 命名空间
@@ -36,7 +36,7 @@ public class GenTableSchema {
      * 注释
      */
     @ApiModelProperty(value = "注释", name = "comments")
-    private boolean comment = true;
+    private boolean comments = true;
 
     /**
      * 父表id
@@ -68,12 +68,12 @@ public class GenTableSchema {
         this.id = id;
     }
 
-    public boolean isName() {
-        return name;
+    public boolean isGenTableName() {
+        return genTableName;
     }
 
-    public void setName(boolean name) {
-        this.name = name;
+    public void setGenTableName(boolean genTableName) {
+        this.genTableName = genTableName;
     }
 
     public boolean isSysNamespaceId() {
@@ -92,12 +92,12 @@ public class GenTableSchema {
         this.className = className;
     }
 
-    public boolean isComment() {
-        return comment;
+    public boolean isComments() {
+        return comments;
     }
 
-    public void setComment(boolean comment) {
-        this.comment = comment;
+    public void setComments(boolean comments) {
+        this.comments = comments;
     }
 
     public boolean isParentTable() {

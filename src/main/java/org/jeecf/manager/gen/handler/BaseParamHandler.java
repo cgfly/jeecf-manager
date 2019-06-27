@@ -37,7 +37,7 @@ public class BaseParamHandler extends AbstractHandler {
         params.put("username", this.contextParams.getUserId());
         if (CollectionUtils.isNotEmpty(genParamsList)) {
             genParamsList.forEach(genParam -> {
-                params.put(genParam.getName(), genParam.getValue());
+                params.put(genParam.getColumnName(), genParam.getValue());
             });
         }
         this.chainContext.next();

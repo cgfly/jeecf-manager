@@ -14,7 +14,7 @@ import io.swagger.annotations.ApiModelProperty;
  * @author jianyiming
  *
  */
-@ScriptAssert.List({ @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.name)", message = "{plugin.name.isEmpty}", groups = { Add.class }),
+@ScriptAssert.List({ @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.pluginName)", message = "{plugin.pluginName.isEmpty}", groups = { Add.class }),
         @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notNull(_this.id,_this.pluginType)", message = "{plugin.pluginType.isEmpty}", groups = { Add.class }),
         @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notNull(_this.id,_this.description)", message = "{plugin.description.isEmpty}", groups = { Add.class }) })
 public class SysOsgiPlugin extends NamespaceAuthEntity {
@@ -29,8 +29,8 @@ public class SysOsgiPlugin extends NamespaceAuthEntity {
     /**
      * 名称
      */
-    @ApiModelProperty(value = "名称", name = "name")
-    private String name;
+    @ApiModelProperty(value = "名称", name = "pluginName")
+    private String pluginName;
     /**
      * 插件类型
      */
@@ -47,14 +47,14 @@ public class SysOsgiPlugin extends NamespaceAuthEntity {
     @ApiModelProperty(value = "描述", name = "description")
     private String description;
 
-    @Length(min = 1, max = 50, message = "{plugin.name.length}", groups = { Add.class })
-    @English(message = "{plugin.name.english}",groups = { Add.class })
-    public String getName() {
-        return name;
+    @Length(min = 1, max = 50, message = "{plugin.pluginName.length}", groups = { Add.class })
+    @English(message = "{plugin.pluginName.english}",groups = { Add.class })
+    public String getPluginName() {
+        return pluginName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setPluginName(String pluginName) {
+        this.pluginName = pluginName;
     }
 
     public Integer getBoundleType() {

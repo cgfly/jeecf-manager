@@ -5,7 +5,7 @@
 
 	<sql id="columnList">
 		sysRole.id AS "id",
-		sysRole.name AS "name",
+		sysRole.role_name AS "roleName",
 		sysRole.enname AS
 		"enname",
 		sysRole.remark AS "remark",
@@ -20,8 +20,8 @@
 	<sql id="commonWhere">
 		<where>
 			<if test="data != null">
-				<if test="data.name != null and data.name != '' ">
-					And sysRole.name LIKE concat('%',#{data.name},'%')
+				<if test="data.roleName != null and data.roleName != '' ">
+					And sysRole.role_name LIKE concat('%',#{data.roleName},'%')
 				</if>
 				<if test="data.enname != null and data.enname != '' ">
 					And sysRole.enname LIKE concat('%',#{data.enname},'%')
@@ -111,8 +111,8 @@
 	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
 		insert into sys_role
 		<trim prefix="(" suffix=")" suffixOverrides=",">
-			<if test="name != null">
-				name,
+			<if test="roleName != null">
+				role_name,
 			</if>
 			<if test="enname != null">
 				enname,
@@ -135,8 +135,8 @@
 		</trim>
 		values
 		<trim prefix="(" suffix=")" suffixOverrides=",">
-			<if test="name != null">
-				#{name},
+			<if test="roleName != null">
+				#{roleName},
 			</if>
 			<if test="enname != null">
 				#{enname},
@@ -162,8 +162,8 @@
 	<update id="update">
 		update sys_role
 		<set>
-			<if test="name != null">
-				name = #{name},
+			<if test="roleName != null">
+				role_name = #{roleName},
 			</if>
 			<if test="enname != null">
 				enname = #{enname},

@@ -24,7 +24,7 @@ public class SysVirtualTableColumnResult extends SysVirtualTableColumn implement
      * 类型名称
      */
     @ApiModelProperty(value = "类型名称", name = "typeName")
-    private String typeName;
+    private String columnTypeName;
     /**
      * 为空名称
      */
@@ -42,12 +42,12 @@ public class SysVirtualTableColumnResult extends SysVirtualTableColumn implement
     @ApiModelProperty(value = "是否自增名称", name = "isAutoName")
     private String isAutoName;
 
-    public String getTypeName() {
-        return typeName;
+    public String getColumnTypeName() {
+        return columnTypeName;
     }
 
-    public void setTypeName(String typeName) {
-        this.typeName = typeName;
+    public void setColumnTypeName(String columnTypeName) {
+        this.columnTypeName = columnTypeName;
     }
 
     public String getIsNotNullName() {
@@ -75,8 +75,8 @@ public class SysVirtualTableColumnResult extends SysVirtualTableColumn implement
     }
 
     public void toCovert() {
-        if (this.getType() != null) {
-            this.setTypeName(TableTypeEnum.getName(this.getType()));
+        if (this.getColumnType() != null) {
+            this.setColumnTypeName(TableTypeEnum.getName(this.getColumnType()));
         }
         if (this.getIsNotNull() != null) {
             this.setIsNotNullName(IfTypeEnum.getName(this.getIsNotNull()));

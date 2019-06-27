@@ -4,10 +4,10 @@
 
 	<sql id="columnList">
 		sysTableDict.id AS "id",
-		sysTableDict.name AS "name",
-		sysTableDict.table_name AS "tableName",
+		sysTableDict.dict_name AS "dictName",
+		sysTableDict.dict_table_name AS "dictTableName",
 		sysTableDict.field AS "field",
-		sysTableDict.comment AS "comment",
+		sysTableDict.comments AS "comments",
 		sysTableDict.description AS "description",
 		sysTableDict.sys_namespace_id AS "sysNamespaceId",
 		sysTableDict.sys_dbsource_id AS "sysDbsourceId",
@@ -21,11 +21,11 @@
 	<sql id="commonWhere">
 		<where>
 			<if test="data != null">
-				<if test="data.name != null  ">
-					And sysTableDict.name = #{data.name}
+				<if test="data.dictName != null  ">
+					And sysTableDict.dict_name = #{data.dictName}
 				</if>
-				<if test="data.tableName != null and data.tableName != '' ">
-					And sysTableDict.table_name = #{data.tableName}
+				<if test="data.dictTableName != null and data.dictTableName != '' ">
+					And sysTableDict.dict_table_name = #{data.dictTableName}
 				</if>
 				<if test="data.sysNamespaceId != null ">
 					And sysTableDict.sys_namespace_id = #{data.sysNamespaceId}
@@ -77,7 +77,7 @@
 			</foreach>
 		</if>
 		<if test="sorts == null">
-			ORDER BY sysTableDict.name,sysTableDict.sys_namespace_id,sysTableDict.sys_dbsource_id asc 
+			ORDER BY sysTableDict.dict_name,sysTableDict.sys_namespace_id,sysTableDict.sys_dbsource_id asc 
 		</if>
 	</sql>
 
@@ -120,17 +120,17 @@
 	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
 		insert into sys_table_dict
 		<trim prefix="(" suffix=")" suffixOverrides=",">
-			<if test="name != null">
-				name,
+			<if test="dictName != null">
+				dict_name,
 			</if>
-			<if test="tableName != null">
-				table_name,
+			<if test="dictTableName != null">
+				dict_table_name,
 			</if>
 			<if test="field != null">
 				field,
 			</if>
-			<if test="comment != null">
-				comment,
+			<if test="comments != null">
+				comments,
 			</if>
 			<if test="description != null">
 				description,
@@ -159,17 +159,17 @@
 		</trim>
 		values
 		<trim prefix="(" suffix=")" suffixOverrides=",">
-			<if test="name != null">
-				#{name},
+			<if test="dictName != null">
+				#{dictName},
 			</if>
-			<if test="tableName != null">
-				#{tableName},
+			<if test="dictTableName != null">
+				#{dictTableName},
 			</if>
 			<if test="field != null">
 				#{field},
 			</if>
-		    <if test="comment != null">
-				#{comment},
+		    <if test="comments != null">
+				#{comments},
 			</if>
 			<if test="description != null">
 				#{description},
@@ -201,17 +201,17 @@
 	<update id="update">
 		update sys_table_dict
 		<set>
-			<if test="name != null">
-				name = #{name},
+			<if test="dictName != null">
+				dict_name = #{dictName},
 			</if>
 			<if test="field != null">
 				field = #{field},
 			</if>
-			<if test="tableName != null">
-				table_name = #{tableName},
+			<if test="dictTableName != null">
+				dict_table_name = #{dictTableName},
 			</if>
-			<if test="comment != null">
-				comment = #{comment},
+			<if test="comments != null">
+				comments = #{comments},
 			</if>
 			<if test="description != null">
 				description = #{description},

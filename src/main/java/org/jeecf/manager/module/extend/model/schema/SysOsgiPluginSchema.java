@@ -17,8 +17,8 @@ public class SysOsgiPluginSchema {
     /**
      * 名称
      */
-    @ApiModelProperty(value = "名称", name = "name")
-    private boolean name = true;
+    @ApiModelProperty(value = "名称", name = "pluginName")
+    private boolean pluginName = true;
     /**
      * 插件绑定类型
      */
@@ -68,12 +68,12 @@ public class SysOsgiPluginSchema {
         this.id = id;
     }
 
-    public boolean isName() {
-        return name;
+    public boolean isPluginName() {
+        return pluginName;
     }
 
-    public void setName(boolean name) {
-        this.name = name;
+    public void setPluginName(boolean pluginName) {
+        this.pluginName = pluginName;
     }
 
     public boolean isBoundleType() {

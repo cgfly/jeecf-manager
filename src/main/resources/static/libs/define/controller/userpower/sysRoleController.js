@@ -77,6 +77,7 @@ define([ 'app', '$httpRequest','$page','$ctx','$jBoxcm','$zTreecm' ], function(a
 		                	    }
 		                	    var setting = $zTreecm.setting({
 		                	    	treeId : "updateTree",
+		                	    	data : {key:{name:"nodeName"}},
 		                	        onCheck: function(e,treeId,treeNode){
 								        var treeObj=$.fn.zTree.getZTreeObj("updateTree");
 								        nodes=treeObj.getCheckedNodes(true);
@@ -141,6 +142,7 @@ define([ 'app', '$httpRequest','$page','$ctx','$jBoxcm','$zTreecm' ], function(a
 						if (res.success) {
 	                	    var setting = $zTreecm.setting({
 	                	    	treeId : "tree",
+	                	    	data : {key:{name:"nodeName"}},
 	                	        onCheck: function(e,treeId,treeNode){
 	                	        	 var treeObj=$.fn.zTree.getZTreeObj("tree"),
 						             nodes=treeObj.getCheckedNodes(true);
@@ -151,6 +153,7 @@ define([ 'app', '$httpRequest','$page','$ctx','$jBoxcm','$zTreecm' ], function(a
 						             }
 							    }
 	                	    });
+	                	    console.log(res.data);
 						    $.fn.zTree.init( $("#tree"), setting, res.data);
 						} else {
 							$jBoxcm.error("查询数据失败,"+res.errorMessage);

@@ -4,21 +4,20 @@
 
 	<sql id="columnList">
 		sysTreeDict.id AS "id",
-		sysTreeDict.name AS "name",
+		sysTreeDict.node_name AS "nodeName",
 		sysTreeDict.parent_id AS "parentId",
 		sysTreeDict.parent_ids AS "parentIds",
-		sysTreeDict.level AS "level",
+		sysTreeDict.node_level AS "nodeLevel",
 		sysTreeDict.sort AS "sort",
 		sysTreeDict.description AS "description",
 		sysTreeDict.sys_namespace_id AS "sysNamespaceId",
-		sysTreeDict.left_equal AS "leftEqual",
-		sysTreeDict.event AS "event",
-		sysTreeDict.right_equal AS "rightEqual",
-		sysTreeDict.result AS "result",
+		sysTreeDict.input AS "input",
+		sysTreeDict.calculation AS "calculation",
+		sysTreeDict.output AS "output",
 		sysTreeDict.group_name AS "groupName",
 		
 		parent.id As "parent.id",
-		parent.name As "parent.name",
+		parent.node_name As "parent.nodeName",
 
 		sysTreeDict.create_by AS "createBy",
 		sysTreeDict.create_date AS "createDate",
@@ -34,8 +33,8 @@
 				<if test="data.groupName != null and data.groupName != '' ">
 					And sysTreeDict.group_name = #{data.groupName}
 				</if>
-				<if test="data.name != null and data.name != '' ">
-					And sysTreeDict.name = #{data.name}
+				<if test="data.nodeName != null and data.nodeName != '' ">
+					And sysTreeDict.node_name = #{data.nodeName}
 				</if>
 				<if test="data.sysNamespaceId != null and data.sysNamespaceId != '' ">
 					And sysTreeDict.sys_namespace_id = #{data.sysNamespaceId}
@@ -46,8 +45,8 @@
                 <if test="data.parentIds != null and data.parentIds != '' ">
                     And sysTreeDict.parent_ids like CONCAT('%',#{data.parentIds},'%')
                 </if>
-                <if test="data.level != null and data.level != '' ">
-                    And sysTreeDict.level = #{data.level}
+                <if test="data.nodeLevel != null and data.nodeLevel != '' ">
+                    And sysTreeDict.node_level = #{data.nodeLevel}
                 </if>
                 <if test="data.sort != null and data.sort != '' ">
                     And sysTreeDict.sort = #{data.sort}
@@ -132,8 +131,8 @@
 	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
 		insert into sys_tree_dict
 		<trim prefix="(" suffix=")" suffixOverrides=",">
-			<if test="name != null">
-				name,
+			<if test="nodeName != null">
+				node_name,
 			</if>
 			<if test="parentId != null">
 				parent_id,
@@ -141,23 +140,20 @@
 			<if test="parentIds != null">
 				parent_ids,
 			</if>
-			<if test="level != null">
-				level,
+			<if test="nodeLevel != null">
+				node_level,
 			</if>
 			<if test="sort != null">
 				sort,
 			</if>
-			<if test="leftEqual != null">
-				left_equal,
+			<if test="input != null">
+				input,
 			</if>
-			<if test="event != null">
-				event,
+			<if test="calculation != null">
+				calculation,
 			</if>
-			<if test="rightEqual != null">
-				right_equal,
-			</if>
-			<if test="result != null">
-				result,
+			<if test="output != null">
+				output,
 			</if>
 			<if test="groupName != null">
 				group_name,
@@ -186,8 +182,8 @@
 		</trim>
 		values
 		<trim prefix="(" suffix=")" suffixOverrides=",">
-			<if test="name != null">
-				#{name},
+			<if test="nodeName != null">
+				#{nodeName},
 			</if>
 			<if test="parentId != null">
 				#{parentId},
@@ -195,23 +191,20 @@
 			<if test="parentIds != null">
 				#{parentIds},
 			</if>
-			<if test="level != null">
-				#{level},
+			<if test="nodeLevel != null">
+				#{nodeLevel},
 			</if>
 			<if test="sort != null">
 				#{sort},
 			</if>
-	    	<if test="leftEqual != null">
-				#{leftEqual},
+	    	<if test="input != null">
+				#{input},
 			</if>
-			<if test="event != null">
-				#{event},
+			<if test="calculation != null">
+				#{calculation},
 			</if>
-		    <if test="rightEqual != null">
-				#{rightEqual},
-			</if>
-			<if test="result != null">
-				#{result},
+		    <if test="output != null">
+				#{output},
 			</if>
 			<if test="groupName != null">
 				#{groupName},
@@ -243,8 +236,8 @@
 	<update id="update">
 		update sys_tree_dict
 		<set>
-			<if test="name != null">
-				name = #{name},
+			<if test="nodeName != null">
+				node_name = #{nodeName},
 			</if>
 			<if test="parentId != null">
 				parent_id = #{parentId},
@@ -252,23 +245,20 @@
 			<if test="parentIds != null">
 				parent_ids = #{parentIds},
 			</if>
-			<if test="level != null">
-				level = #{level},
+			<if test="nodeLevel != null">
+				node_level = #{nodeLevel},
 			</if>
 			<if test="sort != null">
 				sort = #{sort},
 			</if>
-			<if test="leftEqual != null">
-				left_equal = #{leftEqual},
+			<if test="input != null">
+				input = #{input},
 			</if>
-			<if test="event != null">
-				event = #{event},
+			<if test="calculation != null">
+				calculation = #{calculation},
 			</if>
-			<if test="rightEqual != null">
-				right_equal = #{rightEqual},
-			</if>
-			<if test="result != null">
-				result = #{result},
+			<if test="output != null">
+				output = #{output},
 			</if>
 			<if test="groupName != null">
 				group_name = #{groupName},

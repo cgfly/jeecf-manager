@@ -47,7 +47,7 @@ public class TableHookImpl implements TableHook {
     @Override
     public BaseTable build(String tableName) {
         GenTableQuery queryGenTable = new GenTableQuery();
-        queryGenTable.setName(tableName);
+        queryGenTable.setGenTableName(tableName);
         List<GenTableResult> genTableList = GEN_TABLE_SERVICE.findListByAuth(new GenTablePO(queryGenTable)).getData();
         GenTableResult genTable = null;
         if (CollectionUtils.isEmpty(genTableList)) {

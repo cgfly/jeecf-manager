@@ -84,10 +84,10 @@ public class GenTableController implements CurdController<GenTableQuery, GenTabl
     public Response<GenTableResult> save(@RequestBody @Validated({ Add.class }) GenTable genTable) {
         if (genTable.isNewRecord()) {
             GenTableQuery queryTable = new GenTableQuery();
-            queryTable.setName(genTable.getName());
+            queryTable.setGenTableName(genTable.getGenTableName());
             List<GenTableResult> genTableList = genTableService.findListByAuth(new GenTablePO(queryTable)).getData();
             if (CollectionUtils.isNotEmpty(genTableList)) {
-                throw new BusinessException(BusinessErrorEnum.DATA_EXIT);
+                genTable.setId(genTableList.get(0).getId());
             }
         }
         return genTableFacade.saveTable(genTable);
@@ -116,7 +116,7 @@ public class GenTableController implements CurdController<GenTableQuery, GenTabl
     @ApiOperation(value = "列表", notes = "查询代码生成基本字段表数据")
     public Response<List<GenTableColumnResult>> getBaseTableColumnList(@PathVariable String tableName) {
         GenTableQuery queryTable = new GenTableQuery();
-        queryTable.setName(tableName);
+        queryTable.setGenTableName(tableName);
         Response<List<GenTableResult>> genTableRes = genTableService.findListByAuth(new GenTablePO(queryTable));
         if (CollectionUtils.isNotEmpty(genTableRes.getData())) {
             GenTableColumnQuery queryTableColumn = new GenTableColumnQuery();

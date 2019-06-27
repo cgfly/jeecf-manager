@@ -29,8 +29,8 @@ public class SysUserSchema {
     /**
      * 用户名
      */
-    @ApiModelProperty(value = "用户名", name = "name")
-    private boolean name = true;
+    @ApiModelProperty(value = "用户名", name = "realName")
+    private boolean realName = true;
     /**
      * 组织结构id
      */
@@ -69,12 +69,12 @@ public class SysUserSchema {
         this.username = username;
     }
 
-    public boolean isName() {
-        return name;
+    public boolean isRealName() {
+        return realName;
     }
 
-    public void setName(boolean name) {
-        this.name = name;
+    public void setRealName(boolean realName) {
+        this.realName = realName;
     }
 
     public boolean isRoleNames() {

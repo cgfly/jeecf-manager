@@ -19,8 +19,8 @@ public class SysOfficeSchema {
     /**
      * 名称
      */
-    @ApiModelProperty(value = "名称", name = "name")
-    private boolean name = true;
+    @ApiModelProperty(value = "名称", name = "nodeName")
+    private boolean nodeName = true;
 
     /**
      * 英文名称
@@ -49,8 +49,8 @@ public class SysOfficeSchema {
     /**
      * 等级
      */
-    @ApiModelProperty(value = "等级", name = "level")
-    private boolean level = true;
+    @ApiModelProperty(value = "等级", name = "nodeLevel")
+    private boolean nodeLevel = true;
 
     /**
      * 同级排序
@@ -66,12 +66,12 @@ public class SysOfficeSchema {
         this.id = id;
     }
 
-    public boolean isName() {
-        return name;
+    public boolean isNodeName() {
+        return nodeName;
     }
 
-    public void setName(boolean name) {
-        this.name = name;
+    public void setNodeName(boolean nodeName) {
+        this.nodeName = nodeName;
     }
 
     public boolean isEnname() {
@@ -98,12 +98,12 @@ public class SysOfficeSchema {
         this.parentIds = parentIds;
     }
 
-    public boolean isLevel() {
-        return level;
+    public boolean isNodeLevel() {
+        return nodeLevel;
     }
 
-    public void setLevel(boolean level) {
-        this.level = level;
+    public void setNodeLevel(boolean nodeLevel) {
+        this.nodeLevel = nodeLevel;
     }
 
     public boolean isSort() {

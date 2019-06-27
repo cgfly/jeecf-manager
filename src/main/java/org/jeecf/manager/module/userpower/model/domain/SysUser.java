@@ -21,7 +21,7 @@ import io.swagger.annotations.ApiModelProperty;
  * @version 1.0
  */
 @ScriptAssert.List({ 
-    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.name)", message = "{user.name.isEmpty}", groups = { Add.class }),
+    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.realName)", message = "{user.realName.isEmpty}", groups = { Add.class }),
     @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.username)", message = "{user.username.isEmpty}", groups = { Add.class }),
     @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.password)", message = "{user.password.isEmpty}", groups = { Add.class }),
     @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notNull(_this.id,_this.sysRoleIds)", message = "{user.roleIds.isNull}", groups = { Add.class }) 
@@ -45,8 +45,8 @@ public class SysUser extends OfficeAuthEntity implements Serializable {
     /**
      * 用户名
      */
-    @ApiModelProperty(value = "用户名", name = "name")
-    private String name;
+    @ApiModelProperty(value = "用户名", name = "realName")
+    private String realName;
 
     /**
      * 角色集合
@@ -82,13 +82,13 @@ public class SysUser extends OfficeAuthEntity implements Serializable {
         this.password = password;
     }
 
-    @Length(min = 1, max = 20, message = "{user.name.length}", groups = { Add.class })
-    public String getName() {
-        return name;
+    @Length(min = 1, max = 20, message = "{user.realName.length}", groups = { Add.class })
+    public String getRealName() {
+        return realName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setRealName(String realName) {
+        this.realName = realName;
     }
 
     @Size(min = 1, max = 5, message = "{user.roleIds.size}超过范围，最大可添加5个参数", groups = { Add.class })

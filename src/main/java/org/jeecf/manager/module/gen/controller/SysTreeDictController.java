@@ -63,7 +63,6 @@ public class SysTreeDictController implements CurdController<SysTreeDictQuery, S
         if (CollectionUtils.isNotEmpty(sysTreeDictRes.getData())) {
             sysTreeDictRes.getData().forEach(sysTreeDictResult -> {
                 sysTreeDictService.buildCreateBy(sysTreeDictRes.getData());
-                sysTreeDictResult.toCovert();
             });
         }
         return sysTreeDictRes;
@@ -89,7 +88,7 @@ public class SysTreeDictController implements CurdController<SysTreeDictQuery, S
     public Response<SysTreeDictResult> save(@RequestBody @Validated({ Add.class }) SysTreeDict sysTreeDict) {
         if (sysTreeDict.isNewRecord()) {
             SysTreeDictQuery query = new SysTreeDictQuery();
-            query.setName(sysTreeDict.getName());
+            query.setNodeName(sysTreeDict.getNodeName());
             query.setSysNamespaceId(NamespaceUtils.getNamespaceId());
             List<SysTreeDictResult> sysTreeDictList = sysTreeDictService.findList(new SysTreeDictPO(query)).getData();
             if (CollectionUtils.isNotEmpty(sysTreeDictList)) {

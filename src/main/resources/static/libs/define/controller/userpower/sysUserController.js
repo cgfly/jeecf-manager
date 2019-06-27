@@ -69,7 +69,7 @@ define([ 'app', '$httpRequest','$page','$ctx','$jBoxcm' ], function(app, $httpRe
 			$('#updateModal #updateOfficeTreeId').find('input[name="selectedName"]').val(null);
 			angular.copy($scope.sysUserList[index], $scope.updateSysUser);
 			if($scope.updateSysUser.sysOffice != null ){
-				   $('#updateModal #updateOfficeTreeId').find('input[name="selectedName"]').val($scope.updateSysUser.sysOffice.name);
+				   $('#updateModal #updateOfficeTreeId').find('input[name="selectedName"]').val($scope.updateSysUser.sysOffice.nodeName);
 		    }
 			$httpRequest.post($ctx.getWebPath()+"userpower/sysUser/roles/"+$scope.updateSysUser.id).then(function(res) { 
 				if (res.success) {

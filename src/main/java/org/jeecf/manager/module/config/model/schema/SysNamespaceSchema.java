@@ -22,8 +22,8 @@ public class SysNamespaceSchema {
     /**
      * 名称
      */
-    @ApiModelProperty(value = "名称", name = "name")
-    private boolean name = true;
+    @ApiModelProperty(value = "名称", name = "namespaceName")
+    private boolean namespaceName = true;
 
     /**
      * 逻辑删除
@@ -59,12 +59,12 @@ public class SysNamespaceSchema {
         this.permission = permission;
     }
 
-    public boolean isName() {
-        return name;
+    public boolean isNamespaceName() {
+        return namespaceName;
     }
 
-    public void setName(boolean name) {
-        this.name = name;
+    public void setNamespaceName(boolean namespaceName) {
+        this.namespaceName = namespaceName;
     }
 
     public boolean isDescription() {

@@ -54,11 +54,11 @@ define([ 'app', '$httpRequest','$page','$ctx','$jBoxcm' ], function(app, $httpRe
 			});
 		}
 		$scope.addModal = function(index){
-			$scope.sysOffice.name = undefined;
+			$scope.sysOffice.nodeName = undefined;
 			$scope.sysOffice.enname = undefined;
 			$scope.sysOffice.parentId = $scope.sysOfficeList[index].id;
 			$scope.sysOffice.sort = parseInt($scope.sysOfficeList[index].sort)+10;
-		    $('#sysOfficeFormTab #insertTreeId').find('input[name="selectedName"]').val($scope.sysOfficeList[index].name);
+		    $('#sysOfficeFormTab #insertTreeId').find('input[name="selectedName"]').val($scope.sysOfficeList[index].nodeName);
 			$scope.sysOffice.remark = undefined;
 			$('#top-tab a[href="#sysOfficeFormTab"]').tab('show');
 		}
@@ -67,7 +67,7 @@ define([ 'app', '$httpRequest','$page','$ctx','$jBoxcm' ], function(app, $httpRe
 			$('#updateModal').modal('show');
 			angular.copy($scope.sysOfficeList[index], $scope.updateSysOffice);
 			if($scope.updateSysOffice.parent != null){
-			   $('#updateModal #updateTreeId').find('input[name="selectedName"]').val($scope.updateSysOffice.parent.name);
+			   $('#updateModal #updateTreeId').find('input[name="selectedName"]').val($scope.updateSysOffice.parent.nodeName);
 			}
 		}
 		

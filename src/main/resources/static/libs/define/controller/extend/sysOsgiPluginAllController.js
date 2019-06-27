@@ -98,9 +98,13 @@ define([ 'app', '$httpRequest', '$page', '$ctx', '$jBoxcm' ], function(app,
 			$scope.updateSysOsgiPluginAll = {};
 			$scope.sysOsgiPluginAll = {"version":"1.0.0"};
 			$page.init($scope, $page.getPageSize());
+			$scope.searchOsgiBoundleTypeList = [{"name":"-- 全部 --"}]
 			$ctx.getEnum($rootScope,"osgiBoundleTypeEnum",function(result){
 				$scope.$apply(function () {
 					$scope.osgiBoundleTypeEnums = result;
+					for(var i in result){
+						$scope.searchOsgiBoundleTypeList.push(result[i]);
+					}
 				});
 			});
 		}
@@ -115,7 +119,7 @@ define([ 'app', '$httpRequest', '$page', '$ctx', '$jBoxcm' ], function(app,
 			 $httpRequest.upload(url,fd).then(function(res) {
 		        		$(fileId).modal('hide');
 						if (res.success) { 
-							sysOsgiPluginAll.name = res.data;
+							sysOsgiPluginAll.pluginName = res.data;
 							$httpRequest.post($ctx.getWebPath() + "extend/sysOsgiPluginAll/save",
 									sysOsgiPluginAll).then(function(res) {
 								if (res.success) {
@@ -124,7 +128,6 @@ define([ 'app', '$httpRequest', '$page', '$ctx', '$jBoxcm' ], function(app,
 										 $state.reload($scope.currentRouteName);
 				  					  }, 500);
 								} else {
-									  console.log(res.errorMessage);
 									$jBoxcm.error("保存数据失败," + res.errorMessage);
 								}
 							});

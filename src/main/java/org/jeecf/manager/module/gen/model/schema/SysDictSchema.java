@@ -15,12 +15,12 @@ public class SysDictSchema {
     /**
      * 类型
      */
-    private boolean type = true;
+    private boolean dictType = true;
 
     /**
      * 名称
      */
-    private boolean name = true;
+    private boolean dictName = true;
 
     /**
      * 标签
@@ -30,7 +30,7 @@ public class SysDictSchema {
     /**
      * 值
      */
-    private boolean value = true;
+    private boolean dictValue = true;
 
     /**
      * 描述
@@ -45,20 +45,20 @@ public class SysDictSchema {
      */
     private boolean createDate = true;
 
-    public boolean isType() {
-        return type;
+    public boolean isDictType() {
+        return dictType;
     }
 
-    public void setType(boolean type) {
-        this.type = type;
+    public void setDictType(boolean dictType) {
+        this.dictType = dictType;
     }
 
-    public boolean isName() {
-        return name;
+    public boolean isDictName() {
+        return dictName;
     }
 
-    public void setName(boolean name) {
-        this.name = name;
+    public void setDictName(boolean dictName) {
+        this.dictName = dictName;
     }
 
     public boolean isLabel() {
@@ -69,12 +69,12 @@ public class SysDictSchema {
         this.label = label;
     }
 
-    public boolean isValue() {
-        return value;
+    public boolean isDictValue() {
+        return dictValue;
     }
 
-    public void setValue(boolean value) {
-        this.value = value;
+    public void setDictValue(boolean dictValue) {
+        this.dictValue = dictValue;
     }
 
     public boolean isDescription() {

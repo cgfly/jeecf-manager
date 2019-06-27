@@ -10,8 +10,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.jeecf.common.enums.SplitCharEnum;
+import org.jeecf.common.enums.SysErrorEnum;
 import org.jeecf.common.exception.BusinessException;
 import org.jeecf.common.lang.StringUtils;
+import org.jeecf.common.mapper.JsonMapper;
 import org.jeecf.common.model.Response;
 import org.jeecf.common.utils.IdGenUtils;
 import org.jeecf.gen.model.GenParams;
@@ -34,18 +36,16 @@ import org.jeecf.manager.module.config.model.domain.SysNamespace;
 import org.jeecf.manager.module.config.model.result.SysDbsourceResult;
 import org.jeecf.manager.module.config.service.SysNamespaceService;
 import org.jeecf.manager.module.extend.service.SysOsgiPluginService;
+import org.jeecf.manager.module.template.facade.GenTemplateFacade;
+import org.jeecf.manager.module.template.model.domain.GenFieldColumn;
 import org.jeecf.manager.module.template.model.domain.GenTemplate;
 import org.jeecf.manager.module.template.model.po.GenFieldColumnPO;
-import org.jeecf.manager.module.template.model.po.GenFieldPO;
 import org.jeecf.manager.module.template.model.po.GenTemplatePO;
 import org.jeecf.manager.module.template.model.query.GenFieldColumnQuery;
-import org.jeecf.manager.module.template.model.query.GenFieldQuery;
 import org.jeecf.manager.module.template.model.query.GenTemplateQuery;
 import org.jeecf.manager.module.template.model.result.GenFieldColumnResult;
-import org.jeecf.manager.module.template.model.result.GenFieldResult;
 import org.jeecf.manager.module.template.model.result.GenTemplateResult;
 import org.jeecf.manager.module.template.service.GenFieldColumnService;
-import org.jeecf.manager.module.template.service.GenFieldService;
 import org.jeecf.manager.module.template.service.GenTemplateService;
 import org.jeecf.manager.module.userpower.model.domain.SysUser;
 import org.jeecf.manager.module.userpower.model.result.SysUserResult;
@@ -60,6 +60,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.fasterxml.jackson.core.type.TypeReference;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -85,13 +87,13 @@ public class TemplateController {
     private GenTemplateService genTemplateService;
 
     @Autowired
+    private GenTemplateFacade genTemplateFacade;
+
+    @Autowired
     private SysNamespaceService sysNamespaceService;
 
     @Autowired
     private SysOsgiPluginService sysOsgiPluginService;
-
-    @Autowired
-    private GenFieldService genFieldService;
 
     @Autowired
     private GenFieldColumnService genFieldColumnService;
@@ -120,7 +122,7 @@ public class TemplateController {
             Response<List<GenTemplateResult>> genTemplateResultListRes = genTemplateService.findList(genTemplatePO);
             if (CollectionUtils.isNotEmpty(genTemplateResultListRes.getData())) {
                 genTemplateResultListRes.getData().forEach(genTemplateResult -> {
-                    fieldList.add(genTemplateResult.getName());
+                    fieldList.add(genTemplateResult.getTemplateName());
                 });
             }
             return new Response<>(fieldList);
@@ -137,12 +139,12 @@ public class TemplateController {
             userAuthService.authPermission(sysUserResultRes.getData().getId(), sysNamespace.getPermission());
             GenTemplateQuery genTemplateQuery = new GenTemplateQuery();
             genTemplateQuery.setSysNamespaceId(Integer.valueOf(sysNamespace.getId()));
-            genTemplateQuery.setName(name);
+            genTemplateQuery.setTemplateName(name);
             GenTemplatePO genTemplatePO = new GenTemplatePO(genTemplateQuery);
             Response<List<GenTemplateResult>> genTemplateResultListRes = genTemplateService.findList(genTemplatePO);
             if (CollectionUtils.isNotEmpty(genTemplateResultListRes.getData())) {
                 GenTemplateResult genTemplateResult = genTemplateResultListRes.getData().get(0);
-                String zipFilePath = TemplateUtils.getZipFilePath(genTemplateResult.getFileBasePath(), sysNamespace.getName());
+                String zipFilePath = TemplateUtils.getZipFilePath(genTemplateResult.getFileBasePath(), sysNamespace.getNamespaceName());
                 String uuid = IdGenUtils.randomUUID(RANDOM_MAX);
                 RedisCacheUtils.setSysCache(CACHE_TMPL_PREFIX + uuid, zipFilePath);
                 return new Response<>(uuid);
@@ -178,7 +180,7 @@ public class TemplateController {
             GenTemplateQuery genTemplateQuery = new GenTemplateQuery();
             genTemplateQuery.setSysNamespaceId(Integer.valueOf(sysNamespace.getId()));
             String[] template = genSingleModel.getTemplate().split(SplitCharEnum.COLON.getName());
-            genTemplateQuery.setName(template[0]);
+            genTemplateQuery.setTemplateName(template[0]);
             if (template.length > 1) {
                 genTemplateQuery.setVersion(template[1]);
             }
@@ -187,36 +189,35 @@ public class TemplateController {
             if (CollectionUtils.isNotEmpty(genTemplateResultListRes.getData())) {
                 GenTemplateResult genTemplateResult = genTemplateResultListRes.getData().get(0);
                 List<GenParams> paramsList = new ArrayList<>();
-                if (genTemplateResult.getGenFieldId() != null) {
 
-                    List<TemplateField> templateFieldList = genSingleModel.getFields();
-                    GenFieldColumnQuery genFieldColumnQuery = new GenFieldColumnQuery();
-                    genFieldColumnQuery.setGenFieldId(genTemplateResult.getGenFieldId());
-                    GenFieldColumnPO genFieldColumnPO = new GenFieldColumnPO(genFieldColumnQuery);
-                    Response<List<GenFieldColumnResult>> genFieldColumnResultListRes = genFieldColumnService.findList(genFieldColumnPO);
-                    Map<String, String> fieldMap = new HashMap<>(12);
-                    if (CollectionUtils.isNotEmpty(genFieldColumnResultListRes.getData())) {
-                        genFieldColumnResultListRes.getData().forEach(genFieldColumnResult -> {
-                            fieldMap.put(genFieldColumnResult.getName(), genFieldColumnResult.getDefaultValue());
-                        });
-                    }
-                    if (CollectionUtils.isNotEmpty(templateFieldList)) {
-                        templateFieldList.forEach(templateField -> {
-                            fieldMap.put(templateField.getName(), templateField.getValue());
-                        });
-                    }
-                    fieldMap.forEach((key, value) -> {
-                        GenParams params = new GenParams();
-                        params.setName(key);
-                        params.setValue(value);
-                        paramsList.add(params);
+                List<TemplateField> templateFieldList = genSingleModel.getFields();
+                GenFieldColumnQuery genFieldColumnQuery = new GenFieldColumnQuery();
+                genFieldColumnQuery.setGenTemplateId(Integer.valueOf(genTemplateResult.getId()));
+                GenFieldColumnPO genFieldColumnPO = new GenFieldColumnPO(genFieldColumnQuery);
+                Response<List<GenFieldColumnResult>> genFieldColumnResultListRes = genFieldColumnService.findList(genFieldColumnPO);
+                Map<String, String> fieldMap = new HashMap<>(12);
+                if (CollectionUtils.isNotEmpty(genFieldColumnResultListRes.getData())) {
+                    genFieldColumnResultListRes.getData().forEach(genFieldColumnResult -> {
+                        fieldMap.put(genFieldColumnResult.getFieldColumnName(), genFieldColumnResult.getDefaultValue());
                     });
                 }
+                if (CollectionUtils.isNotEmpty(templateFieldList)) {
+                    templateFieldList.forEach(templateField -> {
+                        fieldMap.put(templateField.getName(), templateField.getValue());
+                    });
+                }
+                fieldMap.forEach((key, value) -> {
+                    GenParams params = new GenParams();
+                    params.setColumnName(key);
+                    params.setValue(value);
+                    paramsList.add(params);
+                });
+
                 String tableName = null;
                 if (genSingleModel.getTable() != null && StringUtils.isNotEmpty(genSingleModel.getTable().getName())) {
                     tableName = genSingleModel.getTable().getName();
                 }
-                String sourcePath = TemplateUtils.getUnzipPath(genTemplateResult.getFileBasePath(), sysNamespace.getName());
+                String sourcePath = TemplateUtils.getUnzipPath(genTemplateResult.getFileBasePath(), sysNamespace.getNamespaceName());
                 String outPath = GenUtils.build(paramsList, tableName, sourcePath, genTemplateResult.getLanguage(), sysNamespace, new SysUser(userId),
                         sysOsgiPluginService.findFilePathByBoundleType(BoundleEnum.GEN_HANDLER_PLUGIN_BOUNDLE).getData());
                 String uuid = IdGenUtils.randomUUID(RANDOM_MAX);
@@ -262,7 +263,6 @@ public class TemplateController {
             if (StringUtils.isNotEmpty(result)) {
                 String version = templateInput.getVersion();
                 Integer language = DEFAULT_LANGUAGE;
-                Integer field = null;
                 if (StringUtils.isEmpty(version)) {
                     version = DEFAULT_VERSION;
                 }
@@ -272,27 +272,35 @@ public class TemplateController {
                         throw new BusinessException(BusinessErrorEnum.PLUGIN_LANGUAGE_NOT_EXIST);
                     }
                 }
-                if (StringUtils.isNotEmpty(templateInput.getField())) {
-                    GenFieldQuery genFieldQuery = new GenFieldQuery();
-                    genFieldQuery.setName(templateInput.getField());
-                    genFieldQuery.setSysNamespaceId(Integer.valueOf(sysNamespace.getId()));
-                    GenFieldPO genFieldPO = new GenFieldPO(genFieldQuery);
-                    Response<List<GenFieldResult>> genFieldResultListRes = genFieldService.findList(genFieldPO);
-                    if (CollectionUtils.isEmpty(genFieldResultListRes.getData())) {
-                        throw new BusinessException(BusinessErrorEnum.FIELD_NOT_EXIST);
-                    }
-                    field = Integer.valueOf(genFieldResultListRes.getData().get(0).getId());
-                }
+                String fileName = file.getOriginalFilename();
+                String templateName = fileName.split("\\" + SplitCharEnum.DOT.getName())[0];
+                GenTemplateQuery genTemplateQuery = new GenTemplateQuery();
+                genTemplateQuery.setVersion(version);
+                genTemplateQuery.setTemplateName(templateName);
+                genTemplateQuery.setSysNamespaceId(Integer.valueOf(sysNamespace.getId()));
+                GenTemplatePO genTemplatePO = new GenTemplatePO(genTemplateQuery);
+                List<GenTemplateResult> genTemplateResults = genTemplateService.findList(genTemplatePO).getData();
                 GenTemplate genTemplate = new GenTemplate();
+                if (CollectionUtils.isNotEmpty(genTemplateResults)) {
+                    genTemplate.setId(genTemplateResults.get(0).getId());
+                }
+                if (StringUtils.isNotEmpty(templateInput.getField())) {
+                    try {
+                        List<GenFieldColumn> genFieldColumns = JsonMapper.getInstance().readValue(templateInput.getField(), new TypeReference<List<GenFieldColumn>>() {
+                        });
+                        genTemplate.setGenFieldColumn(genFieldColumns);
+                    } catch (Exception e) {
+                        throw new BusinessException(SysErrorEnum.FIELD_ERROR);
+                    }
+                }
                 genTemplate.setFileBasePath(result);
                 genTemplate.setLanguage(language);
                 genTemplate.setDescription(templateInput.getDescription());
                 genTemplate.setVersion(version);
-                genTemplate.setGenFieldId(field);
-                genTemplate.setName(templateInput.getName());
+                genTemplate.setTemplateName(templateName);
                 genTemplate.setSysNamespaceId(Integer.valueOf(sysNamespace.getId()));
                 genTemplate.setCreateBy(sysUserResultRes.getData().getId());
-                return genTemplateService.save(genTemplate);
+                return genTemplateFacade.save(genTemplate);
             }
         }
         throw new BusinessException(BusinessErrorEnum.NAMESPACE_NOT);

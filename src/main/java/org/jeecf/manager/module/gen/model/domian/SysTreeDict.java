@@ -18,14 +18,13 @@ import io.swagger.annotations.ApiModelProperty;
  * @author jianyiming
  *
  */
-@ScriptAssert.List({ 
-    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.leftEqual)", message = "{treeDict.leftEqual.isEmpty}", groups = { Add.class }),
-    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.rightEqual)", message = "{treeDict.rightEqual.isEmpty}", groups = { Add.class }),
-    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.event)", message = "{treeDict.event.isEmpty}", groups = { Add.class }),
-    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.groupName)", message = "{treeDict.groupName.isEmpty}", groups = { Add.class }),
-    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.result)", message = "{treeDict.result.isEmpty}", groups = { Add.class }),
-    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.description)", message = "{treeDict.description.isEmpty}", groups = { Add.class }) 
-})
+@ScriptAssert.List({
+        @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.calculation)", message = "{treeDict.calculation.isEmpty}", groups = {
+                Add.class }),
+        @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.groupName)", message = "{treeDict.groupName.isEmpty}", groups = {
+                Add.class }),
+        @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.description)", message = "{treeDict.description.isEmpty}", groups = {
+                Add.class }) })
 @ApiModel(value = "sysTreeDict", description = "树组字典实体")
 public class SysTreeDict extends AbstractTreeNamespaceEntity<SysTreeDictResult> {
 
@@ -42,25 +41,20 @@ public class SysTreeDict extends AbstractTreeNamespaceEntity<SysTreeDictResult> 
     }
 
     /**
-     * 左等式
+     * 输入
      */
-    @ApiModelProperty(value = "左等式", name = "leftEqual")
-    private String leftEqual;
+    @ApiModelProperty(value = "输入", name = "input")
+    private String input;
     /**
-     * 事件
+     * 计算
      */
-    @ApiModelProperty(value = "事件", name = "event")
-    private Integer event;
+    @ApiModelProperty(value = "计算", name = "calculation")
+    private String calculation;
     /**
-     * 右等式
+     * 输出
      */
-    @ApiModelProperty(value = "右等式", name = "rightEqual")
-    private String rightEqual;
-    /**
-     * 产出
-     */
-    @ApiModelProperty(value = "产出", name = "result")
-    private String result;
+    @ApiModelProperty(value = "输出", name = "output")
+    private String output;
     /**
      * 组别
      */
@@ -72,21 +66,13 @@ public class SysTreeDict extends AbstractTreeNamespaceEntity<SysTreeDictResult> 
     @ApiModelProperty(value = "描述", name = "description")
     private String description;
 
-    public Integer getEvent() {
-        return event;
+    @Length(min = 1, max = 50, message = "{treeDict.calculation.length}", groups = { Add.class })
+    public String getCalculation() {
+        return calculation;
     }
 
-    public void setEvent(Integer event) {
-        this.event = event;
-    }
-
-    @Length(min = 1, max = 50, message = "{treeDict.result.length}", groups = { Add.class })
-    public String getResult() {
-        return result;
-    }
-
-    public void setResult(String result) {
-        this.result = result;
+    public void setCalculation(String calculation) {
+        this.calculation = calculation;
     }
 
     @Length(min = 1, max = 50, message = "{treeDict.groupName.length}", groups = { Add.class })
@@ -107,22 +93,22 @@ public class SysTreeDict extends AbstractTreeNamespaceEntity<SysTreeDictResult> 
         this.description = description;
     }
 
-    @Length(min = 1, max = 20, message = "{treeDict.leftEqual.length}", groups = { Add.class })
-    public String getLeftEqual() {
-        return leftEqual;
+    @Length(min = 1, max = 30, message = "{treeDict.input.length}", groups = { Add.class })
+    public String getInput() {
+        return input;
     }
 
-    public void setLeftEqual(String leftEqual) {
-        this.leftEqual = leftEqual;
+    public void setInput(String input) {
+        this.input = input;
     }
 
-    @Length(min = 1, max = 20, message = "{treeDict.rightEqual.length}", groups = { Add.class })
-    public String getRightEqual() {
-        return rightEqual;
+    @Length(min = 1, max = 30, message = "{treeDict.output.length}", groups = { Add.class })
+    public String getOutput() {
+        return output;
     }
 
-    public void setRightEqual(String rightEqual) {
-        this.rightEqual = rightEqual;
+    public void setOutput(String output) {
+        this.output = output;
     }
 
     @Override

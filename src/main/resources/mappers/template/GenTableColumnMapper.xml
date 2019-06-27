@@ -5,8 +5,8 @@
 
 	<sql id="columnList">
 		genTableColumn.id AS "id",
-		genTableColumn.name AS "name",
-		genTableColumn.comment AS "comment",
+		genTableColumn.gen_column_name AS "genColumnName",
+		genTableColumn.comments AS "comments",
 		genTableColumn.field AS "field",
 		genTableColumn.jdbc_type AS "jdbcType",
 		genTableColumn.form_type AS "formType",
@@ -19,8 +19,8 @@
 		genTableColumn.is_list AS "isList",
 		genTableColumn.is_key AS "isKey",
 		genTable.id AS  "genTable.id",
-		genTable.name AS "genTable.name",
-		genTable.comment AS "genTable.comment",
+		genTable.gen_table_name AS "genTable.genTableName",
+		genTable.comments AS "genTable.comments",
 		genTable.class_name AS "genTable.className",
 		genTable.parent_table_id AS "genTable.parentTableId",
 		genTable.parent_table_fk AS "genTable.parentTableFk"
@@ -67,11 +67,11 @@
 			<if test="genTable.id != null">
 				gen_table_id,
 			</if>
-			<if test="name != null">
-				name,
+			<if test="genColumnName != null">
+				gen_column_name,
 			</if>
-			<if test="comment != null">
-				comment,
+			<if test="comments != null">
+				comments,
 			</if>
 			<if test="jdbcType != null">
 				jdbc_type,
@@ -127,11 +127,11 @@
 			<if test="genTable.id != null">
 				#{genTable.id},
 			</if>
-			<if test="name != null">
-				#{name},
+			<if test="genColumnName != null">
+				#{genColumnName},
 			</if>
-			<if test="comment != null">
-				#{comment},
+			<if test="comments != null">
+				#{comments},
 			</if>
 			<if test="jdbcType != null">
 				#{jdbcType},
@@ -187,8 +187,8 @@
 	<update id="update">
 		UPDATE gen_table_column
 		<set>
-			<if test="comment != null">
-				comment = #{comment},
+			<if test="comments != null">
+				comments = #{comments},
 			</if>
 			<if test="jdbcType != null">
 				jdbc_type = #{jdbcType},

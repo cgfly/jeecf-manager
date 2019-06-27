@@ -6,7 +6,7 @@
     <sql id="columnList">
         sysUserNamespace.id AS "id",
         sysUserNamespace.user_id AS "userId",
-        sysNamespace.name AS "namespaceName",
+        sysNamespace.namespace_name AS "namespaceName",
         sysNamespace.del_flag AS "namespaceDelFlag",
         sysUserNamespace.namespace_id AS "namespaceId",
         sysUserNamespace.remark AS "remark",

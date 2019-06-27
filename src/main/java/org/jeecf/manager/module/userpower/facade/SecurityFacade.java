@@ -109,7 +109,7 @@ public class SecurityFacade {
         StringBuffer roleNamesBuf = new StringBuffer("");
         if (userRoleRes.isSuccess() && CollectionUtils.isNotEmpty(userRoleRes.getData())) {
             userRoleRes.getData().forEach(userRole -> {
-                roleNamesBuf.append(userRole.getSysRole().getName() + ",");
+                roleNamesBuf.append(userRole.getSysRole().getRoleName() + ",");
             });
         }
         String roleNames = roleNamesBuf.toString();

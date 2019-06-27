@@ -25,8 +25,8 @@ define([ 'app', '$httpRequest','$page','$ctx','$genHelper','$jBoxcm' ], function
 			$scope.query.page = pageId;
 			$scope.request.page.current = pageId;
 			var queryData = $scope.request.data;
-			if(queryData != undefined && queryData.tableName != undefined && queryData.tableName == "-- 全部 --"){
-				$scope.request.data.tableName  = undefined;
+			if(queryData != undefined && queryData.genTableName != undefined && queryData.genTableName == "-- 全部 --"){
+				$scope.request.data.genTableName  = undefined;
 			}
 			$httpRequest.post(url,
 			$scope.request).then(function(res) { 
@@ -70,7 +70,7 @@ define([ 'app', '$httpRequest','$page','$ctx','$genHelper','$jBoxcm' ], function
 		}
 		
 		$scope.addModal = function(index){
-			$scope.sysTableDict.name = $scope.sysTableDictList[index].name;
+			$scope.sysTableDict.dictName = $scope.sysTableDictList[index].dictName;
 			$scope.sysTableDict.description = $scope.sysTableDictList[index].description;
 			$('#top-tab a[href="#sysTableDictFormTab"]').tab('show');
 		}
@@ -106,13 +106,13 @@ define([ 'app', '$httpRequest','$page','$ctx','$genHelper','$jBoxcm' ], function
 					function(res) { // 调用承诺API获取数据 .resolve
 						if(res.success){
 							$scope.tableList = res.data;
-							$scope.searchTableList = [{"tableName":"-- 全部 --"}]
+							$scope.searchTableList = [{"genTableName":"-- 全部 --"}]
 							if(res.data.length > 0){
 								for(var i = 0; i < res.data.length;i++){
-									$scope.searchTableList.push( {"tableName":res.data[i].name});
+									$scope.searchTableList.push( {"genTableName":res.data[i].genTableName});
 								}
-								$scope.sysTableDict.tableName = $scope.tableList[0].name;
-								$scope.sysTableDict.comment = $scope.tableList[0].comment;
+								$scope.sysTableDict.dictTableName = $scope.tableList[0].genTableName;
+								$scope.sysTableDict.comments = $scope.tableList[0].comments;
 							}
 						}
 					});
@@ -127,7 +127,7 @@ define([ 'app', '$httpRequest','$page','$ctx','$genHelper','$jBoxcm' ], function
 					if(tables != undefined){
 						for(var i = 0; i < tables.length;i++){
 							if(tables[i].name == nv){
-								$scope.sysTableDict.comment = tables[i].comment;
+								$scope.sysTableDict.comments = tables[i].comments;
 							}
 						}
 					}

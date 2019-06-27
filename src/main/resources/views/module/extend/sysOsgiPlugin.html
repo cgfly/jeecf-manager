@@ -13,10 +13,17 @@
 		<form class="form-inline" ng-submit="searchForm()">
 			<div class="form-group">
 				<label>名称:</label> <input type="text" class="form-control"
-					id="searchName" ng-model="request.data.name" />
+					id="searchName" ng-model="request.data.pluginName" />
+			</div>
+			&nbsp;
+			<div class="form-group">
+				<label>插件类型:</label> <select class="form-control"
+					ng-model="request.data.boundleType" id="searchBoundleType"
+					name="pluginType"
+					ng-options="osgiBoundleTypeEnum.code as osgiBoundleTypeEnum.name for osgiBoundleTypeEnum in searchOsgiBoundleTypeList"></select>
 			</div>
 			<div class="form-group">
-				<button type="submit" class="btn btn-default">提交</button>
+				<button type="submit" class="btn btn-default">查询</button>
 			</div>
 		</form>
 
@@ -36,11 +43,11 @@
 			<tbody>
 				<tr ng-repeat="sysOsgiPlugin in sysOsgiPluginList ">
 					<td>{{ $index+1 }}</td>
-					<td>{{ sysOsgiPlugin.name }}</td>
+					<td>{{ sysOsgiPlugin.pluginName }}</td>
 					<td>{{ sysOsgiPlugin.boundleTypeName }}</td>
 					<td>{{ sysOsgiPlugin.description }}</td>
 					<td>{{ sysOsgiPlugin.createByName }}</td>
-					<td>{{ sysOsgiPlugin.updateDate | date:'yyyy-MM-dd hh:mm:ss'
+					<td>{{ sysOsgiPlugin.updateDate | date:'yyyy-MM-dd HH:mm:ss'
 						}}</td>
 					<td><span shiro:hasPermission="extend:sysOsgiPlugin:edit"><a
 							href="javascript:void(0)" data-content="{{ $index }}"

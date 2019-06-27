@@ -13,10 +13,10 @@
 		<form class="form-inline" ng-submit="searchForm()">
             <div class="form-group">
 				<label>类型:</label>
-				<input type="text" class="form-control" ng-model="request.data.type" />
+				<input type="text" class="form-control" ng-model="request.data.dictType" />
 			</div>
 			<div class="form-group">
-			    <button type="submit" class="btn btn-default">提交</button>
+			    <button type="submit" class="btn btn-default">查询</button>
 			</div>
 		</form>
 		<table class="table table-striped">
@@ -37,13 +37,13 @@
 			<tbody>
 				<tr ng-repeat="sysDict in sysDictList">
 					<td>{{ $index+1 }}</td>
-				    <td>{{ sysDict.type }}</td> 
-				    <td>{{ sysDict.name }}</td> 
+				    <td>{{ sysDict.dictType }}</td> 
+				    <td>{{ sysDict.dictName }}</td> 
 				    <td>{{ sysDict.label }}</td> 
-				    <td>{{ sysDict.value }}</td> 
+				    <td>{{ sysDict.dictValue }}</td> 
 				    <td>{{ sysDict.description }}</td> 
 				    <td>{{ sysDict.createByName }}</td> 
-				    <td>{{ sysDict.createDate | date:'yyyy-MM-dd hh:mm:ss' }}</td>
+				    <td>{{ sysDict.createDate | date:'yyyy-MM-dd HH:mm:ss' }}</td>
 				    <td shiro:hasPermission="gen:sysDict:edit">
 				       <span><a href="javascript:void(0)" ng-click="addModal($index)">添加</a></span>
 				       <span><a href="javascript:void(0)" ng-click="updateModal($index)">修改</a></span>
@@ -70,12 +70,12 @@
 				            	<label class="col-sm-3 control-label">类型：</label>
 								<div class="col-sm-8">
 					   	 			<div class="col-sm-6" style="padding-left:0">
-										<input type="text" class="form-control" id="updateType" name="type"
-											ng-model="updateSysDict.type"  placeholder="请输入类型"  required="required"  />
+										<input type="text" class="form-control" id="updateDictType" name="dictType"
+											ng-model="updateSysDict.dictType"  placeholder="请输入类型"  required="required"  />
                         			</div>
 					    			<div class="col-sm-6">
-										<span style="color:red" ng-show="updateSysDictForm.type.$dirty &amp;&amp; updateSysDictForm.type.$invalid">
-											<span ng-show="updateSysDictForm.type.$error.required">类型是必须的。</span>
+										<span style="color:red" ng-show="updateSysDictForm.dictType.$dirty &amp;&amp; updateSysDictForm.dictType.$invalid">
+											<span ng-show="updateSysDictForm.dictType.$error.required">类型是必须的。</span>
                         				</span>
                         			</div>
 								</div>							
@@ -84,12 +84,12 @@
 				            	<label class="col-sm-3 control-label">名称：</label>
 								<div class="col-sm-8">
 					   	 			<div class="col-sm-6" style="padding-left:0">
-										<input type="text" class="form-control" id="updateName" name="name"
-											ng-model="updateSysDict.name"  placeholder="请输入名称"  required="required"  />
+										<input type="text" class="form-control" id="updateDictName" name="dictName"
+											ng-model="updateSysDict.dictName"  placeholder="请输入名称"  required="required"  />
                         			</div>
 					    			<div class="col-sm-6">
-										<span style="color:red" ng-show="updateSysDictForm.name.$dirty &amp;&amp; updateSysDictForm.name.$invalid">
-											<span ng-show="updateSysDictForm.name.$error.required">名称是必须的。</span>
+										<span style="color:red" ng-show="updateSysDictForm.dictName.$dirty &amp;&amp; updateSysDictForm.dictName.$invalid">
+											<span ng-show="updateSysDictForm.dictName.$error.required">名称是必须的。</span>
                         				</span>
                         			</div>
 								</div>							
@@ -112,12 +112,12 @@
 				            	<label class="col-sm-3 control-label">键值：</label>
 								<div class="col-sm-8">
 					   	 			<div class="col-sm-6" style="padding-left:0">
-										<input type="text" class="form-control" id="updateValue" name="value"
-											ng-model="updateSysDict.value"  placeholder="请输入值"  required="required"  />
+										<input type="text" class="form-control" id="updateDictValue" name="dictValue"
+											ng-model="updateSysDict.dictValue"  placeholder="请输入值"  required="required"  />
                         			</div>
 					    			<div class="col-sm-6">
-										<span style="color:red" ng-show="updateSysDictForm.value.$dirty &amp;&amp; updateSysDictForm.value.$invalid">
-											<span ng-show="updateSysDictForm.value.$error.required">值是必须的。</span>
+										<span style="color:red" ng-show="updateSysDictForm.dictValue.$dirty &amp;&amp; updateSysDictForm.dictValue.$invalid">
+											<span ng-show="updateSysDictForm.dictValue.$error.required">值是必须的。</span>
                         				</span>
                         			</div>
 								</div>							
@@ -160,12 +160,12 @@
 					<label class="col-sm-2 control-label">类型：</label>
 					<div class="col-sm-4">
 					    <div class="col-sm-6" style="padding-left:0">
-							<input type="text" class="form-control" id="type" name="type"
-								ng-model="sysDict.type"  placeholder="请输入类型"  required="required"  />
+							<input type="text" class="form-control" id="dictType" name="dictType"
+								ng-model="sysDict.dictType"  placeholder="请输入类型"  required="required"  />
                         </div>
 					    <div class="col-sm-6">
-							<span style="color:red" ng-show="sysDictForm.type.$dirty &amp;&amp; sysDictForm.type.$invalid">
-								<span ng-show="sysDictForm.type.$error.required">类型是必须的。</span>
+							<span style="color:red" ng-show="sysDictForm.dictType.$dirty &amp;&amp; sysDictForm.dictType.$invalid">
+								<span ng-show="sysDictForm.dictType.$error.required">类型是必须的。</span>
                         	</span>
                         </div>
 					</div>
@@ -174,12 +174,12 @@
 					<label class="col-sm-2 control-label">名称：</label>
 					<div class="col-sm-4">
 					    <div class="col-sm-6" style="padding-left:0">
-							<input type="text" class="form-control" id="name" name="name"
-								ng-model="sysDict.name"  placeholder="请输入名称"  required="required"  />
+							<input type="text" class="form-control" id="dictName" name="dictName"
+								ng-model="sysDict.dictName"  placeholder="请输入名称"  required="required"  />
                         </div>
 					    <div class="col-sm-6">
-							<span style="color:red" ng-show="sysDictForm.name.$dirty &amp;&amp; sysDictForm.name.$invalid">
-								<span ng-show="sysDictForm.name.$error.required">名称是必须的。</span>
+							<span style="color:red" ng-show="sysDictForm.dictName.$dirty &amp;&amp; sysDictForm.dictName.$invalid">
+								<span ng-show="sysDictForm.dictName.$error.required">名称是必须的。</span>
                         	</span>
                         </div>
 					</div>
@@ -202,12 +202,12 @@
 					<label class="col-sm-2 control-label">键值：</label>
 					<div class="col-sm-4">
 					    <div class="col-sm-6" style="padding-left:0">
-							<input type="text" class="form-control" id="value" name="value"
-								ng-model="sysDict.value"  placeholder="请输入值"  required="required"  />
+							<input type="text" class="form-control" id="dictValue" name="dictValue"
+								ng-model="sysDict.dictValue"  placeholder="请输入值"  required="required"  />
                         </div>
 					    <div class="col-sm-6">
-							<span style="color:red" ng-show="sysDictForm.value.$dirty &amp;&amp; sysDictForm.value.$invalid">
-								<span ng-show="sysDictForm.value.$error.required">值是必须的。</span>
+							<span style="color:red" ng-show="sysDictForm.dictValue.$dirty &amp;&amp; sysDictForm.dictValue.$invalid">
+								<span ng-show="sysDictForm.dictValue.$error.required">值是必须的。</span>
                         	</span>
                         </div>
 					</div>

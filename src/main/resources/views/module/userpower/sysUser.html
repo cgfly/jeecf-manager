@@ -17,7 +17,7 @@
 					ng-model="request.data.username" />
 			</div>
 			<div class="form-group">
-				<button type="submit" class="btn btn-default">提交</button>
+				<button type="submit" class="btn btn-default">查询</button>
 			</div>
 		</form>
 
@@ -38,10 +38,10 @@
 				<tr ng-repeat="sysUser in sysUserList">
 					<td>{{ $index+1 }}</td>
 					<td>{{ sysUser.username }}</td>
-					<td>{{ sysUser.name }}</td>
+					<td>{{ sysUser.realName }}</td>
 					<td>{{ sysUser.roleNames }}</td>
-					<td>{{ sysUser.sysOffice.name }}</td>
-					<td>{{ sysUser.createDate | date:'yyyy-MM-dd hh:mm:ss' }}</td>
+					<td>{{ sysUser.sysOffice.nodeName }}</td>
+					<td>{{ sysUser.createDate | date:'yyyy-MM-dd HH:mm:ss' }}</td>
 					<td shiro:hasPermission="userpower:sysUser:edit"><span><a
 							href="javascript:void(0)" ng-click="updateModal($index)">修改</a></span> <span><a
 							href="javascript:void(0)" data-content="{{ $index }}"
@@ -86,14 +86,14 @@
 								<label class="col-sm-2 control-label">用户名：</label>
 								<div class="col-sm-8">
 									<div class="col-sm-6" style="padding-left: 0">
-										<input type="text" class="form-control" id="updateName"
-											name="name" ng-model="updateSysUser.name"
+										<input type="text" class="form-control" id="updateRealName"
+											name="realName" ng-model="updateSysUser.realName"
 											placeholder="请输入用户名" />
 									</div>
 									<div class="col-sm-6">
 										<span style="color: red"
-											ng-show="updateSysUserForm.name.$dirty &amp;&amp; updateSysUserForm.name.$invalid">
-											<span ng-show="updateSysUserForm.name.$error.required">用户名是必须的。</span>
+											ng-show="updateSysUserForm.realName.$dirty &amp;&amp; updateSysUserForm.realName.$invalid">
+											<span ng-show="updateSysUserForm.realName.$error.required">用户名是必须的。</span>
 										</span>
 									</div>
 								</div>
@@ -104,7 +104,7 @@
 									<div class="col-sm-8" style="padding-left: 0">
 										<selection data-id="updateOfficeTreeId"
 											class="btn-group treeTable"
-											data-msg="{ tableFields:[{name:'姓名',label:'name'},{name:'等级',label:'level'},{name:'排序',label:'sort'}],name:'name',value:'id',key:'sysOfficeId',ttId:'id',ttParentId:'parentId'}"
+											data-msg="{ tableFields:[{name:'姓名',label:'nodeName'},{name:'等级',label:'nodeLevel'},{name:'排序',label:'sort'}],name:'nodeName',value:'id',key:'sysOfficeId',ttId:'id',ttParentId:'parentId'}"
 											data-ops="{url:'userpower/sysUser/getTreeData',title:'父级',width:500,height:300}">
 										</selection>
 									</div>
@@ -116,7 +116,7 @@
 									<div class="col-sm-6" style="padding-left: 0">
 										<select class="form-control select2" multiple="multiple"
 											id="updateRole" ng-model="updateSysUser.sysRoleIds">
-											<option ng-repeat="item in sysRoleData" value="{{item.id}}">{{item.name}}</option>
+											<option ng-repeat="item in sysRoleData" value="{{item.id}}">{{item.roleName}}</option>
 										</select>
 									</div>
 								</div>
@@ -179,13 +179,13 @@
 					<label class="col-sm-2 control-label">用户名：</label>
 					<div class="col-sm-4">
 						<div class="col-sm-6" style="padding-left: 0">
-							<input type="text" class="form-control" id="name" name="name"
-								ng-model="sysUser.name" placeholder="请输入用户名" required="required" />
+							<input type="text" class="form-control" id="realName" name="realName"
+								ng-model="sysUser.realName" placeholder="请输入用户名" required="required" />
 						</div>
 						<div class="col-sm-6">
 							<span style="color: red"
-								ng-show="sysUserForm.name.$dirty &amp;&amp; sysUserForm.name.$invalid">
-								<span ng-show="sysUserForm.name.$error.required">用户名是必须的</span>
+								ng-show="sysUserForm.realName.$dirty &amp;&amp; sysUserForm.realName.$invalid">
+								<span ng-show="sysUserForm.realName.$error.required">用户名是必须的</span>
 							</span>
 						</div>
 					</div>
@@ -196,7 +196,7 @@
 						<div class="col-sm-8" style="padding-left: 0">
 							<selection data-id="insertOfficeTreeId"
 								class="btn-group treeTable"
-								data-msg="{ tableFields:[{name:'姓名',label:'name'},{name:'等级',label:'level'},{name:'排序',label:'sort'}],name:'name',value:'id',key:'sysOfficeId',ttId:'id',ttParentId:'parentId'}"
+								data-msg="{ tableFields:[{name:'姓名',label:'nodeName'},{name:'等级',label:'nodeLevel'},{name:'排序',label:'sort'}],name:'nodeName',value:'id',key:'sysOfficeId',ttId:'id',ttParentId:'parentId'}"
 								data-ops="{url:'userpower/sysUser/getTreeData',title:'父级',width:500,height:300}">
 							</selection>
 						</div>
@@ -208,7 +208,7 @@
 						<div class="col-sm-6" style="padding-left: 0">
 							<select class="form-control select2" theme="bootstrap"
 								multiple="multiple" ng-model="sysUser.sysRoleIds">
-								<option ng-repeat="item in sysRoleData" value="{{item.id}}">{{item.name}}</option>
+								<option ng-repeat="item in sysRoleData" value="{{item.id}}">{{item.roleName}}</option>
 							</select>
 						</div>
 					</div>

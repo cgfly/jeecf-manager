@@ -23,8 +23,8 @@ public class GenTableColumnSchema {
     /**
      * 名称
      */
-    @ApiModelProperty(value = "名称", name = "name")
-    private boolean name = true;
+    @ApiModelProperty(value = "名称", name = "genColumnName")
+    private boolean genColumnName = true;
 
     /**
      * 是否空值
@@ -48,7 +48,7 @@ public class GenTableColumnSchema {
      * 注释
      */
     @ApiModelProperty(value = "注释", name = "comments")
-    private boolean comment = true;
+    private boolean comments = true;
 
     /**
      * jdbc 类型
@@ -120,12 +120,12 @@ public class GenTableColumnSchema {
         this.genTable = genTable;
     }
 
-    public boolean isName() {
-        return name;
+    public boolean isGenColumnName() {
+        return genColumnName;
     }
 
-    public void setName(boolean name) {
-        this.name = name;
+    public void setGenColumnName(boolean genColumnName) {
+        this.genColumnName = genColumnName;
     }
 
     public boolean isNull() {
@@ -152,12 +152,12 @@ public class GenTableColumnSchema {
         this.isKey = isKey;
     }
 
-    public boolean isComment() {
-        return comment;
+    public boolean isComments() {
+        return comments;
     }
 
-    public void setComment(boolean comment) {
-        this.comment = comment;
+    public void setComments(boolean comments) {
+        this.comments = comments;
     }
 
     public boolean isJdbcType() {

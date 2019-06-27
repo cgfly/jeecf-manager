@@ -54,11 +54,11 @@ define([ 'app','$httpRequest','$page','$ctx','$jBoxcm'], function(app, $httpRequ
 			});
 		}
 		$scope.addModal = function(index){
-			$scope.sysTreeDict.name = undefined;
+			$scope.sysTreeDict.nodeName = undefined;
 			$scope.sysTreeDict.parentId = $scope.sysTreeDictList[index].id;
 			$scope.sysTreeDict.sort = parseInt($scope.sysTreeDictList[index].sort)+10;
 			$scope.sysTreeDict.groupName =  $scope.sysTreeDictList[index].groupName;
-		    $('#sysTreeDictFormTab #insertTreeId').find('input[name="selectedName"]').val($scope.sysTreeDictList[index].name);
+		    $('#sysTreeDictFormTab #insertTreeId').find('input[name="selectedName"]').val($scope.sysTreeDictList[index].nodeName);
 			$('#top-tab a[href="#sysTreeDictFormTab"]').tab('show');
 		}
 		
@@ -67,7 +67,7 @@ define([ 'app','$httpRequest','$page','$ctx','$jBoxcm'], function(app, $httpRequ
 			$('#updateModal').modal('show');
 			angular.copy($scope.sysTreeDictList[index], $scope.updateSysTreeDict);
 			if($scope.updateSysTreeDict.parent != null){
-			   $('#updateModal #updateTreeId').find('input[name="selectedName"]').val($scope.updateSysTreeDict.parent.name);
+			   $('#updateModal #updateTreeId').find('input[name="selectedName"]').val($scope.updateSysTreeDict.parent.nodeName);
 			}
 		}
 		
@@ -85,11 +85,6 @@ define([ 'app','$httpRequest','$page','$ctx','$jBoxcm'], function(app, $httpRequ
 			$scope.sysPower = {};
 			$page.init($scope, $page.getPageSize());
 			$scope.initSection();
-			$ctx.getEnum($rootScope,"treeEventEnum",function(result){
-				$scope.$apply(function () {
-					$scope.treeEventEnums = result;
-				});
-			});
 		}
 		
 		

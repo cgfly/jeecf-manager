@@ -39,9 +39,9 @@ public class SysPowerService extends AbstractTreeService<SysPowerDao, SysPowerPO
                 sysPower.setParentIds(parentSysPower.getParentIds() + "," + parentSysPower.getId());
             }
             sysPower.setParentId(parentSysPower.getId());
-            sysPower.setLevel(parentSysPower.getLevel() + 1);
+            sysPower.setNodeLevel(parentSysPower.getNodeLevel() + 1);
         } else {
-            sysPower.setLevel(1);
+            sysPower.setNodeLevel(1);
             sysPower.setParentIds("");
         }
         if (!sysPower.isNewRecord()) {
@@ -95,7 +95,7 @@ public class SysPowerService extends AbstractTreeService<SysPowerDao, SysPowerPO
                 SysPower tempSysPower = childList.get(i);
                 String parentIds = tempSysPower.getParentIds();
                 String[] tempParentIds = parentIds.split(",");
-                int level = tempSysPower.getLevel();
+                int level = tempSysPower.getNodeLevel();
                 if (tempParentIds != null && tempParentIds.length > 2 && tempParentIds[0].equals(sysPower.getId())) {
                     tempParentIds = parentIds.split(sysPower.getId() + ",");
                     if (StringUtils.isEmpty(sysPower.getParentIds())) {
@@ -103,10 +103,10 @@ public class SysPowerService extends AbstractTreeService<SysPowerDao, SysPowerPO
                     } else {
                         parentIds = sysPower.getParentIds() + "," + sysPower.getId() + "," + tempParentIds[1];
                     }
-                    level = sysPower.getLevel() + tempParentIds[1].split(",").length + 1;
+                    level = sysPower.getNodeLevel() + tempParentIds[1].split(",").length + 1;
                 } else if (tempParentIds != null && tempParentIds.length > 2 && tempParentIds[tempParentIds.length - 1].equals(sysPower.getId())) {
                     parentIds = sysPower.getParentIds() + "," + sysPower.getId();
-                    level = sysPower.getLevel() + 1;
+                    level = sysPower.getNodeLevel() + 1;
                 } else if (tempParentIds != null && tempParentIds.length > 2) {
                     tempParentIds = parentIds.split("," + sysPower.getId() + ",");
                     if (StringUtils.isEmpty(sysPower.getParentIds())) {
@@ -114,24 +114,24 @@ public class SysPowerService extends AbstractTreeService<SysPowerDao, SysPowerPO
                     } else {
                         parentIds = sysPower.getParentIds() + "," + sysPower.getId() + "," + tempParentIds[1];
                     }
-                    level = sysPower.getLevel() + tempParentIds[1].split(",").length + 1;
+                    level = sysPower.getNodeLevel() + tempParentIds[1].split(",").length + 1;
                 } else if (tempParentIds != null && tempParentIds.length == 2 && tempParentIds[0].equals(sysPower.getId())) {
                     if (StringUtils.isEmpty(sysPower.getParentIds())) {
                         parentIds = sysPower.getId() + "," + tempSysPower.getParentId();
                     } else {
                         parentIds = sysPower.getParentIds() + "," + sysPower.getId() + "," + tempSysPower.getParentId();
                     }
-                    level = sysPower.getLevel() + 2;
+                    level = sysPower.getNodeLevel() + 2;
                 } else {
                     if (StringUtils.isEmpty(sysPower.getParentIds())) {
                         parentIds = sysPower.getId();
                     } else {
                         parentIds = sysPower.getParentIds() + "," + sysPower.getId();
                     }
-                    level = sysPower.getLevel() + 1;
+                    level = sysPower.getNodeLevel() + 1;
                 }
                 tempSysPower.setParentIds(parentIds);
-                tempSysPower.setLevel(level);
+                tempSysPower.setNodeLevel(level);
                 super.save(tempSysPower);
             }
         }

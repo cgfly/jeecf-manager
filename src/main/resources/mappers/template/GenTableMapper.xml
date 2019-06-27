@@ -5,8 +5,8 @@
 
 	<sql id="columnList">
 		genTable.id AS "id",
-		genTable.name AS "name",
-		genTable.comment AS "comment",
+		genTable.gen_table_name AS "genTableName",
+		genTable.comments AS "comments",
 		genTable.class_name AS "className",
 		genTable.parent_table_id AS "parentTableId",
 		genTable.parent_table_fk AS "parentTableFk",
@@ -18,8 +18,8 @@
 	<sql id="commonWhere">
 		<where>
 			<if test="data != null">
-				<if test="data.name != null and data.name != '' ">
-					AND genTable.name = #{data.name}
+				<if test="data.genTableName != null and data.genTableName != '' ">
+					AND genTable.gen_table_name = #{data.genTableName}
 				</if>
 				<if test="data.sysNamespaceId != null ">
 					AND genTable.sys_namespace_id = #{data.sysNamespaceId}
@@ -105,11 +105,11 @@
 	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO gen_table
 		<trim prefix="(" suffix=")" suffixOverrides=",">
-			<if test="name != null">
-				name,
+			<if test="genTableName != null">
+				gen_table_name,
 			</if>
-			<if test="comment != null">
-				comment,
+			<if test="comments != null">
+				comments,
 			</if>
 			<if test="className != null">
 				class_name,
@@ -144,11 +144,11 @@
 		</trim>
 		VALUES
 		<trim prefix="(" suffix=")" suffixOverrides=",">
-			<if test="name != null">
-				#{name},
+			<if test="genTableName != null">
+				#{genTableName},
 			</if>
-			<if test="comment != null">
-				#{comment},
+			<if test="comments != null">
+				#{comments},
 			</if>
 			<if test="className != null">
 				#{className},
@@ -186,8 +186,8 @@
 	<update id="update">
 		UPDATE gen_table
 		<set>
-			<if test="comment != null">
-				comment = #{comment},
+			<if test="comments != null">
+				comments = #{comments},
 			</if>
 			<if test="className != null">
 				class_name = #{className},

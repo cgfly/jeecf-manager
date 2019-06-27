@@ -17,7 +17,6 @@ define([ 'app', '$httpRequest', '$page', '$ctx', '$jBoxcm' ], function(app,
 			$httpRequest.post($ctx.getWebPath() + "template/genTemplateAll/list",
 					$scope.request).then(function(res) { 
 				if (res.success) {
-					console.log(res.data);
 					data = res.data;
 					$scope.genTemplateAllList = data;
 					$page.setPage($scope, res.page.total);
@@ -45,6 +44,15 @@ define([ 'app', '$httpRequest', '$page', '$ctx', '$jBoxcm' ], function(app,
 			$scope.currentRouteUrl = $state.current.url;
 			$scope.request = {page : {current : "",size : ""},data : {}};
 			$page.init($scope, $page.getPageSize());
+			$scope.searchLanguageList = [{"name":"-- 全部 --"}]
+			$ctx.getEnum($rootScope,"languageEnum",function(result){
+				$scope.$apply(function () {
+					$scope.languageEnums = result;
+					for(var i in result){
+						$scope.searchLanguageList.push(result[i]);
+					}
+				});
+			});
 		}
 
 		
@@ -72,6 +80,35 @@ define([ 'app', '$httpRequest', '$page', '$ctx', '$jBoxcm' ], function(app,
 					$jBoxcm.error("添加数据失败," + res.errorMessage);
 				}
 			});
+		}
+		
+		$scope.detailModal = function(index){
+			$scope.detailGenTemplate = $scope.genTemplateAllList[index];
+			$scope.queryTemplatParam($scope.detailGenTemplate.id,function(data){
+				$scope.detailGenTemplate.genFieldColumn = data;
+			    $('#detailModal').modal('show');
+			});
+		}
+		
+		$scope.queryTemplatParam  = function(templateId,callback){
+			if(templateId != -1 && templateId != 0){
+				$httpRequest.post($ctx.getWebPath() + "template/genTemplateAll/params/"+templateId).then(function(res) {
+					if (res.success) {
+						data = res.data;
+						for(var i in data){
+							data[i].value = res.data[i].defaultValue;
+							if(data[i].isNull == 0){
+								data[i].isNullName = "否";
+							} else {
+								data[i].isNullName = "是";
+							}
+						}
+						callback(data);
+					} else {
+						$jBoxcm.error("查询数据失败," + res.errorMessage);
+					}
+				});
+			}
 		}
 		
 	};

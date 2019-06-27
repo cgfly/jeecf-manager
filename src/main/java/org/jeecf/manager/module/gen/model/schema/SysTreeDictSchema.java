@@ -19,28 +19,23 @@ public class SysTreeDictSchema {
     /**
      * 名称
      */
-    @ApiModelProperty(value = "名称", name = "name")
-    private boolean name = true;
+    @ApiModelProperty(value = "名称", name = "nodeName")
+    private boolean nodeName = true;
     /**
-     * 左等式
+     * 输出
      */
-    @ApiModelProperty(value = "左等式", name = "leftEqual")
-    private boolean leftEqual = true;
+    @ApiModelProperty(value = "输出", name = "output")
+    private boolean output = true;
     /**
-     * 事件
+     * 输入
      */
-    @ApiModelProperty(value = "事件", name = "event")
-    private boolean event = true;
+    @ApiModelProperty(value = "输入", name = "input")
+    private boolean input = true;
     /**
-     * 右等式
+     * 计算
      */
-    @ApiModelProperty(value = "右等式", name = "rightEqual")
-    private boolean rightEqual = true;
-    /**
-     * 产出
-     */
-    @ApiModelProperty(value = "产出", name = "result")
-    private boolean result = true;
+    @ApiModelProperty(value = "计算", name = "calculation")
+    private boolean calculation = true;
 
     /**
      * 组别
@@ -75,8 +70,8 @@ public class SysTreeDictSchema {
     /**
      * 等级
      */
-    @ApiModelProperty(value = "等级", name = "level")
-    private boolean level = true;
+    @ApiModelProperty(value = "等级", name = "nodeLevel")
+    private boolean nodeLevel = true;
 
     /**
      * 同级排序
@@ -102,28 +97,36 @@ public class SysTreeDictSchema {
         this.id = id;
     }
 
-    public boolean isName() {
-        return name;
+    public boolean isNodeName() {
+        return nodeName;
     }
 
-    public void setName(boolean name) {
-        this.name = name;
+    public void setNodeName(boolean nodeName) {
+        this.nodeName = nodeName;
     }
 
-    public boolean isEvent() {
-        return event;
+    public boolean isOutput() {
+        return output;
     }
 
-    public void setEvent(boolean event) {
-        this.event = event;
+    public void setOutput(boolean output) {
+        this.output = output;
     }
 
-    public boolean isResult() {
-        return result;
+    public boolean isInput() {
+        return input;
     }
 
-    public void setResult(boolean result) {
-        this.result = result;
+    public void setInput(boolean input) {
+        this.input = input;
+    }
+
+    public boolean isCalculation() {
+        return calculation;
+    }
+
+    public void setCalculation(boolean calculation) {
+        this.calculation = calculation;
     }
 
     public boolean isGroupName() {
@@ -166,12 +169,12 @@ public class SysTreeDictSchema {
         this.parentIds = parentIds;
     }
 
-    public boolean isLevel() {
-        return level;
+    public boolean isNodeLevel() {
+        return nodeLevel;
     }
 
-    public void setLevel(boolean level) {
-        this.level = level;
+    public void setNodeLevel(boolean nodeLevel) {
+        this.nodeLevel = nodeLevel;
     }
 
     public boolean isSort() {
@@ -180,22 +183,6 @@ public class SysTreeDictSchema {
 
     public void setSort(boolean sort) {
         this.sort = sort;
-    }
-
-    public boolean isLeftEqual() {
-        return leftEqual;
-    }
-
-    public void setLeftEqual(boolean leftEqual) {
-        this.leftEqual = leftEqual;
-    }
-
-    public boolean isRightEqual() {
-        return rightEqual;
-    }
-
-    public void setRightEqual(boolean rightEqual) {
-        this.rightEqual = rightEqual;
     }
 
     public boolean isCreateBy() {

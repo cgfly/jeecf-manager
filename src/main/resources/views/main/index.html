@@ -145,28 +145,28 @@ body {
 								<ul>
 									<th:block th:each="sysMenu : ${sysMenus}">
 										<th:block
-											th:if="${sysMenu.level == 1 and sysMenu.hasChild == false}">
+											th:if="${sysMenu.nodeLevel == 1 and sysMenu.hasChild == false}">
 											<li><a th:attr="ui-sref=${sysMenu.routeName}"> <i
 													th:if="${sysMenu.isIcon == 1}"><img
 														th:src="${ '/images/'+ sysMenu.icon+ '.png' }" /></i> <span><th:block
-															th:text="${sysMenu.name}"></th:block></span></a></li>
+															th:text="${sysMenu.nodeName}"></th:block></span></a></li>
 										</th:block>
-										<th:block th:if="${sysMenu.level == 1 and sysMenu.hasChild}">
+										<th:block th:if="${sysMenu.nodeLevel == 1 and sysMenu.hasChild}">
 											<li class="sidebar-dropdown"><a
 												href="javascript:void(0)"> <i
 													th:if="${sysMenu.isIcon == 1}"><img
 														th:src="${ '/images/'+ sysMenu.icon+ '.png' }" /></i> <span><th:block
-															th:text="${sysMenu.name}"></th:block></span></a>
+															th:text="${sysMenu.nodeName}"></th:block></span></a>
 												<div class="sidebar-submenu">
 													<ul>
 														<th:block th:each="sysMenu2 : ${sysMenus}">
 															<li
-																th:if="${sysMenu2.level == 2 and sysMenu2.parentId.toString() == sysMenu.id }">
+																th:if="${sysMenu2.nodeLevel == 2 and sysMenu2.parentId.toString() == sysMenu.id }">
 																<a href="#"
 																th:attr="ui-sref=${sysMenu2.routeName},ui-sref-opts=${ '{reload:''' +  sysMenu2.routeName +'''}'}">
 																	<i th:if="${sysMenu2.isIcon == 1}"><img
 																		th:src="${ '/images/'+ sysMenu2.icon+ '.png' }" /></i> <th:block
-																		th:text="${sysMenu2.name}"></th:block>
+																		th:text="${sysMenu2.nodeName}"></th:block>
 															</a>
 															</li>
 														</th:block>

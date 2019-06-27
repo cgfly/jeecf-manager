@@ -5,7 +5,7 @@
 
     <sql id="columnList">
         sysNamespace.id AS "id",
-        sysNamespace.name AS "name",
+        sysNamespace.namespace_name AS "namespaceName",
         sysNamespace.description AS "description",
         sysNamespace.permission AS
         "permission",
@@ -21,8 +21,8 @@
     <sql id="commonWhere">
         <where>
             <if test="data != null">
-                <if test="data.name != null and data.name != '' ">
-                    And sysNamespace.name = #{data.name}
+                <if test="data.namespaceName != null and data.namespaceName != '' ">
+                    And sysNamespace.namespace_name = #{data.namespaceName}
                 </if>
                 <if
                     test="data.description != null and data.description != '' ">
@@ -119,8 +119,8 @@
 
         insert into sys_namespace
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="name != null">
-                name,
+            <if test="namespaceName != null">
+                namespace_name,
             </if>
             <if test="description != null">
                 description,
@@ -146,8 +146,8 @@
         </trim>
         values
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="name != null">
-                #{name},
+            <if test="namespaceName != null">
+                #{namespaceName},
             </if>
             <if test="description != null">
                 #{description},
@@ -176,8 +176,8 @@
     <update id="update">
         update sys_namespace
         <set>
-            <if test="name != null">
-                name = #{name},
+            <if test="namespaceName != null">
+                namespace_name = #{namespaceName},
             </if>
             <if test="description != null">
                 description = #{description},

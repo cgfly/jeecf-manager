@@ -21,9 +21,9 @@ import io.swagger.annotations.ApiModelProperty;
  *
  */
 @ScriptAssert.List({ 
-    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.name)", message = "{genTableColumn.name.isEmpty}", groups = { Add.class }),
+    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.genColumnName)", message = "{genTableColumn.genColumnName.isEmpty}", groups = { Add.class }),
     @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notNull(_this.id,_this.sort)", message = "{genTableColumn.sort.isEmpty}", groups = { Add.class }),
-    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.comment)", message = "{genTableColumn.comment.isEmpty}", groups = { Add.class }),
+    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.comments)", message = "{genTableColumn.comments.isEmpty}", groups = { Add.class }),
     @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.jdbcType)", message = "{genTableColumn.jdbcType.isEmpty}", groups = { Add.class }),
     @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.field)", message = "{genTableColumn.field.isEmpty}", groups = { Add.class }) 
 })
@@ -44,8 +44,8 @@ public class GenTableColumn extends BaseEntity implements Serializable {
     /**
      * 名称
      */
-    @ApiModelProperty(value = "名称", name = "name")
-    private String name;
+    @ApiModelProperty(value = "名称", name = "genColumnName")
+    private String genColumnName;
 
     /**
      * 是否空值
@@ -69,7 +69,7 @@ public class GenTableColumn extends BaseEntity implements Serializable {
      * 注释
      */
     @ApiModelProperty(value = "注释", name = "comments")
-    private String comment;
+    private String comments;
 
     /**
      * jdbc 类型
@@ -119,14 +119,14 @@ public class GenTableColumn extends BaseEntity implements Serializable {
     @ApiModelProperty(value = "查询类型", name = "queryType")
     private Integer queryType;
 
-    @Length(min = 1, max = 20, message = "{genTableColumn.name.length}", groups = { Add.class })
-    @Pattern(regexp = "^[a-zA-Z]+[a-zA-Z_]*[a-zA-Z]$", message = "{genTableColumn.name.pattern}", groups = { Add.class })
-    public String getName() {
-        return name;
+    @Length(min = 1, max = 20, message = "{genTableColumn.genColumnName.length}", groups = { Add.class })
+    @Pattern(regexp = "^[a-zA-Z]+[a-zA-Z_]*[a-zA-Z]$", message = "{genTableColumn.genColumnName.pattern}", groups = { Add.class })
+    public String getGenColumnName() {
+        return genColumnName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setGenColumnName(String genColumnName) {
+        this.genColumnName = genColumnName;
     }
 
     @Min(value = 0, message = "{genTableColumn.isNull.min}", groups = { Add.class })
@@ -148,13 +148,13 @@ public class GenTableColumn extends BaseEntity implements Serializable {
         this.sort = sort;
     }
 
-    @Length(min = 1, max = 50, message = "{genTableColumn.comment.length}", groups = { Add.class })
-    public String getComment() {
-        return comment;
+    @Length(min = 1, max = 50, message = "{genTableColumn.comments.length}", groups = { Add.class })
+    public String getComments() {
+        return comments;
     }
 
-    public void setComment(String comment) {
-        this.comment = comment;
+    public void setComments(String comments) {
+        this.comments = comments;
     }
 
     @Length(min = 1, max = 50, message = "{genTableColumn.jdbcType.length}", groups = { Add.class })

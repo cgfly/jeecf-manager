@@ -20,11 +20,13 @@ import io.swagger.annotations.ApiModelProperty;
  * @author GloryJian
  * @version 1.0
  */
-@ScriptAssert.List({ 
-    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.name)", message = "{genFieldColumn.name.isEmpty}", groups = { Add.class }),
-    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.description)", message = "{genFieldColumn.description.isEmpty}", groups = { Add.class }),
-    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notNull(_this.id,_this.isNull)", message = "{genFieldColumn.isNull.isNull}", groups = { Add.class }) 
-})
+@ScriptAssert.List({
+        @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.fieldColumnName)", message = "{genFieldColumn.fieldColumnName.isEmpty}", groups = {
+                Add.class }),
+        @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.description)", message = "{genFieldColumn.description.isEmpty}", groups = {
+                Add.class }),
+        @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notNull(_this.id,_this.isNull)", message = "{genFieldColumn.isNull.isNull}", groups = {
+                Add.class }) })
 @ApiModel(value = "genFieldColumn", description = "模版参数列表实体")
 public class GenFieldColumn extends BaseEntity implements Serializable {
 
@@ -33,12 +35,12 @@ public class GenFieldColumn extends BaseEntity implements Serializable {
      * 关联gen_field
      */
     @ApiModelProperty(value = "关联gen_field", name = "genFieldId")
-    private Integer genFieldId;
+    private Integer genTemplateId;
     /**
      * 名称
      */
-    @ApiModelProperty(value = "名称", name = "name")
-    private String name;
+    @ApiModelProperty(value = "名称", name = "fieldColumnName")
+    private String fieldColumnName;
     /**
      * 允许为空
      */
@@ -62,22 +64,22 @@ public class GenFieldColumn extends BaseEntity implements Serializable {
         super(id);
     }
 
-    public Integer getGenFieldId() {
-        return genFieldId;
+    public Integer getGenTemplateId() {
+        return genTemplateId;
     }
 
-    public void setGenFieldId(Integer genFieldId) {
-        this.genFieldId = genFieldId;
+    public void setGenTemplateId(Integer genTemplateId) {
+        this.genTemplateId = genTemplateId;
     }
 
-    @Length(min = 1, max = 20, message = "{genFieldColumn.name.length}", groups = { Add.class })
-    @Pattern(regexp = "^[a-zA-Z_]+$", message = "{genFieldColumn.name.pattern}", groups = { Add.class })
-    public String getName() {
-        return name;
+    @Length(min = 1, max = 20, message = "{genFieldColumn.fieldColumnName.length}", groups = { Add.class })
+    @Pattern(regexp = "^[a-zA-Z_]+$", message = "{genFieldColumn.fieldColumnName.pattern}", groups = { Add.class })
+    public String getFieldColumnName() {
+        return fieldColumnName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFieldColumnName(String fieldColumnName) {
+        this.fieldColumnName = fieldColumnName;
     }
 
     @Length(min = 1, max = 50, message = "{genFieldColumn.description.length}", groups = { Add.class })

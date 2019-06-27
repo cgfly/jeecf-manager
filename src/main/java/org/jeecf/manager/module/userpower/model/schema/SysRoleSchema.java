@@ -17,8 +17,8 @@ public class SysRoleSchema {
     /**
      * 中文名
      */
-    @ApiModelProperty(value = "中文名", name = "name")
-    private boolean name = true;
+    @ApiModelProperty(value = "中文名", name = "roleName")
+    private boolean roleName = true;
 
     /**
      * 英文名
@@ -45,12 +45,12 @@ public class SysRoleSchema {
         this.id = id;
     }
 
-    public boolean isName() {
-        return name;
+    public boolean isRoleName() {
+        return roleName;
     }
 
-    public void setName(boolean name) {
-        this.name = name;
+    public void setRoleName(boolean roleName) {
+        this.roleName = roleName;
     }
 
     public boolean isEnname() {

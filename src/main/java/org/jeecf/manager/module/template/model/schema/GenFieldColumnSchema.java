@@ -18,8 +18,8 @@ public class GenFieldColumnSchema {
     /**
      * 名称
      */
-    @ApiModelProperty(value = "名称", name = "name")
-    private boolean name = true;
+    @ApiModelProperty(value = "名称", name = "fieldColumnName")
+    private boolean fieldColumnName = true;
     /**
      * 允许为空
      */
@@ -49,12 +49,12 @@ public class GenFieldColumnSchema {
         this.id = id;
     }
 
-    public boolean isName() {
-        return name;
+    public boolean isFieldColumnName() {
+        return fieldColumnName;
     }
 
-    public void setName(boolean name) {
-        this.name = name;
+    public void setFieldColumnName(boolean fieldColumnName) {
+        this.fieldColumnName = fieldColumnName;
     }
 
     public boolean isNull() {
