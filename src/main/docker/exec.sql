@@ -412,7 +412,7 @@ CREATE PROCEDURE initDB()
       KEY `idx_update` (`update_date`) USING BTREE,
       KEY `idx_user_dbsource` (`user_id`,`dbsource_id`) USING BTREE,
       KEY `idx_dbsource` (`dbsource_id`) USING BTREE
-      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户数据源 对应关系表';
       START TRANSACTION;
           INSERT INTO `sys_user_dbsource` VALUES ('3', 'be50e868ce4841ebb63bb1694b2413ef', '2', '', '2019-03-01 18:45:25', 'be50e868ce4841ebb63bb1694b2413ef', '2019-03-01 18:45:25', 'be50e868ce4841ebb63bb1694b2413ef'), ('4', '231e7179e1494c25acc6396576096512', '2', '', '2019-03-07 14:04:45', '231e7179e1494c25acc6396576096512', '2019-03-07 14:04:45', '231e7179e1494c25acc6396576096512');
       COMMIT;

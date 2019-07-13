@@ -95,7 +95,7 @@ public class QueryCacheLoadStore implements CacheLoadStore {
     }
 
     private Map<String, Object> getFieldsName(Class<? extends Object> cls, String clazzName, String methodName, Object[] args) {
-        Map<String, Object> map = new HashMap<String, Object>();
+        Map<String, Object> map = new HashMap<String, Object>(12);
         ClassPool pool = ClassPool.getDefault();
         ClassClassPath classPath = new ClassClassPath(cls);
         pool.insertClassPath(classPath);
@@ -111,7 +111,8 @@ public class QueryCacheLoadStore implements CacheLoadStore {
             LocalVariableAttribute attr = (LocalVariableAttribute) codeAttribute.getAttribute(LocalVariableAttribute.tag);
             int pos = Modifier.isStatic(cm.getModifiers()) ? 0 : 1;
             for (int i = 0; i < cm.getParameterTypes().length; i++) {
-                map.put(attr.variableName(i + pos), args[i]);// paramNames即参数名
+                // paramNames即参数名
+                map.put(attr.variableName(i + pos), args[i]);
             }
             return map;
         } catch (NotFoundException e) {

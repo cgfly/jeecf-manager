@@ -169,6 +169,7 @@ public class SysVirtualTableController implements CurdController<SysVirtualTable
             GenTable genTable = new GenTable();
             BeanUtils.copyProperties(tableRes.getData(), genTable);
             genTable.setId(null);
+            genTable.setGenTableName(tableRes.getData().getVirtualTableName());
             genTable.setClassName(HumpUtils.lineToHump(tableRes.getData().getVirtualTableName()));
             List<GenTableColumnResult> genTableColumns = new ArrayList<>();
             if (CollectionUtils.isNotEmpty(sysVirtualTableColumnRes.getData())) {
@@ -178,6 +179,7 @@ public class SysVirtualTableController implements CurdController<SysVirtualTable
                     genTableColumn.setJdbcType(SqlHelper.toJdbcType(tableColumn.getColumnType(), tableColumn.getLength(), tableColumn.getDecimalLength()));
                     genTableColumn.setField(genTableColumn.getGenColumnName());
                     genTableColumn.setIsNull(tableColumn.getIsNotNull());
+                    genTableColumn.setGenColumnName(tableColumn.getTableColumnName());
                     genTableColumns.add(genTableColumn);
                 });
             }

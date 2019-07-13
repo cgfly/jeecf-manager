@@ -63,6 +63,8 @@ public class TableHookImpl implements TableHook {
         }
         BaseTable baseTable = new BaseTable();
         BeanUtils.copyProperties(genTable, baseTable);
+        baseTable.setName(genTable.getGenTableName());
+        baseTable.setComment(genTable.getComments());
         List<GenTableColumnResult> genTableColumnResultList = genTable.getGenTableColumns();
         baseTable.setGenTableColumns(buildCommonTableColumn(genTableColumnResultList));
         baseTable.setParent(getParent(genTable.getParentTableId()));
@@ -99,6 +101,8 @@ public class TableHookImpl implements TableHook {
             tableResultList.forEach(tableResult -> {
                 CommonTable childTable = new CommonTable();
                 BeanUtils.copyProperties(tableResult, childTable);
+                childTable.setName(tableResult.getGenTableName());
+                childTable.setComment(tableResult.getComments());
                 List<GenTableColumnResult> genTableColumnResultList = tableResult.getGenTableColumns();
                 childTable.setGenTableColumns(buildCommonTableColumn(genTableColumnResultList));
                 childTables.add(childTable);
@@ -118,6 +122,8 @@ public class TableHookImpl implements TableHook {
         CommonTable parentCommonTable = new CommonTable();
         if (parentTable != null) {
             BeanUtils.copyProperties(parentTable, parentCommonTable);
+            parentCommonTable.setName(parentTable.getGenTableName());
+            parentCommonTable.setComment(parentTable.getComments());
             List<GenTableColumnResult> genTableColumnResultList = parentTable.getGenTableColumns();
             parentCommonTable.setGenTableColumns(buildCommonTableColumn(genTableColumnResultList));
         }
@@ -135,6 +141,8 @@ public class TableHookImpl implements TableHook {
         genTableColumnResultList.forEach(tableColumnResult -> {
             BaseTableColumn baseTableColumn = new BaseTableColumn();
             BeanUtils.copyProperties(tableColumnResult, baseTableColumn);
+            baseTableColumn.setComment(tableColumnResult.getComments());
+            baseTableColumn.setName(tableColumnResult.getGenColumnName());
             baseTableColumns.add(baseTableColumn);
         });
         return baseTableColumns;

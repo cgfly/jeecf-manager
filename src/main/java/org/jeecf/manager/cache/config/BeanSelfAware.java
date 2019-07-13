@@ -7,7 +7,10 @@ package org.jeecf.manager.cache.config;
  * @version 2.0
  */
 public interface BeanSelfAware {
-
+    /**
+     * 设置私有bean
+     * @param proxyBean
+     */
     void setSelf(Object proxyBean);
 
 }

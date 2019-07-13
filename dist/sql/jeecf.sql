@@ -509,7 +509,7 @@ CREATE TABLE `sys_user_dbsource` (
   KEY `idx_update` (`update_date`) USING BTREE,
   KEY `idx_user_dbsource` (`user_id`,`dbsource_id`) USING BTREE,
   KEY `idx_dbsource` (`dbsource_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户数据源对应关系表';
 
 -- ----------------------------
 --  Records of `sys_user_dbsource`

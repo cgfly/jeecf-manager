@@ -7,7 +7,7 @@ define([ 'jquery', 'app' ], function($, app) {
 				     { "value":"Integer","label" :"Integer","jdbcTypes":"integer,int,tinyint"},
 					 { "value":"Double","label" :"Double","jdbcTypes":"double"},
 				     { "value":"java.util.Date","label" :"Date","jdbcTypes":"date,datetime,timestamp"},
-					 { "value":"java.math.BigDecimal","label" :"BigDecimal","jdbcTypes":"bigdecimal"}
+					 { "value":"java.math.BigDecimal","label" :"BigDecimal","jdbcTypes":"bigdecimal,decimal"}
 				],
 			    "queryType" : [
 				     { "value":"0", "label":"=" },
@@ -20,7 +20,7 @@ define([ 'jquery', 'app' ], function($, app) {
 				"formType" : [
 				     { "value":"0", "label":"文本框","jdbcTypes":"varchar,char" },
 				     { "value":"1", "label":"文本域","jdbcTypes":"text"},
-				     { "value":"2", "label":"数字框","jdbcTypes":"Integer,int,tinyint,bigint,long,double,bigdecimal" },
+				     { "value":"2", "label":"数字框","jdbcTypes":"Integer,int,tinyint,bigint,long,double,decimal,bigdecimal" },
 				     { "value":"3", "label":"时间框","jdbcTypes":"date,datetime,timestamp"},
 				     { "value":"4", "label":"下拉框","jdbcTypes":""},
 				     { "value":"5", "label":"表格下拉框","jdbcTypes":""}

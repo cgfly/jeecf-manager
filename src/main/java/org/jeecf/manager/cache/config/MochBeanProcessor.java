@@ -18,6 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class MochBeanProcessor implements BeanPostProcessor, ApplicationContextAware {
 
+    @Override
     public Object postProcessAfterInitialization(Object springInitedBean, String beanName) throws BeansException {
         if (springInitedBean instanceof BeanSelfAware) {
             BeanSelfAware originBean = (BeanSelfAware) springInitedBean;
@@ -26,15 +27,12 @@ public class MochBeanProcessor implements BeanPostProcessor, ApplicationContextA
             // 用于在环境中打印, setSelf的初始过程; 便于查看log, 是否注入? 注入的是什么类?
             log.info("springInitedBean is = {},beanName = {} ", springInitedBean.getClass(), beanName);
             log.info("getTheSingletonObject is = {} ", getTheSingletonObject(beanName).getClass().getName());
-            if (beanName != null && beanName.contains("want")) {
-                log.info("*****origin = {}", originBean.toString());
-                log.info("*****proxy= {}", proxyBean.toString());
-            }
             return originBean;
         }
         return springInitedBean;
     }
 
+    @Override
     public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
         if (bean instanceof BeanSelfAware) {
             log.info("befor initial = {}", bean.getClass());

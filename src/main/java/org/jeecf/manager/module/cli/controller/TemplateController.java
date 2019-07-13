@@ -297,6 +297,7 @@ public class TemplateController {
                 genTemplate.setLanguage(language);
                 genTemplate.setDescription(templateInput.getDescription());
                 genTemplate.setVersion(version);
+                genTemplate.setTags(templateInput.getTags());
                 genTemplate.setTemplateName(templateName);
                 genTemplate.setSysNamespaceId(Integer.valueOf(sysNamespace.getId()));
                 genTemplate.setCreateBy(sysUserResultRes.getData().getId());

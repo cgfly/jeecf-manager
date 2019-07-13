@@ -50,6 +50,11 @@ public class TemplateInput extends AuthModel {
      */
     @ApiModelProperty(value = "描述", name = "description")
     private String description;
+    /**
+     * 标签
+     */
+    @ApiModelProperty(value = "标签", name = "tags")
+    private String tags;
 
     @Pattern(regexp = "^[a-zA-Z0-9_.-]+$", message = "{genTemplate.name.pattern}")
     public String getName() {
@@ -109,6 +114,15 @@ public class TemplateInput extends AuthModel {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    @Length(min = 1, max = 64, message = "{genTemplate.tags.length}")
+    public String getTags() {
+        return tags;
+    }
+
+    public void setTags(String tags) {
+        this.tags = tags;
     }
 
 }
