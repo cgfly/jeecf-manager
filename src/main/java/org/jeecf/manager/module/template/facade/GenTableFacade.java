@@ -56,6 +56,63 @@ public class GenTableFacade {
     }
 
     @Transactional(readOnly = false, rollbackFor = RuntimeException.class)
+    public Response<GenTableResult> saveTableByUpdate(GenTable genTable) {
+        Response<GenTableResult> genTableRes = genTableService.saveByAuth(genTable);
+        List<GenTableColumnResult> columnList = genTable.getGenTableColumns();
+        if (CollectionUtils.isNotEmpty(columnList)) {
+            if (!genTable.isNewRecord()) {
+                GenTableColumnQuery genTableColumnQuery = new GenTableColumnQuery();
+                genTableColumnQuery.setGenTable(genTable);
+                GenTableColumnPO genTableColumnPO = new GenTableColumnPO(genTableColumnQuery);
+                List<GenTableColumnResult> oldGenTableColumnList = genTableColumnService.findList(genTableColumnPO).getData();
+                columnList.forEach(column -> {
+                    GenTableColumnResult oldGenTableColumnResult = this.containByName(oldGenTableColumnList, column);
+                    if (oldGenTableColumnResult != null) {
+                        if (StringUtils.isEmpty(column.getComments())) {
+                            column.setComments(oldGenTableColumnResult.getComments());
+                        }
+                        column.setField(oldGenTableColumnResult.getField());
+                        column.setId(oldGenTableColumnResult.getId());
+                        genTableColumnService.save(column);
+                    } else {
+                        column.setGenTable(genTable);
+                        genTableColumnService.save(column);
+                    }
+                });
+                oldGenTableColumnList.forEach(oldColumn -> {
+                    GenTableColumnResult newGenTableColumnResult = this.containByName(columnList, oldColumn);
+                    if (newGenTableColumnResult == null) {
+                        genTableColumnService.delete(oldColumn);
+                    }
+                });
+            } else {
+                columnList.forEach(column -> {
+                    column.setNewRecord(true);
+                    column.setGenTable(genTable);
+                    genTableColumnService.save(column);
+                });
+            }
+        }
+        return genTableRes;
+    }
+
+    /**
+     * 通过列名判断是否包含当前列
+     * 
+     * @param columnList
+     * @param oldColumn
+     * @return
+     */
+    private GenTableColumnResult containByName(List<GenTableColumnResult> columnList, GenTableColumnResult oldColumn) {
+        for (GenTableColumnResult column : columnList) {
+            if (column.getGenColumnName().equals(oldColumn.getGenColumnName())) {
+                return column;
+            }
+        }
+        return null;
+    }
+
+    @Transactional(readOnly = false, rollbackFor = RuntimeException.class)
     public Response<Integer> deleteTable(GenTable genTable) {
         Response<Integer> genTableRes = genTableService.deleteByAuth(genTable);
         if (ResponseUtils.isNotEmpty(genTableRes)) {

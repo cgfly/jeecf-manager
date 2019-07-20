@@ -20,13 +20,16 @@ import io.swagger.annotations.ApiModelProperty;
  * @author jianyiming
  *
  */
-@ScriptAssert.List({ 
-    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.genColumnName)", message = "{genTableColumn.genColumnName.isEmpty}", groups = { Add.class }),
-    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notNull(_this.id,_this.sort)", message = "{genTableColumn.sort.isEmpty}", groups = { Add.class }),
-    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.comments)", message = "{genTableColumn.comments.isEmpty}", groups = { Add.class }),
-    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.jdbcType)", message = "{genTableColumn.jdbcType.isEmpty}", groups = { Add.class }),
-    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.field)", message = "{genTableColumn.field.isEmpty}", groups = { Add.class }) 
-})
+@ScriptAssert.List({
+        @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.genColumnName)", message = "{genTableColumn.genColumnName.isEmpty}", groups = {
+                Add.class }),
+        @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notNull(_this.id,_this.sort)", message = "{genTableColumn.sort.isEmpty}", groups = { Add.class }),
+        @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.comments)", message = "{genTableColumn.comments.isEmpty}", groups = {
+                Add.class }),
+        @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.jdbcType)", message = "{genTableColumn.jdbcType.isEmpty}", groups = {
+                Add.class }),
+        @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.field)", message = "{genTableColumn.field.isEmpty}", groups = {
+                Add.class }) })
 @ApiModel(value = "genTableColumn", description = "代码生成业务字段表实体")
 public class GenTableColumn extends BaseEntity implements Serializable {
 
@@ -120,7 +123,7 @@ public class GenTableColumn extends BaseEntity implements Serializable {
     private Integer queryType;
 
     @Length(min = 1, max = 20, message = "{genTableColumn.genColumnName.length}", groups = { Add.class })
-    @Pattern(regexp = "^[a-zA-Z]+[a-zA-Z_]*[a-zA-Z]$", message = "{genTableColumn.genColumnName.pattern}", groups = { Add.class })
+    @Pattern(regexp = "^[0-9a-zA-Z]+[0-9a-zA-Z_]*[0-9a-zA-Z]$", message = "{genTableColumn.genColumnName.pattern}", groups = { Add.class })
     public String getGenColumnName() {
         return genColumnName;
     }
@@ -235,7 +238,6 @@ public class GenTableColumn extends BaseEntity implements Serializable {
     }
 
     @Length(min = 1, max = 50, message = "{genTableColumn.field.length}", groups = { Add.class })
-    @Pattern(regexp = "^[a-zA-Z]+$", message = "{genTableColumn.field.pattern}", groups = { Add.class })
     public String getField() {
         return field;
     }

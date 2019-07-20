@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Length;
@@ -19,11 +20,13 @@ import io.swagger.annotations.ApiModelProperty;
  * @author jianyiming
  *
  */
-@ScriptAssert.List({ 
-    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.virtualTableName)", message = "{virtualTable.virtualTableName.isEmpty}", groups = { Add.class }),
-    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.comments)", message = "{virtualTable.comments.isEmpty}", groups = { Add.class }),
-    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notNull(_this.id,_this.sysVirtualTableColumns)", message = "{virtualTable.tableColumns.isEmpty}", groups = { Add.class }) 
-})
+@ScriptAssert.List({
+        @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.virtualTableName)", message = "{virtualTable.virtualTableName.isEmpty}", groups = {
+                Add.class }),
+        @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.comments)", message = "{virtualTable.comments.isEmpty}", groups = {
+                Add.class }),
+        @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notNull(_this.id,_this.sysVirtualTableColumns)", message = "{virtualTable.tableColumns.isEmpty}", groups = {
+                Add.class }) })
 public class SysVirtualTable extends NamespaceAndDbAuthEntity implements Serializable {
 
     /**
@@ -55,6 +58,7 @@ public class SysVirtualTable extends NamespaceAndDbAuthEntity implements Seriali
     private List<SysVirtualTableColumn> sysVirtualTableColumns;
 
     @Length(min = 1, max = 20, message = "{virtualTable.virtualTableName.length}", groups = { Add.class })
+    @Pattern(regexp = "^[a-zA-Z]+[a-zA-Z_]*[a-zA-Z]$", message = "{virtualTable.virtualTableName.pattern}", groups = { Add.class })
     public String getVirtualTableName() {
         return virtualTableName;
     }

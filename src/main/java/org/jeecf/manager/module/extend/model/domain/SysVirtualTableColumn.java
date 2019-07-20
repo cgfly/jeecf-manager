@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.ScriptAssert;
@@ -85,6 +86,7 @@ public class SysVirtualTableColumn extends BaseEntity implements Serializable {
     private Integer isAuto;
 
     @Length(min = 1, max = 20, message = "{virtualTableColumn.tableColumnName.length}", groups = { Add.class })
+    @Pattern(regexp = "^[0-9a-zA-Z]+[0-9a-zA-Z_]*[0-9a-zA-Z]$", message = "{virtualTableColumn.tableColumnName.pattern}", groups = { Add.class })
     public String getTableColumnName() {
         return tableColumnName;
     }

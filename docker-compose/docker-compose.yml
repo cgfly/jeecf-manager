@@ -30,7 +30,7 @@ services:
             DB_HOST: mysql57
             REDIS_HOST: redis
         volumes:
-            - "/Users/jianyiming/jeecf:/Users/jeecf"
+            - "$HOME/jeecf:/root/jeecf"
         links:
             - "mysql57:mysql57"
             - "redis:redis"

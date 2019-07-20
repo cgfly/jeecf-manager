@@ -13,6 +13,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.jeecf.common.enums.DelFlagEnum;
 import org.jeecf.common.exception.BusinessException;
+import org.jeecf.common.lang.StringUtils;
 import org.jeecf.common.model.Request;
 import org.jeecf.common.model.Response;
 import org.jeecf.common.utils.DesEncryptUtils;
@@ -200,28 +201,38 @@ public class SysDbsourceController implements CurdController<SysDbsourceQuery, S
                 Response<List<SchemaTable>> schemaTableRes = targetTableProxy.findTableList(NamespaceUtils.getNamespace(UserUtils.getCurrentUserId()));
                 if (CollectionUtils.isNotEmpty(schemaTableRes.getData())) {
                     schemaTableRes.getData().forEach(schemaTable -> {
+
+                        GenTable genTable = new GenTable();
+                        BeanUtils.copyProperties(schemaTable, genTable);
+                        genTable.setGenTableName(schemaTable.getName());
+                        genTable.setComments(schemaTable.getComment());
+                        genTable.setClassName(HumpUtils.lineToHump(genTable.getGenTableName()));
+
                         GenTableQuery queryTable = new GenTableQuery();
                         queryTable.setGenTableName(schemaTable.getName());
                         List<GenTableResult> genTableList = genTableService.findListByAuth(new GenTablePO(queryTable)).getData();
-                        if (CollectionUtils.isEmpty(genTableList)) {
-                            GenTable genTable = new GenTable();
-                            BeanUtils.copyProperties(schemaTable, genTable);
-                            genTable.setGenTableName(schemaTable.getName());
-                            genTable.setComments(schemaTable.getComment());
-                            genTable.setClassName(HumpUtils.lineToHump(genTable.getGenTableName()));
-                            Response<List<SchemaTableColumn>> genTableColumnRes = targetTableProxy.findTableColumn(schemaTable.getName());
-                            List<GenTableColumnResult> genTableColumnList = new ArrayList<>();
-                            genTableColumnRes.getData().forEach(column -> {
-                                GenTableColumnResult result = new GenTableColumnResult();
-                                BeanUtils.copyProperties(column, result);
-                                result.setGenColumnName(column.getName());
-                                result.setField(HumpUtils.lineToHump(result.getGenColumnName()));
-                                result.setComments(column.getComment());
-                                genTableColumnList.add(result);
-                            });
-                            genTable.setGenTableColumns(genTableColumnList);
-                            genTableFacade.saveTable(genTable);
+                        if (CollectionUtils.isNotEmpty(genTableList)) {
+                            GenTable newTable = genTableList.get(0);
+                            genTable.setClassName(newTable.getClassName());
+                            if (StringUtils.isEmpty(genTable.getComments())) {
+                                genTable.setComments(newTable.getComments());
+                            }
+                            genTable.setId(newTable.getId());
                         }
+
+                        Response<List<SchemaTableColumn>> genTableColumnRes = targetTableProxy.findTableColumn(schemaTable.getName());
+                        List<GenTableColumnResult> genTableColumnList = new ArrayList<>();
+                        genTableColumnRes.getData().forEach(column -> {
+                            GenTableColumnResult result = new GenTableColumnResult();
+                            BeanUtils.copyProperties(column, result);
+                            result.setGenColumnName(column.getName());
+                            result.setField(HumpUtils.lineToHump(result.getGenColumnName()));
+                            result.setComments(column.getComment());
+                            result.setId(null);
+                            genTableColumnList.add(result);
+                        });
+                        genTable.setGenTableColumns(genTableColumnList);
+                        genTableFacade.saveTableByUpdate(genTable);
                     });
                 }
                 return new Response<Integer>(1);
@@ -229,7 +240,6 @@ public class SysDbsourceController implements CurdController<SysDbsourceQuery, S
             throw new BusinessException(BusinessErrorEnum.DB_CONNECT_NOT_EFFECT);
         }
         throw new BusinessException(BusinessErrorEnum.DATA_NOT_EXIT);
-
     }
 
     @PostMapping(value = { "delete/{id}" })

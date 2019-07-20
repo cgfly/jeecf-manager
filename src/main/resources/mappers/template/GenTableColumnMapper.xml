@@ -237,14 +237,15 @@
 	</update>
 
 	<delete id="delete">
-		delete from gen_table_column WHERE
+		delete from gen_table_column 
+        <where>
 		<if test="id != null and id != '' ">
-			id = #{id}
+			AND id = #{id}
 		</if>
-		<if
-			test="genTable != null and genTable.id != null and genTable.id != '' ">
-			gen_table_id = #{genTable.id}
+		<if test="genTable != null and genTable.id != null and genTable.id != '' ">
+			AND gen_table_id = #{genTable.id}
 		</if>
+        </where>
 	</delete>
 
 	<select id="count" resultType="int">

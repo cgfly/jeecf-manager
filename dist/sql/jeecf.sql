@@ -30,12 +30,12 @@ CREATE TABLE `customer_action_log` (
   `remark` varchar(255) NOT NULL DEFAULT '' COMMENT '备注',
   `create_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `create_by` varchar(64) NOT NULL DEFAULT '' COMMENT '创建人',
-  `update_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
+  `update_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `update_by` varchar(64) NOT NULL DEFAULT '' COMMENT '更新人',
   PRIMARY KEY (`id`),
-  KEY `idx_user_name` (`user_name`) USING BTREE,
-  KEY `idx_action_type` (`action_type`) USING BTREE,
-  KEY `idx_update_date` (`update_date`) USING BTREE
+  KEY `idx_user_name` (`user_name`) USING BTREE COMMENT '用户名索引',
+  KEY `idx_action_type` (`action_type`) USING BTREE COMMENT '用户行为索引',
+  KEY `idx_create_date` (`create_date`) USING BTREE COMMENT '创建时间索引'
 ) ENGINE=InnoDB AUTO_INCREMENT=148 DEFAULT CHARSET=utf8mb4 COMMENT='客户日志';
 
 -- ----------------------------
@@ -52,11 +52,11 @@ CREATE TABLE `gen_field_column` (
   `remark` varchar(255) NOT NULL DEFAULT '' COMMENT '备注',
   `create_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `create_by` varchar(64) NOT NULL DEFAULT '' COMMENT '创建人',
-  `update_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
+  `update_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `update_by` varchar(64) NOT NULL DEFAULT '' COMMENT '更新人',
   PRIMARY KEY (`id`),
-  KEY `idx_gen_field_id` (`gen_template_id`) USING BTREE,
-  KEY `idx_update_date` (`update_date`) USING BTREE
+  KEY `idx_gen_template_id` (`gen_template_id`) USING BTREE COMMENT '关联模版索引', 
+  KEY `idx_create_date` (`create_date`) USING BTREE COMMENT '创建时间索引'
 ) ENGINE=InnoDB AUTO_INCREMENT=163 DEFAULT CHARSET=utf8mb4 COMMENT='生成参数列表';
 
 -- ----------------------------
@@ -73,15 +73,15 @@ CREATE TABLE `gen_table` (
   `sys_namespace_id` int(11) NOT NULL DEFAULT '0' COMMENT '命名空间',
   `sys_dbsource_id` int(11) NOT NULL DEFAULT '0' COMMENT '关联数据源',
   `remark` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '' COMMENT '备注信息',
-  `create_by` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '' COMMENT '创建者',
+  `create_by` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '' COMMENT '创建人',
   `create_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `update_by` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '' COMMENT '更新者',
-  `update_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
+  `update_by` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '' COMMENT '更新人',
+  `update_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `idx_name_namespace` (`gen_table_name`,`sys_namespace_id`,`sys_dbsource_id`) USING BTREE,
-  KEY `idx_name` (`gen_table_name`) USING BTREE,
-  KEY `idx_namespace_id` (`sys_namespace_id`) USING BTREE,
-  KEY `idx_update_date` (`update_date`) USING BTREE
+  UNIQUE KEY `uniq_gen_table` (`gen_table_name`,`sys_namespace_id`,`sys_dbsource_id`) USING BTREE COMMENT '唯一约束',
+  KEY `idx_table_name` (`gen_table_name`) USING BTREE COMMENT '表名索引',
+  KEY `idx_namespace_id` (`sys_namespace_id`) USING BTREE COMMENT '关联命名空间id索引',
+  KEY `idx_create_date` (`create_date`) USING BTREE COMMENT '创建时间索引'
 ) ENGINE=InnoDB AUTO_INCREMENT=176 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='业务表';
 
 -- ----------------------------
@@ -112,14 +112,14 @@ CREATE TABLE `gen_table_column` (
   `form_type` int(1) NOT NULL DEFAULT '0' COMMENT '表单类型',
   `sort` int(8) NOT NULL DEFAULT '0' COMMENT '排序',
   `remark` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '' COMMENT '备注信息',
-  `create_by` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '' COMMENT '创建者',
+  `create_by` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '' COMMENT '创建人',
   `create_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `update_by` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '' COMMENT '更新者',
-  `update_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
+  `update_by` varchar(64) COLLATE utf8_bin NOT NULL DEFAULT '' COMMENT '更新人',
+  `update_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`),
-  KEY `idx_table_id` (`gen_table_id`) USING BTREE,
-  KEY `idx_sort` (`sort`) USING BTREE,
-  KEY `idx_update_date` (`update_date`) USING BTREE
+  KEY `idx_table_id` (`gen_table_id`) USING BTREE COMMENT '关联表id索引',
+  KEY `idx_sort` (`sort`) USING BTREE COMMENT '排序索引',
+  KEY `idx_create_date` (`create_date`) USING BTREE COMMENT '创建时间索引'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='业务表字段';
 
 -- ----------------------------
@@ -147,13 +147,13 @@ CREATE TABLE `gen_template` (
   `remark` varchar(255) NOT NULL DEFAULT '' COMMENT '备注',
   `create_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `create_by` varchar(64) NOT NULL DEFAULT '' COMMENT '创建人',
-  `update_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
+  `update_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `update_by` varchar(64) NOT NULL DEFAULT '' COMMENT '更新人',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `idx_name_namespace` (`template_name`,`sys_namespace_id`,`version`) USING BTREE,
-  KEY `idx_name` (`template_name`) USING BTREE,
-  KEY `idx_namespace_id` (`sys_namespace_id`) USING BTREE,
-  KEY `idx_update_date` (`update_date`) USING BTREE
+  UNIQUE KEY `uniq_template` (`template_name`,`sys_namespace_id`,`version`) USING BTREE COMMENT '唯一约束',
+  KEY `idx_template_name` (`template_name`) USING BTREE COMMENT '模版名称索引',
+  KEY `idx_namespace_id` (`sys_namespace_id`) USING BTREE COMMENT '命名空间索引',
+  KEY `idx_create_date` (`create_date`) USING BTREE COMMENT '创建时间索引'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='代码生成模版信息';
 
 -- ----------------------------
@@ -172,12 +172,12 @@ CREATE TABLE `sys_dbsource` (
   `del_flag` int(1) NOT NULL DEFAULT '0' COMMENT '逻辑删除',
   `create_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `create_by` varchar(64) NOT NULL DEFAULT '' COMMENT '创建人',
-  `update_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
+  `update_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `update_by` varchar(64) NOT NULL DEFAULT '' COMMENT '更新人',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `idx_name` (`key_name`) USING BTREE,
-  KEY `idx_permission` (`permission`) USING BTREE,
-  KEY `idx_update_date` (`update_date`) USING BTREE
+  UNIQUE KEY `uniq_dbsource` (`key_name`) USING BTREE COMMENT '唯一约束',
+  KEY `idx_permission` (`permission`) USING BTREE COMMENT '权限索引',
+  KEY `idx_create_date` (`create_date`) USING BTREE COMMENT '创建时间索引'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='数据库连接信息';
 
 -- ----------------------------
@@ -203,12 +203,12 @@ CREATE TABLE `sys_dict` (
   `create_by` varchar(64) NOT NULL DEFAULT '' COMMENT '创建人',
   `create_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_by` varchar(64) NOT NULL DEFAULT '' COMMENT '更新人',
-  `update_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
+  `update_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `idx_type_namespace` (`dict_type`,`sys_namespace_id`,`label`) USING BTREE,
-  KEY `idx_type` (`dict_type`) USING BTREE,
-  KEY `idx_namespace_id` (`sys_namespace_id`) USING BTREE,
-  KEY `idx_update_date` (`update_date`) USING BTREE
+  UNIQUE KEY `uniq_dict` (`dict_type`,`sys_namespace_id`,`label`) USING BTREE COMMENT '唯一约束',
+  KEY `idx_dict_type` (`dict_type`) USING BTREE COMMENT '字典类型索引',
+  KEY `idx_namespace_id` (`sys_namespace_id`) USING BTREE COMMENT '命名空间索引',
+  KEY `idx_create_date` (`create_date`) USING BTREE COMMENT '创建时间索引'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='数据字典';
 
 -- ----------------------------
@@ -239,12 +239,12 @@ CREATE TABLE `sys_menu` (
   `create_by` varchar(64) NOT NULL DEFAULT '' COMMENT '创建人',
   `create_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_by` varchar(64) NOT NULL DEFAULT '' COMMENT '更新人',
-  `update_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
+  `update_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `idx_label` (`label`) USING BTREE,
-  KEY `idx_module_label` (`module_label`) USING BTREE,
-  KEY `idx_permission` (`permission`) USING BTREE,
-  KEY `idx_update_date` (`update_date`) USING BTREE
+  UNIQUE KEY `uniq_menu` (`label`) USING BTREE COMMENT '唯一约束',
+  KEY `idx_module_label` (`module_label`) USING BTREE COMMENT '模块菜单标签索引',
+  KEY `idx_permission` (`permission`) USING BTREE COMMENT '权限索引',
+  KEY `idx_create_date` (`create_date`) USING BTREE COMMENT '创建时间索引'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='系统菜单';
 
 -- ----------------------------
@@ -267,12 +267,12 @@ CREATE TABLE `sys_namespace` (
   `del_flag` int(1) NOT NULL DEFAULT '0' COMMENT '逻辑删除',
   `create_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `create_by` varchar(64) NOT NULL DEFAULT '' COMMENT '创建人',
-  `update_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
+  `update_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `update_by` varchar(64) NOT NULL DEFAULT '' COMMENT '更新人',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `idx_name` (`namespace_name`) USING BTREE,
-  KEY `idx_permission` (`permission`) USING BTREE,
-  KEY `idx_update_date` (`update_date`) USING BTREE
+  UNIQUE KEY `uniq_namespace` (`namespace_name`) USING BTREE COMMENT '唯一约束',
+  KEY `idx_permission` (`permission`) USING BTREE COMMENT '权限索引',
+  KEY `idx_create_date` (`create_date`) USING BTREE COMMENT '创建时间索引'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='系统命名空间';
 
 -- ----------------------------
@@ -297,7 +297,7 @@ CREATE TABLE `sys_office` (
   `remark` varchar(255) NOT NULL DEFAULT '' COMMENT '备注',
   `create_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `create_by` varchar(255) NOT NULL DEFAULT '' COMMENT '创建人',
-  `update_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
+  `update_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `update_by` varchar(255) NOT NULL DEFAULT '' COMMENT '更新人',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='组织机构';
@@ -324,10 +324,10 @@ CREATE TABLE `sys_osgi_plugin` (
   `del_flag` int(1) NOT NULL DEFAULT '0' COMMENT '逻辑删除',
   `create_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `create_by` varchar(64) NOT NULL DEFAULT '' COMMENT '创建人',
-  `update_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
+  `update_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `update_by` varchar(64) NOT NULL DEFAULT '' COMMENT '更新人',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `idx_unique` (`plugin_name`,`sys_namespace_id`) USING BTREE COMMENT '唯一约束'
+  UNIQUE KEY `uniq_osgi_plugin` (`plugin_name`,`sys_namespace_id`) USING BTREE COMMENT '唯一约束'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='OSGI 插件管理表';
 
 -- ----------------------------
@@ -345,13 +345,13 @@ CREATE TABLE `sys_power` (
   `sort` int(8) NOT NULL DEFAULT '0' COMMENT '排序',
   `remark` varchar(255) NOT NULL DEFAULT '' COMMENT '备注',
   `create_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `update_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
+  `update_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `create_by` varchar(64) NOT NULL DEFAULT '' COMMENT '创建人',
   `update_by` varchar(64) NOT NULL DEFAULT '' COMMENT '更新人',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `idx_permission` (`permission`) USING BTREE,
-  KEY `idx_name` (`node_name`) USING BTREE,
-  KEY `idx_update_date` (`update_date`) USING BTREE
+  UNIQUE KEY `uniq_power` (`permission`) USING BTREE COMMENT '唯一约束',
+  KEY `idx_name` (`node_name`) USING BTREE COMMENT '权限名称索引',
+  KEY `idx_create_date` (`create_date`) USING BTREE COMMENT '创建时间索引'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='系统权限表';
 
 -- ----------------------------
@@ -371,13 +371,13 @@ CREATE TABLE `sys_role` (
   `enname` varchar(20) NOT NULL DEFAULT '' COMMENT '英文名',
   `remark` varchar(255) NOT NULL DEFAULT '' COMMENT '备注',
   `create_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `update_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
+  `update_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `create_by` varchar(64) NOT NULL DEFAULT '' COMMENT '创建人',
   `update_by` varchar(64) NOT NULL DEFAULT '' COMMENT '更新人',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `idx_enname` (`enname`) USING BTREE,
-  KEY `idx_name` (`role_name`) USING BTREE,
-  KEY `idx_update_date` (`update_date`) USING BTREE
+  UNIQUE KEY `uniq_role` (`enname`) USING BTREE COMMENT '唯一约束',
+  KEY `idx_name` (`role_name`) USING BTREE COMMENT '角色名称索引',
+  KEY `idx_create_date` (`create_date`) USING BTREE COMMENT '创建时间索引'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='系统角色表';
 
 -- ----------------------------
@@ -397,14 +397,14 @@ CREATE TABLE `sys_role_power` (
   `power_id` int(11) NOT NULL DEFAULT '0' COMMENT '关联权限',
   `remark` varchar(255) NOT NULL DEFAULT '' COMMENT '备注',
   `create_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `update_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
+  `update_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `create_by` varchar(64) NOT NULL DEFAULT '' COMMENT '创建人',
   `update_by` varchar(64) NOT NULL DEFAULT '' COMMENT '更新人',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `idx_role_power` (`role_id`,`power_id`) USING BTREE,
-  KEY `idx_role_id` (`role_id`) USING BTREE,
-  KEY `idx_power_id` (`power_id`) USING BTREE,
-  KEY `idx_update_date` (`update_date`) USING BTREE
+  UNIQUE KEY `uniq_role_power` (`role_id`,`power_id`) USING BTREE COMMENT "唯一约束",
+  KEY `idx_role_id` (`role_id`) USING BTREE COMMENT '关联角色id索引',
+  KEY `idx_power_id` (`power_id`) USING BTREE COMMENT '关联权限索引',
+  KEY `idx_create_date` (`create_date`) USING BTREE COMMENT '创建时间索引'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='角色权限关联信息';
 
 -- ----------------------------
@@ -429,11 +429,11 @@ CREATE TABLE `sys_table_dict` (
   `sys_namespace_id` int(11) NOT NULL DEFAULT '0' COMMENT '命名空间',
   `remark` varchar(255) NOT NULL DEFAULT '' COMMENT '备注',
   `create_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `update_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新世界',
+  `update_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `create_by` varchar(64) NOT NULL DEFAULT '' COMMENT '创建人',
   `update_by` varchar(64) NOT NULL DEFAULT '' COMMENT '更新时间',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `idx_unique` (`dict_name`,`dict_table_name`,`sys_dbsource_id`,`sys_namespace_id`) USING BTREE COMMENT '唯一索引'
+  UNIQUE KEY `uniq_table_dict` (`dict_name`,`dict_table_name`,`sys_dbsource_id`,`sys_namespace_id`) USING BTREE COMMENT '唯一约束'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='系统表组字典';
 
 -- ----------------------------
@@ -456,10 +456,10 @@ CREATE TABLE `sys_tree_dict` (
   `remark` varchar(255) NOT NULL DEFAULT '' COMMENT '备注',
   `create_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `create_by` varchar(255) NOT NULL DEFAULT '' COMMENT '创建人',
-  `update_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
+  `update_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `update_by` varchar(255) NOT NULL DEFAULT '' COMMENT '更新人',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `idx_unique` (`node_name`,`sys_namespace_id`) USING BTREE COMMENT '唯一约束'
+  UNIQUE KEY `uniq_tree_dict` (`node_name`,`sys_namespace_id`) USING BTREE COMMENT '唯一约束'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='树组字典';
 
 -- ----------------------------
@@ -477,11 +477,11 @@ CREATE TABLE `sys_user` (
   `del_flag` int(1) NOT NULL DEFAULT '0' COMMENT '逻辑删除',
   `create_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `create_by` varchar(64) NOT NULL DEFAULT '' COMMENT '创建人',
-  `update_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
+  `update_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `update_by` varchar(64) NOT NULL DEFAULT '' COMMENT '更新人',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `idx_username` (`username`) USING BTREE,
-  KEY `idx_update_date` (`update_date`) USING BTREE
+  UNIQUE KEY `uniq_user` (`username`) USING BTREE COMMENT '唯一约束',
+  KEY `idx_create_date` (`create_date`) USING BTREE COMMENT '创建时间索引'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='系统用户表';
 
 -- ----------------------------
@@ -502,13 +502,13 @@ CREATE TABLE `sys_user_dbsource` (
   `remark` varchar(100) NOT NULL DEFAULT '' COMMENT '备注',
   `create_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `create_by` varchar(100) NOT NULL DEFAULT '' COMMENT '创建人',
-  `update_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
+  `update_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `update_by` varchar(100) NOT NULL DEFAULT '' COMMENT '更新人',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `idx_user` (`user_id`) USING BTREE,
-  KEY `idx_update` (`update_date`) USING BTREE,
-  KEY `idx_user_dbsource` (`user_id`,`dbsource_id`) USING BTREE,
-  KEY `idx_dbsource` (`dbsource_id`) USING BTREE
+  UNIQUE KEY `uniq_user_dbsource` (`user_id`) USING BTREE COMMENT '唯一约束',
+  KEY `idx_create_date` (`create_date`) USING BTREE COMMENT '创建时间索引',
+  KEY `idx_user_dbsource` (`user_id`,`dbsource_id`) USING BTREE COMMENT '关联用户与关联数据源联合索引',
+  KEY `idx_dbsource` (`dbsource_id`) USING BTREE COMMENT '关联数据源索引'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户数据源对应关系表';
 
 -- ----------------------------
@@ -529,13 +529,13 @@ CREATE TABLE `sys_user_namespace` (
   `remark` varchar(255) NOT NULL DEFAULT '' COMMENT '备注',
   `create_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `create_by` varchar(100) NOT NULL DEFAULT '' COMMENT '创建人',
-  `update_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
+  `update_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `update_by` varchar(100) NOT NULL DEFAULT '' COMMENT '更新人',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `idx_user` (`user_id`) USING BTREE,
-  KEY `idx_namespace` (`namespace_id`) USING BTREE,
-  KEY `idx_update_date` (`update_date`) USING BTREE,
-  KEY `idx_user_namespace` (`user_id`,`namespace_id`) USING BTREE
+  UNIQUE KEY `uniq_user_namespace` (`user_id`) USING BTREE COMMENT '唯一约束',
+  KEY `idx_namespace` (`namespace_id`) USING BTREE COMMENT '关联命名空间索引',
+  KEY `idx_create_date` (`create_date`) USING BTREE COMMENT '创建时间索引',
+  KEY `idx_user_namespace` (`user_id`,`namespace_id`) USING BTREE COMMENT '关联用户与关联命名空间联合索引'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户命名空间 对应关系';
 
 -- ----------------------------
@@ -557,12 +557,12 @@ CREATE TABLE `sys_user_role` (
   `create_by` varchar(255) NOT NULL DEFAULT '' COMMENT '创建人',
   `create_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_by` varchar(255) NOT NULL DEFAULT '' COMMENT '更新人',
-  `update_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
+  `update_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `idx_user_role` (`user_id`,`role_id`) USING BTREE,
-  KEY `idx_user` (`user_id`) USING BTREE,
-  KEY `idx_role` (`role_id`) USING BTREE,
-  KEY `idx_update_date` (`update_date`) USING BTREE
+  UNIQUE KEY `uniq_user_role` (`user_id`,`role_id`) USING BTREE COMMENT '唯一约束',
+  KEY `idx_user` (`user_id`) USING BTREE COMMENT '关联用户索引',
+  KEY `idx_role` (`role_id`) USING BTREE COMMENT '关联角色索引',
+  KEY `idx_create_date` (`create_date`) USING BTREE COMMENT '创建时间索引'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='系统用户角色对应表';
 
 -- ----------------------------
@@ -584,11 +584,11 @@ CREATE TABLE `sys_virtual_table` (
   `sys_dbsource_id` int(11) NOT NULL DEFAULT '0' COMMENT '关联系统数据源',
   `remark` varchar(255) NOT NULL DEFAULT '' COMMENT '备注',
   `create_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `update_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `create_by` varchar(255) NOT NULL DEFAULT '' COMMENT '创建人',
   `update_by` varchar(255) NOT NULL DEFAULT '' COMMENT '更新人',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `idx_unique` (`virtual_table_name`,`sys_dbsource_id`,`sys_namespace_id`) USING BTREE COMMENT '唯一索引'
+  UNIQUE KEY `uniq_virtual_table` (`virtual_table_name`,`sys_dbsource_id`,`sys_namespace_id`) USING BTREE COMMENT '唯一约束'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='虚表';
 
 -- ----------------------------
@@ -609,7 +609,7 @@ CREATE TABLE `sys_virtual_table_column` (
   `is_auto` int(1) NOT NULL DEFAULT '0' COMMENT '是否自增',
   `remark` varchar(255) NOT NULL DEFAULT '' COMMENT '备注',
   `create_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `update_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
+  `update_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `create_by` varchar(255) NOT NULL DEFAULT '' COMMENT '创建人',
   `update_by` varchar(255) NOT NULL DEFAULT '' COMMENT '更新人',
   PRIMARY KEY (`id`)

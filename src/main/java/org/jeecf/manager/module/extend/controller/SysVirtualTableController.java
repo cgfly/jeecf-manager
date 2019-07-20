@@ -7,6 +7,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.jeecf.common.enums.IfTypeEnum;
 import org.jeecf.common.exception.BusinessException;
+import org.jeecf.common.lang.StringUtils;
 import org.jeecf.common.model.Request;
 import org.jeecf.common.model.Response;
 import org.jeecf.common.utils.HumpUtils;
@@ -155,6 +156,13 @@ public class SysVirtualTableController implements CurdController<SysVirtualTable
     public Response<Integer> syncGen(@PathVariable("id") String id) {
         Response<SysVirtualTableResult> tableRes = sysVirtualTableService.get(new SysVirtualTable(id));
         if (tableRes.getData() != null) {
+
+            GenTable genTable = new GenTable();
+            BeanUtils.copyProperties(tableRes.getData(), genTable);
+            genTable.setId(null);
+            genTable.setGenTableName(tableRes.getData().getVirtualTableName());
+            genTable.setClassName(HumpUtils.lineToHump(tableRes.getData().getVirtualTableName()));
+
             SysVirtualTableColumnQuery query = new SysVirtualTableColumnQuery();
             query.setSysVirtualTableId(Integer.valueOf(tableRes.getData().getId()));
             Response<List<SysVirtualTableColumnResult>> sysVirtualTableColumnRes = sysVirtualTableColumnService.findList(new SysVirtualTableColumnPO(query));
@@ -163,28 +171,29 @@ public class SysVirtualTableController implements CurdController<SysVirtualTable
             queryTable.setGenTableName(tableRes.getData().getVirtualTableName());
             List<GenTableResult> genTableList = genTableService.findListByAuth(new GenTablePO(queryTable)).getData();
             if (CollectionUtils.isNotEmpty(genTableList)) {
-                throw new BusinessException(BusinessErrorEnum.DATA_EXIT);
+                GenTable newTable = genTableList.get(0);
+                genTable.setClassName(newTable.getClassName());
+                if (StringUtils.isEmpty(genTable.getComments())) {
+                    genTable.setComments(newTable.getComments());
+                }
+                genTable.setId(newTable.getId());
             }
 
-            GenTable genTable = new GenTable();
-            BeanUtils.copyProperties(tableRes.getData(), genTable);
-            genTable.setId(null);
-            genTable.setGenTableName(tableRes.getData().getVirtualTableName());
-            genTable.setClassName(HumpUtils.lineToHump(tableRes.getData().getVirtualTableName()));
             List<GenTableColumnResult> genTableColumns = new ArrayList<>();
             if (CollectionUtils.isNotEmpty(sysVirtualTableColumnRes.getData())) {
                 sysVirtualTableColumnRes.getData().forEach(tableColumn -> {
                     GenTableColumnResult genTableColumn = new GenTableColumnResult();
                     BeanUtils.copyProperties(tableColumn, genTableColumn);
                     genTableColumn.setJdbcType(SqlHelper.toJdbcType(tableColumn.getColumnType(), tableColumn.getLength(), tableColumn.getDecimalLength()));
-                    genTableColumn.setField(genTableColumn.getGenColumnName());
                     genTableColumn.setIsNull(tableColumn.getIsNotNull());
                     genTableColumn.setGenColumnName(tableColumn.getTableColumnName());
+                    genTableColumn.setField(HumpUtils.lineToHump(tableColumn.getTableColumnName()));
+                    genTableColumn.setId(null);
                     genTableColumns.add(genTableColumn);
                 });
             }
             genTable.setGenTableColumns(genTableColumns);
-            genTableFacade.saveTable(genTable);
+            genTableFacade.saveTableByUpdate(genTable);
             return new Response<>(1);
         }
         throw new BusinessException(BusinessErrorEnum.DATA_NOT_EXIT);
