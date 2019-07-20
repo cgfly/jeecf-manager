@@ -390,7 +390,7 @@ CREATE PROCEDURE initDB()
       `update_by` varchar(64) NOT NULL DEFAULT '' COMMENT '更新人',
       PRIMARY KEY (`id`),
       UNIQUE KEY `uniq_user` (`username`) USING BTREE COMMENT '唯一约束',
-      KEY `idx_create_date` (`create_date`) USING BTREE COMMENT '创建时间索引',
+      KEY `idx_create_date` (`create_date`) USING BTREE COMMENT '创建时间索引'
       ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='系统用户表';
       START TRANSACTION;
           INSERT INTO `sys_user` VALUES ('231e7179e1494c25acc6396576096512', 'guest', 'bff7fe14d15571cbe9d02f91083613261777c3b5cec326846469ac35', 'guest', '1', '', '0', '2018-11-01 16:24:57', 'be50e868ce4841ebb63bb1694b2413ef', '2018-12-07 12:07:13', 'be50e868ce4841ebb63bb1694b2413ef'), ('be50e868ce4841ebb63bb1694b2413ef', 'admin', '264acb675c337d8c2a159ecff10bf25f4e42497ffbbb2864dc0da848', 'admin', '1', '', '0', '2018-08-09 23:42:07', '1b6a9a1d8b2b46819fd9d4d7cefd8ecd', '2018-09-02 12:58:19', 'be50e868ce4841ebb63bb1694b2413ef');
