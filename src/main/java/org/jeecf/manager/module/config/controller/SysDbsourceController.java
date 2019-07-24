@@ -127,6 +127,7 @@ public class SysDbsourceController implements CurdController<SysDbsourceQuery, S
         if (sysDbsource.isNewRecord()) {
             SysDbsourceQuery query = new SysDbsourceQuery();
             query.setKeyName(sysDbsource.getKeyName());
+            query.setDelFlag(DelFlagEnum.ALL.getCode());
             List<SysDbsourceResult> sysDbsourcceList = sysDbsourceService.findList(new SysDbsourcePO(query)).getData();
             if (CollectionUtils.isNotEmpty(sysDbsourcceList)) {
                 throw new BusinessException(BusinessErrorEnum.DATA_EXIT);

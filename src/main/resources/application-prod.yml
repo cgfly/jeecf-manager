@@ -14,6 +14,9 @@ redis:
    testWhileIdle: true
    timeBetweenEvictionRunsMillis: 30000
    minEvictableIdleTimeMillis: 1800000
+
+jeecf:
+   cache: false
    
 file:
    plugin:

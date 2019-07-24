@@ -8,7 +8,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.jeecf.common.utils.DateFormatUtils;
 import org.jeecf.gen.chain.AbstractHandler;
 import org.jeecf.gen.chain.ChainContext;
-import org.jeecf.gen.model.GenParams;
+import org.jeecf.manager.gen.model.GenParams;
 
 /**
  * 基础参数责任链
@@ -37,7 +37,7 @@ public class BaseParamHandler extends AbstractHandler {
         params.put("username", this.contextParams.getUserId());
         if (CollectionUtils.isNotEmpty(genParamsList)) {
             genParamsList.forEach(genParam -> {
-                params.put(genParam.getColumnName(), genParam.getValue());
+                params.put(genParam.getFieldColumnName(), genParam.getValue());
             });
         }
         this.chainContext.next();

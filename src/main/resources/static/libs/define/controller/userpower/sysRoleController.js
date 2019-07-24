@@ -78,15 +78,17 @@ define([ 'app', '$httpRequest','$page','$ctx','$jBoxcm','$zTreecm' ], function(a
 		                	    var setting = $zTreecm.setting({
 		                	    	treeId : "updateTree",
 		                	    	data : {key:{name:"nodeName"}},
-		                	        onCheck: function(e,treeId,treeNode){
-								        var treeObj=$.fn.zTree.getZTreeObj("updateTree");
-								        nodes=treeObj.getCheckedNodes(true);
-								        $scope.updateSysRole.sysPowerIds = [];
-								        for(var i=0;i<nodes.length;i++){
-								             $scope.updateSysRole.sysPowerIds.push(nodes[i].id);
-								             $scope.initParentNodes(nodes[i],nodes,$scope.updateSysRole.sysPowerIds);
-								        }
-								    }
+		                	    	callback:{
+		                	    		onCheck: function(e,treeId,treeNode){
+		                	    			var treeObj=$.fn.zTree.getZTreeObj("updateTree");
+		                	    			nodes=treeObj.getCheckedNodes(true);
+		                	    			$scope.updateSysRole.sysPowerIds = [];
+		                	    			for(var i=0;i<nodes.length;i++){
+		                	    				$scope.updateSysRole.sysPowerIds.push(nodes[i].id);
+		                	    				$scope.initParentNodes(nodes[i],nodes,$scope.updateSysRole.sysPowerIds);
+								        	}
+								    	}
+		                	    	}
 		                	    });
 							    $.fn.zTree.init( $("#updateTree"), setting, res.data.sysPowerList);
 		                		$('#updateModal').modal('show');
@@ -129,7 +131,7 @@ define([ 'app', '$httpRequest','$page','$ctx','$jBoxcm','$zTreecm' ], function(a
 			$scope.currentRouteUrl = $state.current.url;
 			$scope.request = {page:{current:"",size:""},data:{}};
 			$scope.updateSysRole = {};
-			$scope.sysRole = {sysPowerList:[]};
+			$scope.sysRole = {sysPowerIds:[]};
 			$page.init($scope, $page.getPageSize());
 			$('#top-tab a[href="#sysRoleFormTab"]').on('shown.bs.tab', function(e){
 				$scope.queryAllTree();
@@ -142,18 +144,21 @@ define([ 'app', '$httpRequest','$page','$ctx','$jBoxcm','$zTreecm' ], function(a
 						if (res.success) {
 	                	    var setting = $zTreecm.setting({
 	                	    	treeId : "tree",
-	                	    	data : {key:{name:"nodeName"}},
-	                	        onCheck: function(e,treeId,treeNode){
-	                	        	 var treeObj=$.fn.zTree.getZTreeObj("tree"),
-						             nodes=treeObj.getCheckedNodes(true);
-						        	 $scope.sysRole.sysPowerIds = [];
-						             for(var i=0;i<nodes.length;i++){
-						            	 $scope.sysRole.sysPowerIds.push(nodes[i].id);
-						            	 $scope.initParentNodes(nodes[i],nodes,$scope.updateSysRole.sysPowerIds);
-						             }
-							    }
+	                	    	data: {
+	                	    		key:{name:"nodeName"}
+	                	    	},
+	                	    	callback:{
+	                	    		onCheck: function(e,treeId,treeNode){
+	                	    			var treeObj=$.fn.zTree.getZTreeObj("tree"),
+	                	    			nodes=treeObj.getCheckedNodes(true);
+	                	    			$scope.sysRole.sysPowerIds = [];
+	                	    			for(var i=0;i<nodes.length;i++){
+	                	    				$scope.sysRole.sysPowerIds.push(nodes[i].id);
+	                	    				$scope.initParentNodes(nodes[i],nodes,$scope.sysRole.sysPowerIds);
+	                	    			}
+	                	    		}
+	                	    	}
 	                	    });
-	                	    console.log(res.data);
 						    $.fn.zTree.init( $("#tree"), setting, res.data);
 						} else {
 							$jBoxcm.error("查询数据失败,"+res.errorMessage);

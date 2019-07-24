@@ -118,6 +118,8 @@ public class BaseService<D extends Dao<P, R, Q, T>, P extends AbstractEntityPO<Q
         p.buildContains();
         if (p.getData().getDelFlag() == null) {
             p.getData().setDelFlag(DelFlagEnum.NO.getCode());
+        } else if (p.getData().getDelFlag().equals(DelFlagEnum.ALL.getCode())) {
+            p.getData().setDelFlag(null);
         }
         Response<List<R>> res = new Response<List<R>>(true, dao.query(p));
         JqlUtils.build(p.getSchema(), res.getData());
@@ -134,6 +136,8 @@ public class BaseService<D extends Dao<P, R, Q, T>, P extends AbstractEntityPO<Q
         p.buildContains();
         if (p.getData().getDelFlag() == null) {
             p.getData().setDelFlag(DelFlagEnum.NO.getCode());
+        } else if (p.getData().getDelFlag().equals(DelFlagEnum.ALL.getCode())) {
+            p.getData().setDelFlag(null);
         }
         return new Response<Integer>(true, dao.count(p));
     }
@@ -150,6 +154,8 @@ public class BaseService<D extends Dao<P, R, Q, T>, P extends AbstractEntityPO<Q
         p.buildContains();
         if (p.getData().getDelFlag() == null) {
             p.getData().setDelFlag(DelFlagEnum.NO.getCode());
+        } else if (p.getData().getDelFlag().equals(DelFlagEnum.ALL.getCode())) {
+            p.getData().setDelFlag(null);
         }
         if (page != null) {
             page.setTotal(dao.count(p));

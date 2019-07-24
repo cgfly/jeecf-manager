@@ -1,10 +1,19 @@
 package org.jeecf.manager.module.template.facade;
 
+import java.io.File;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.jeecf.common.exception.BusinessException;
 import org.jeecf.common.lang.StringUtils;
 import org.jeecf.common.model.Response;
+import org.jeecf.common.utils.FileUtils;
+import org.jeecf.manager.common.enums.BusinessErrorEnum;
+import org.jeecf.manager.common.utils.NamespaceUtils;
+import org.jeecf.manager.common.utils.TemplateUtils;
+import org.jeecf.manager.common.utils.UserUtils;
+import org.jeecf.manager.module.config.model.domain.SysNamespace;
+import org.jeecf.manager.module.config.service.SysNamespaceService;
 import org.jeecf.manager.module.template.model.domain.GenFieldColumn;
 import org.jeecf.manager.module.template.model.domain.GenTemplate;
 import org.jeecf.manager.module.template.model.po.GenFieldColumnPO;
@@ -13,6 +22,8 @@ import org.jeecf.manager.module.template.model.result.GenFieldColumnResult;
 import org.jeecf.manager.module.template.model.result.GenTemplateResult;
 import org.jeecf.manager.module.template.service.GenFieldColumnService;
 import org.jeecf.manager.module.template.service.GenTemplateService;
+import org.jeecf.manager.module.userpower.model.domain.SysUser;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,6 +43,9 @@ public class GenTemplateFacade {
 
     @Autowired
     private GenTemplateService genTemplateService;
+
+    @Autowired
+    private SysNamespaceService sysNamespaceService;
 
     @Transactional(readOnly = false, rollbackFor = RuntimeException.class)
     public Response<GenTemplateResult> save(GenTemplate genTemplate) {
@@ -65,6 +79,50 @@ public class GenTemplateFacade {
             });
         }
         return genTemplateService.deleteByAuth(genTemplate);
+    }
+
+    @Transactional(readOnly = false, rollbackFor = RuntimeException.class)
+    public Response<GenTemplateResult> add(Integer id) {
+        Response<GenTemplateResult> checkGenTemplateRes = genTemplateService.getByAuth(new GenTemplate(String.valueOf(id)));
+        if (checkGenTemplateRes.isSuccess() && checkGenTemplateRes.getData() == null) {
+            Response<GenTemplateResult> genTemplateRes = genTemplateService.get(new GenTemplate(String.valueOf(id)));
+            if (genTemplateRes.getData() != null) {
+                GenTemplateResult genTemplateResult = genTemplateRes.getData();
+                GenTemplate genTemplate = new GenTemplate();
+                BeanUtils.copyProperties(genTemplateResult, genTemplate);
+                genTemplate.setId(null);
+                Response<GenTemplateResult> genTemplateResultRes = genTemplateService.saveByAuth(genTemplate);
+                GenFieldColumnQuery genFieldColumnQuery = new GenFieldColumnQuery();
+                genFieldColumnQuery.setGenTemplateId(id);
+                GenFieldColumnPO genFieldColumnPO = new GenFieldColumnPO(genFieldColumnQuery);
+                List<GenFieldColumnResult> genFieldColumnResultList = genFieldColumnService.findList(genFieldColumnPO).getData();
+                if (CollectionUtils.isNotEmpty(genFieldColumnResultList)) {
+                    genFieldColumnResultList.forEach(genFieldColumnResult -> {
+                        GenFieldColumn newFieldColumn = new GenFieldColumn();
+                        genFieldColumnResult.setId(null);
+                        genFieldColumnResult.setNewRecord(true);
+                        genFieldColumnResult.setGenTemplateId(Integer.valueOf(genTemplateResultRes.getData().getId()));
+                        BeanUtils.copyProperties(genFieldColumnResult, newFieldColumn);
+                        genFieldColumnService.save(newFieldColumn);
+                    });
+                }
+                Integer sysNamespaceId = genTemplateResult.getSysNamespaceId();
+                SysUser sysUser = UserUtils.getCurrentUser();
+                SysNamespace sysNamespace = NamespaceUtils.getNamespace(sysUser.getId());
+                SysNamespace oldNamespace = sysNamespaceService.get(new SysNamespace(String.valueOf(sysNamespaceId))).getData();
+                String zipFilePath = TemplateUtils.getZipFilePath(genTemplateResult.getFileBasePath(), oldNamespace.getNamespaceName());
+                String newZipPath = TemplateUtils.getZipFilePath(genTemplateResult.getFileBasePath(), sysNamespace.getNamespaceName());
+
+                String newUnzipFilePath = TemplateUtils.getUnzipPath(genTemplateResult.getFileBasePath(), sysNamespace.getNamespaceName());
+
+                FileUtils.copyFile(zipFilePath, newZipPath);
+                FileUtils.unZipFiles(newZipPath, StringUtils.substringBeforeLast(newUnzipFilePath, File.separator));
+
+                return genTemplateResultRes;
+            }
+            throw new BusinessException(BusinessErrorEnum.DATA_NOT_EXIT);
+        }
+        throw new BusinessException(BusinessErrorEnum.DATA_EXIT);
     }
 
 }

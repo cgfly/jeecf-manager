@@ -9,22 +9,28 @@ define([ 'jquery', 'app' ], function($, app) {
 				     { "value":"java.util.Date","label" :"Date","jdbcTypes":"date,datetime,timestamp"},
 					 { "value":"java.math.BigDecimal","label" :"BigDecimal","jdbcTypes":"bigdecimal,decimal"}
 				],
-			    "queryType" : [
-				     { "value":"0", "label":"=" },
-				     { "value":"1", "label":"!=" },
-				     { "value":"2", "label":"> or <" },
-				     { "value":"3", "label":">= or <=" },
-				     { "value":"4", "label":"like" },
-				     { "value":"5", "label":"like%" },
-				],
-				"formType" : [
-				     { "value":"0", "label":"文本框","jdbcTypes":"varchar,char" },
-				     { "value":"1", "label":"文本域","jdbcTypes":"text"},
-				     { "value":"2", "label":"数字框","jdbcTypes":"Integer,int,tinyint,bigint,long,double,decimal,bigdecimal" },
-				     { "value":"3", "label":"时间框","jdbcTypes":"date,datetime,timestamp"},
-				     { "value":"4", "label":"下拉框","jdbcTypes":""},
-				     { "value":"5", "label":"表格下拉框","jdbcTypes":""}
-				]
+//			    "queryType" : [
+//				     { "value":"0", "label":"=" },
+//				     { "value":"1", "label":"!=" },
+//				     { "value":"2", "label":"> or <" },
+//				     { "value":"3", "label":">= or <=" },
+//				     { "value":"4", "label":"like" },
+//				     { "value":"5", "label":"like%" },
+//				],
+//				"formType" : [
+//				     { "value":"0", "label":"文本框","jdbcTypes":"varchar,char" },
+//				     { "value":"1", "label":"文本域","jdbcTypes":"text"},
+//				     { "value":"2", "label":"数字框","jdbcTypes":"Integer,int,tinyint,bigint,long,double,decimal,bigdecimal" },
+//				     { "value":"3", "label":"时间框","jdbcTypes":"date,datetime,timestamp"},
+//				     { "value":"4", "label":"下拉框","jdbcTypes":""},
+//				     { "value":"5", "label":"表格下拉框","jdbcTypes":""},
+//				     { "value":"6", "label":"多选下拉框","jdbcTypes":""},
+//				     { "value":"7", "label":"树形选择框","jdbcTypes":""},
+//				     { "value":"8", "label":"标签框","jdbcTypes":""},
+//				     { "value":"9", "label":"单选按钮","jdbcTypes":""},
+//				     { "value":"10", "label":"多选按钮","jdbcTypes":""},
+//				     { "value":"11", "label":"按钮组","jdbcTypes":""}
+//				]
 			}
 		
 		
@@ -35,12 +41,12 @@ define([ 'jquery', 'app' ], function($, app) {
 			getTypes : function(){
 				return genJson["type"];
 			},
-			getQueryTypes : function(){
-				return genJson["queryType"];
-			},
-			getFormTypes : function(){
-				return genJson["formType"];
-			},
+//			getQueryTypes : function(){
+//				return genJson["queryType"];
+//			},
+//			getFormTypes : function(){
+//				return genJson["formType"];
+//			},
 			toType : function(jdbcType){
 				var type = jdbcType.split("(")[0];
 				var types = this.getTypes();
@@ -59,18 +65,18 @@ define([ 'jquery', 'app' ], function($, app) {
 			        return $1.toUpperCase();
 			    });
 			},
-			toFormType : function(jdbcType){
-				var type = jdbcType.split("(")[0];
-				var fromTypes = this.getFormTypes();
-				for(j in fromTypes){
-				   var jdbcTypes = fromTypes[j]["jdbcTypes"].split(",");
-				   for(k in jdbcTypes){
-					  if(jdbcTypes[k] == type)
-					     return fromTypes[j];
-				   }
-				}
-				return "";
-			},
+//			toFormType : function(jdbcType){
+//				var type = jdbcType.split("(")[0];
+//				var fromTypes = this.getFormTypes();
+//				for(j in fromTypes){
+//				   var jdbcTypes = fromTypes[j]["jdbcTypes"].split(",");
+//				   for(k in jdbcTypes){
+//					  if(jdbcTypes[k] == type)
+//					     return fromTypes[j];
+//				   }
+//				}
+//				return "";
+//			},
 			isKey : function(key){
 				if(key == "1")
 					return {"value":"1","label":"是"};

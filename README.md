@@ -4,8 +4,7 @@
 [![Build Status](https://travis-ci.org/cgfly/jeecf-manager.svg?branch=1.0)](https://travis-ci.org/cgfly/jeecf-manager)  
 
 ## 介绍  
-Jee Code Factory 是基于模版化的代码生成平台，致力于解决企业业务开发效率与代码规范的平衡问题，通过使用通用的抽象模版即保证了业务开发效率，又保证了代码的规范,解决了多人开发风格差异化，可读性差等痛点问题，易于项目的维护与升级。
-
+Jee Code Factory 是基于模版化的代码生成平台，为企业提供模版管理与代码生成等基础服务能力。通过标准化模版进行代码生成来解决重复开发效率与保证标准化规范复用，易于项目的维护和升级。同时提供对外接口，第三方应用系统可集成调用，完成相应逻辑。
 ## 快速开始  
 1.下载项目  
 2.将 dist/sql/jeecf.sql导入数据库，修改配置文件信息，数据库与redis连接信息  

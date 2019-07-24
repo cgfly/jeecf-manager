@@ -6,8 +6,8 @@ import java.util.List;
 
 import org.jeecf.gen.chain.ChainContext;
 import org.jeecf.gen.chain.ContextConfigParams;
-import org.jeecf.gen.model.GenParams;
 import org.jeecf.manager.gen.hook.TableHookImpl;
+import org.jeecf.manager.gen.model.GenParams;
 import org.jeecf.manager.module.config.model.domain.SysNamespace;
 import org.jeecf.manager.module.userpower.model.domain.SysUser;
 import org.jeecf.osgi.plugin.Plugin;

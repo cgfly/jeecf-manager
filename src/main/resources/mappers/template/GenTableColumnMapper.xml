@@ -41,6 +41,20 @@
 			</if>
 		</where>
 	</sql>
+    
+    <!-- 通用排序处理 -->
+    <sql id="commonSorts">
+        <if test="sorts != null and sorts.size > 0">
+            ORDER BY
+            <foreach collection="sorts" item="item"
+                separator=",">
+                ${item.columnName} ${item.sortMode}
+            </foreach>
+        </if>
+        <if test="sorts == null">
+            ORDER BY genTableColumn.sort asc
+        </if>
+    </sql>
 
 	<select id="get"
 		resultType="org.jeecf.manager.module.template.model.result.GenTableColumnResult">
@@ -59,6 +73,7 @@
 		from gen_table_column genTableColumn
 		<include refid="columnJoins" />
 		<include refid="commonWhere" />
+        <include refid="commonSorts" />
 	</select>
 
 	<insert id="insert" useGeneratedKeys="true" keyProperty="id">

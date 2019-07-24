@@ -61,7 +61,7 @@
 							ng-click="detailModal($index)">详情</a></span> <span><a
 							href="javascript:void(0)" ng-click="wikiModal($index)">wiki</a></span> <span><a
 							href="javascript:void(0)" ng-click="downloadModal($index)">模版下载</a></span>
-						<span
+						<span shiro:hasPermission="template:genTemplate:edit"
 						ng-if=" genTemplateAll.isExit == null || genTemplateAll.isExit == 0 "><a
 							href="javascript:void(0)" ng-click="addModal($index)">添加</a></span></td>
 				</tr>

@@ -10,17 +10,16 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.jeecf.common.enums.IfTypeEnum;
 import org.jeecf.common.enums.SplitCharEnum;
-import org.jeecf.common.exception.BusinessException;
 import org.jeecf.common.model.Request;
 import org.jeecf.common.model.Response;
 import org.jeecf.manager.common.controller.BaseController;
-import org.jeecf.manager.common.enums.BusinessErrorEnum;
 import org.jeecf.manager.common.utils.DownloadUtils;
 import org.jeecf.manager.common.utils.NamespaceUtils;
 import org.jeecf.manager.common.utils.TemplateUtils;
 import org.jeecf.manager.module.config.model.domain.SysNamespace;
 import org.jeecf.manager.module.config.model.result.SysNamespaceResult;
 import org.jeecf.manager.module.config.service.SysNamespaceService;
+import org.jeecf.manager.module.template.facade.GenTemplateFacade;
 import org.jeecf.manager.module.template.model.domain.GenTemplate;
 import org.jeecf.manager.module.template.model.po.GenFieldColumnPO;
 import org.jeecf.manager.module.template.model.po.GenTemplatePO;
@@ -31,7 +30,6 @@ import org.jeecf.manager.module.template.model.result.GenTemplateResult;
 import org.jeecf.manager.module.template.model.schema.GenTemplateSchema;
 import org.jeecf.manager.module.template.service.GenFieldColumnService;
 import org.jeecf.manager.module.template.service.GenTemplateService;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -64,6 +62,9 @@ public class GenTemplateAllController implements BaseController {
 
     @Autowired
     private GenFieldColumnService genFieldColumnService;
+
+    @Autowired
+    private GenTemplateFacade genTemplateFacade;
 
     @GetMapping(value = { "", "index" })
     @RequiresPermissions("${permission.genTemplateAll.view}")
@@ -116,22 +117,10 @@ public class GenTemplateAllController implements BaseController {
 
     @PostMapping(value = { "add/{id}" })
     @ResponseBody
-    @RequiresPermissions("${permission.genTemplateAll.view}")
+    @RequiresPermissions("${permission.genTemplateAll.edit}")
     @ApiOperation(value = "添加", notes = "添加模版")
     public Response<GenTemplateResult> add(@PathVariable Integer id) {
-        Response<GenTemplateResult> checkGenTemplateRes = genTemplateService.getByAuth(new GenTemplate(String.valueOf(id)));
-        if (checkGenTemplateRes.isSuccess() && checkGenTemplateRes.getData() == null) {
-            Response<GenTemplateResult> genTemplateRes = genTemplateService.get(new GenTemplate(String.valueOf(id)));
-            if (genTemplateRes.getData() != null) {
-                GenTemplateResult genTemplateResult = genTemplateRes.getData();
-                GenTemplate genTemplate = new GenTemplate();
-                BeanUtils.copyProperties(genTemplateResult, genTemplate);
-                genTemplate.setId(null);
-                return genTemplateService.saveByAuth(genTemplate);
-            }
-            throw new BusinessException(BusinessErrorEnum.DATA_NOT_EXIT);
-        }
-        throw new BusinessException(BusinessErrorEnum.DATA_EXIT);
+        return genTemplateFacade.add(id);
     }
 
     @PostMapping(value = { "download/template/{id}" })

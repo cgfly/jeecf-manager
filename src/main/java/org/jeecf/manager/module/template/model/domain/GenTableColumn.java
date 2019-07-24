@@ -220,7 +220,7 @@ public class GenTableColumn extends BaseEntity implements Serializable {
     }
 
     @Min(value = 0, message = "{genTableColumn.queryType.min}", groups = { Add.class })
-    @Max(value = 9, message = "{genTableColumn.queryType.max}", groups = { Add.class })
+    @Max(value = 99, message = "{genTableColumn.queryType.max}", groups = { Add.class })
     public Integer getQueryType() {
         return queryType;
     }
@@ -247,7 +247,7 @@ public class GenTableColumn extends BaseEntity implements Serializable {
     }
 
     @Min(value = 0, message = "{genTableColumn.formType.min}", groups = { Add.class })
-    @Max(value = 9, message = "{genTableColumn.formType.max}", groups = { Add.class })
+    @Max(value = 99, message = "{genTableColumn.formType.max}", groups = { Add.class })
     public Integer getFormType() {
         return formType;
     }

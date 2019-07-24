@@ -2,7 +2,7 @@ server:
    port: 8801
 spring:
    profiles: 
-      active: dev
+      active: local
    thymeleaf:
       cache: false  #是否开启模板缓存，默认true
       check-template-location: true #检查模板位置是否存在

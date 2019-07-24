@@ -88,6 +88,7 @@ public class SysOsgiPluginAllController implements CurdController<SysOsgiPluginQ
         if (sysOsgiPlugin.isNewRecord()) {
             SysOsgiPluginQuery query = new SysOsgiPluginQuery();
             query.setPluginName(sysOsgiPlugin.getPluginName());
+            query.setDelFlag(DelFlagEnum.ALL.getCode());
             List<SysOsgiPluginResult> sysOsgiPluginList = sysOsgiPluginService.findList(new SysOsgiPluginPO(query)).getData();
             if (CollectionUtils.isNotEmpty(sysOsgiPluginList)) {
                 throw new BusinessException(BusinessErrorEnum.DATA_EXIT);

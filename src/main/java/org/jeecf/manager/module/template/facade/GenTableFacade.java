@@ -6,6 +6,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.jeecf.common.lang.StringUtils;
 import org.jeecf.common.model.Response;
 import org.jeecf.common.utils.ResponseUtils;
+import org.jeecf.manager.common.enums.JdbcToFormEnum;
 import org.jeecf.manager.module.template.model.domain.GenTable;
 import org.jeecf.manager.module.template.model.domain.GenTableColumn;
 import org.jeecf.manager.module.template.model.po.GenTableColumnPO;
@@ -75,6 +76,7 @@ public class GenTableFacade {
                         column.setId(oldGenTableColumnResult.getId());
                         genTableColumnService.save(column);
                     } else {
+                        column.setFormType(this.toFormType(column.getJdbcType()));
                         column.setGenTable(genTable);
                         genTableColumnService.save(column);
                     }
@@ -88,6 +90,7 @@ public class GenTableFacade {
             } else {
                 columnList.forEach(column -> {
                     column.setNewRecord(true);
+                    column.setFormType(this.toFormType(column.getJdbcType()));
                     column.setGenTable(genTable);
                     genTableColumnService.save(column);
                 });
@@ -154,6 +157,24 @@ public class GenTableFacade {
             });
         }
         return new Response<>(childTableList);
+    }
+
+    /**
+     * 根据jdbcType 获取formType值
+     * 
+     * @param jdbcType
+     * @return
+     */
+    private Integer toFormType(String jdbcType) {
+        if (StringUtils.isNotEmpty(jdbcType)) {
+            String type = jdbcType.split("\\(")[0];
+            for (JdbcToFormEnum formEnum : JdbcToFormEnum.values()) {
+                if (formEnum.getName().contains(type)) {
+                    return formEnum.getCode();
+                }
+            }
+        }
+        return null;
     }
 
 }

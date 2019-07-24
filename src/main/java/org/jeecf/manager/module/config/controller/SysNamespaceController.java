@@ -90,6 +90,7 @@ public class SysNamespaceController implements CurdController<SysNamespaceQuery,
         if (sysNamespace.isNewRecord()) {
             SysNamespaceQuery query = new SysNamespaceQuery();
             query.setNamespaceName(sysNamespace.getNamespaceName());
+            query.setDelFlag(DelFlagEnum.ALL.getCode());
             List<SysNamespaceResult> sysNamespaceList = sysNamespaceService.findList(new SysNamespacePO(query)).getData();
             if (CollectionUtils.isNotEmpty(sysNamespaceList)) {
                 throw new BusinessException(BusinessErrorEnum.DATA_EXIT);

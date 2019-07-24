@@ -5,6 +5,8 @@ import java.util.Map;
 
 import org.jeecf.common.model.Response;
 import org.jeecf.engine.mysql.enums.TableTypeEnum;
+import org.jeecf.gen.enums.FormTypeEnum;
+import org.jeecf.gen.enums.QueryTypeEnum;
 import org.jeecf.manager.common.enums.PermissionLabelEnum;
 import org.jeecf.manager.common.utils.NamespaceUtils;
 import org.jeecf.manager.common.utils.UserUtils;
@@ -39,6 +41,9 @@ public class CommonController {
         result.put("osgiBoundleTypeEnum", BoundleEnum.toJsonString());
         result.put("languageEnum", LanguageEnum.toJsonString());
         result.put("permissionLabelEnum", PermissionLabelEnum.toJsonString());
+        result.put("formTypeEnum", FormTypeEnum.toJsonString());
+        result.put("queryTypeEnum", QueryTypeEnum.toJsonString());
+
         return new Response<>(result);
     }
 

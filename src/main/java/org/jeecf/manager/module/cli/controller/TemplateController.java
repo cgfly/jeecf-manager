@@ -16,7 +16,6 @@ import org.jeecf.common.lang.StringUtils;
 import org.jeecf.common.mapper.JsonMapper;
 import org.jeecf.common.model.Response;
 import org.jeecf.common.utils.IdGenUtils;
-import org.jeecf.gen.model.GenParams;
 import org.jeecf.manager.common.enums.BusinessErrorEnum;
 import org.jeecf.manager.common.properties.ThreadLocalProperties;
 import org.jeecf.manager.common.utils.DbsourceUtils;
@@ -24,6 +23,7 @@ import org.jeecf.manager.common.utils.DownloadUtils;
 import org.jeecf.manager.common.utils.NamespaceUtils;
 import org.jeecf.manager.common.utils.RedisCacheUtils;
 import org.jeecf.manager.common.utils.TemplateUtils;
+import org.jeecf.manager.gen.model.GenParams;
 import org.jeecf.manager.gen.utils.GenUtils;
 import org.jeecf.manager.interceptor.DynamicDataSourceAspect;
 import org.jeecf.manager.module.cli.model.AuthModel;
@@ -208,7 +208,7 @@ public class TemplateController {
                 }
                 fieldMap.forEach((key, value) -> {
                     GenParams params = new GenParams();
-                    params.setColumnName(key);
+                    params.setFieldColumnName(key);
                     params.setValue(value);
                     paramsList.add(params);
                 });

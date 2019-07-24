@@ -5,8 +5,8 @@ define([ 'app', '$httpRequest', '$page', '$ctx','$genHelper','$jBoxcm'], functio
 		$scope.submitForm = function() {
 			var tableColumns = JSON.parse(JSON.stringify($scope.tableColumn));  
 			for(item in tableColumns){
-				tableColumns[item].queryType = tableColumns[item].queryType.value;
-				tableColumns[item].formType = tableColumns[item].formType.value;
+				tableColumns[item].queryType = tableColumns[item].queryType.code;
+				tableColumns[item].formType = tableColumns[item].formType.code;
 				tableColumns[item].isKey = tableColumns[item].isKey.value;
 			}
 			$scope.table.genTableColumns = tableColumns;
@@ -73,6 +73,16 @@ define([ 'app', '$httpRequest', '$page', '$ctx','$genHelper','$jBoxcm'], functio
 			$scope.request = {page:{current:"",size:""},data:{}};
 			$scope.tableColumn = [];
 			$scope.table = {};
+			$ctx.getEnum($rootScope,"formTypeEnum",function(result){
+				$scope.$apply(function () {
+					$scope.formTypes = result;
+				});
+			});
+			$ctx.getEnum($rootScope,"queryTypeEnum",function(result){
+				$scope.$apply(function () {
+					$scope.queryTypes = result;
+				});
+			});
 			$page.init($scope, $page.getPageSize());
 		}
         $('.queryBaseTableColumn').click(function(e) {
@@ -120,26 +130,20 @@ define([ 'app', '$httpRequest', '$page', '$ctx','$genHelper','$jBoxcm'], functio
 						}
 						for( i in data){
 							var field = $genHelper.toField(data[i].genColumnName);
-							var formType = $genHelper.toFormType(data[i].jdbcType);
-							var queryTypes = $genHelper.getQueryTypes();
-							var formTypes = $genHelper.getFormTypes();
 							var isKey = $genHelper.isKey(data[i].isKey);
-							$scope.queryTypes = queryTypes;
-							$scope.formTypes = formTypes;
 							if(data[i]["field"] == undefined){
 								data[i]["field"] = field;
 							}
-							if(data[i]["queryType"] == undefined ){
-								data[i]["queryType"] = queryTypes[0];
-							} else {
-								for(var key in queryTypes){
-									if(queryTypes[key].value == data[i]["queryType"]){
-										data[i]["queryType"] = queryTypes[key];
-									}
+							for(var key in $scope.queryTypes){
+								if($scope.queryTypes[key].code == data[i]["queryType"]){
+									data[i]["queryType"] = $scope.queryTypes[key];
 								}
 							}
-							
-							data[i]["formType"]  = formType;
+							for(var key in $scope.formTypes){
+								if($scope.formTypes[key].code == data[i]["formType"]){
+									data[i]["formType"] = $scope.formTypes[key];
+								}
+							}
 							data[i]["isKey"] = isKey; 
 						}
 						$scope.tableColumn = res.data;
