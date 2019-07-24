@@ -1,6 +1,5 @@
-os: centOs
 language: java
-jdk: oraclejdk8
+jdk: openjdk8
 install: 
    - mvn install -DskipTests=true
 script:
