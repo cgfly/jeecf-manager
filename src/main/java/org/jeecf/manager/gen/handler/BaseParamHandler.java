@@ -7,7 +7,7 @@ import java.util.Map;
 import org.apache.commons.collections.CollectionUtils;
 import org.jeecf.common.utils.DateFormatUtils;
 import org.jeecf.gen.chain.AbstractHandler;
-import org.jeecf.gen.chain.ChainContext;
+import org.jeecf.gen.chain.ContextConfigParams;
 import org.jeecf.manager.gen.model.GenParams;
 
 /**
@@ -18,23 +18,19 @@ import org.jeecf.manager.gen.model.GenParams;
  */
 public class BaseParamHandler extends AbstractHandler {
 
-    private Map<String, Object> extMap = null;
-
-    @Override
-    public void init(ChainContext context) {
-        super.init(context);
-        extMap = this.contextParams.getExtParams();
-    }
-
     @Override
     public void process() {
-        Map<String, Object> params = chainContext.getParams();
+        ContextConfigParams contextParams = this.chainContext.getContextParams();
+        Map<String, Object> extMap = contextParams.getExtParams();
+        Map<String, Object> params = this.chainContext.getParams();
         @SuppressWarnings("unchecked")
         List<GenParams> genParamsList = (List<GenParams>) extMap.get("genParamsList");
 
         params.put("nowDate", DateFormatUtils.getSfFormat().format(new Date()));
-        params.put("namespace", Integer.valueOf(this.contextParams.getNamespaceId()));
-        params.put("username", this.contextParams.getUserId());
+        params.put("namespaceId", Integer.valueOf(contextParams.getNamespaceId()));
+        params.put("usernameId", contextParams.getUserId());
+        params.put("namespace", contextParams.getNamespaceName());
+        params.put("username", contextParams.getUserName());
         if (CollectionUtils.isNotEmpty(genParamsList)) {
             genParamsList.forEach(genParam -> {
                 params.put(genParam.getFieldColumnName(), genParam.getValue());

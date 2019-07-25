@@ -5,7 +5,7 @@ import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.jeecf.gen.chain.AbstractHandler;
-import org.jeecf.gen.chain.ChainContext;
+import org.jeecf.gen.chain.ContextConfigParams;
 import org.jeecf.osgi.model.PluginRequest;
 import org.jeecf.osgi.model.PluginResponse;
 import org.jeecf.osgi.plugin.Plugin;
@@ -18,27 +18,21 @@ import org.jeecf.osgi.plugin.Plugin;
  */
 public class PluginHandler extends AbstractHandler {
 
-    private Map<String, Object> extMap = null;
-
-    @Override
-    public void init(ChainContext context) {
-        super.init(context);
-        extMap = this.contextParams.getExtParams();
-    }
-
     @Override
     public void process() {
+        ContextConfigParams contextParams = this.chainContext.getContextParams();
         Map<String, Object> params = this.chainContext.getParams();
+        Map<String, Object> extMap = contextParams.getExtParams();
         @SuppressWarnings("unchecked")
         List<Plugin> plugins = (List<Plugin>) extMap.get("genHandlerPlugin");
         Integer language = (Integer) extMap.get("language");
-        String namespace = this.contextParams.getNamespaceId();
-        String username = this.contextParams.getUserId();
         if (CollectionUtils.isNotEmpty(plugins)) {
             PluginRequest request = new PluginRequest();
             request.setAttribute("language", language);
-            request.setAttribute("namespace", namespace);
-            request.setAttribute("username", username);
+            request.setAttribute("namespaceId", contextParams.getNamespaceId());
+            request.setAttribute("usernameId", contextParams.getUserId());
+            request.setAttribute("namespace", contextParams.getNamespaceName());
+            request.setAttribute("username", contextParams.getUserName());
             plugins.forEach(plugin -> {
                 PluginResponse res = plugin.process(request);
                 if (res != null) {

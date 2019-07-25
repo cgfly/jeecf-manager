@@ -38,7 +38,9 @@ public class GenUtils {
         HashMap<String, Object> extMap = new HashMap<>(8);
         ContextConfigParams contextParams = new ContextConfigParams();
         contextParams.setNamespaceId(sysNamespace.getId());
+        contextParams.setNamespaceName(sysNamespace.getNamespaceName());
         contextParams.setUserId(sysUser.getId());
+        contextParams.setUserName(sysUser.getUsername());
         contextParams.setSourcePath(sourcePath);
         contextParams.setTableName(tableName);
         contextParams.setOutZip(outZip);
