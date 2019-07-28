@@ -122,7 +122,7 @@ public class GenTableColumn extends BaseEntity implements Serializable {
     @ApiModelProperty(value = "查询类型", name = "queryType")
     private Integer queryType;
 
-    @Length(min = 1, max = 20, message = "{genTableColumn.genColumnName.length}", groups = { Add.class })
+    @Length(min = 1, max = 80, message = "{genTableColumn.genColumnName.length}", groups = { Add.class })
     @Pattern(regexp = "^[0-9a-zA-Z]+[0-9a-zA-Z_]*[0-9a-zA-Z]$", message = "{genTableColumn.genColumnName.pattern}", groups = { Add.class })
     public String getGenColumnName() {
         return genColumnName;
@@ -151,7 +151,7 @@ public class GenTableColumn extends BaseEntity implements Serializable {
         this.sort = sort;
     }
 
-    @Length(min = 1, max = 50, message = "{genTableColumn.comments.length}", groups = { Add.class })
+    @Length(min = 1, max = 200, message = "{genTableColumn.comments.length}", groups = { Add.class })
     public String getComments() {
         return comments;
     }

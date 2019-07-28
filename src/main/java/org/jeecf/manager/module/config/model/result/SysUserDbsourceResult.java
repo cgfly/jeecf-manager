@@ -24,6 +24,10 @@ public class SysUserDbsourceResult extends SysUserDbsource implements Serializab
      * 命名空间逻辑删除
      */
     private Integer dbsourceDelFlag;
+    /**
+     * 是否可用
+     */
+    private Integer usable;
 
     public String getDbsourceName() {
         return dbsourceName;
@@ -39,6 +43,14 @@ public class SysUserDbsourceResult extends SysUserDbsource implements Serializab
 
     public void setDbsourceDelFlag(Integer dbsourceDelFlag) {
         this.dbsourceDelFlag = dbsourceDelFlag;
+    }
+
+    public Integer getUsable() {
+        return usable;
+    }
+
+    public void setUsable(Integer usable) {
+        this.usable = usable;
     }
 
 }

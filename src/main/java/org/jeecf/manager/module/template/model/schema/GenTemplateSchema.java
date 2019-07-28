@@ -51,6 +51,11 @@ public class GenTemplateSchema {
     @ApiModelProperty(value = "描述", name = "description")
     private boolean description = true;
     /**
+     * 创建时间
+     */
+    @ApiModelProperty(value = "创建时间", name = "createDate")
+    private boolean createDate = true;
+    /**
      * 创建人
      */
     @ApiModelProperty(value = "创建人", name = "createBy")
@@ -152,6 +157,14 @@ public class GenTemplateSchema {
 
     public void setTags(boolean tags) {
         this.tags = tags;
+    }
+
+    public boolean isCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(boolean createDate) {
+        this.createDate = createDate;
     }
 
 }

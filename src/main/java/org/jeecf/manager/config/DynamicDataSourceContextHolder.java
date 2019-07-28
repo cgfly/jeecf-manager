@@ -5,7 +5,6 @@ import java.util.List;
 import javax.sql.DataSource;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.jeecf.common.enums.SplitCharEnum;
 import org.jeecf.common.exception.BusinessException;
 import org.jeecf.common.model.Response;
@@ -13,7 +12,6 @@ import org.jeecf.manager.common.enums.BusinessErrorEnum;
 import org.jeecf.manager.common.enums.UsableEnum;
 import org.jeecf.manager.common.utils.DbsourceUtils;
 import org.jeecf.manager.common.utils.JdbcUtils;
-import org.jeecf.manager.common.utils.RedisCacheUtils;
 import org.jeecf.manager.common.utils.SpringContextUtils;
 import org.jeecf.manager.common.utils.UserUtils;
 import org.jeecf.manager.module.config.model.domain.SysDbsource;
@@ -43,9 +41,6 @@ public class DynamicDataSourceContextHolder {
     private static DataSource DEFAULT_DATASOURCE;
 
     private static final String DEFAULT_DATASOURCE_KEY = "defaultDataSourceKey";
-
-    // private static ConversionService CONVERSION_SERVICE = new
-    // DefaultConversionService();
 
     private static Binder BINDER;
 
@@ -79,10 +74,6 @@ public class DynamicDataSourceContextHolder {
     public static String getDafualtKey() {
         return DynamicDataSourceContextHolder.DEFAULT_DATASOURCE_KEY;
     }
-//
-//    public static ConversionService getConversionService() {
-//        return CONVERSION_SERVICE;
-//    }
 
     public static void setBinder(Binder binder) {
         if (BINDER == null) {
@@ -109,58 +100,41 @@ public class DynamicDataSourceContextHolder {
         return dataSource;
     }
 
-    private static String getCurrentDataSourceKey(String id) {
-        return id + SplitCharEnum.UNDERLINE.getName() + DynamicDataSourceContextHolder.DATA_SOURCE_SUFFIX;
+    public static String initCurrentDataSourceValue() {
+        return initCurrentDataSourceValue(UserUtils.getCurrentUserId());
     }
 
-    public static String initCurrentDataSourceValue() {
-        String datasourceKey = getCurrentDataSourceKey(UserUtils.getCurrentUserId());
-        String value = (String) RedisCacheUtils.getSysCache(datasourceKey);
-        if (StringUtils.isEmpty(value)) {
-            SysUserDbsourceService sysUserDbsourceService = (SysUserDbsourceService) SpringContextUtils.getBean("sysUserDbsourceService");
-            SysUserDbsourceQuery dbsourceQuery = new SysUserDbsourceQuery();
-            dbsourceQuery.setUserId(UserUtils.getCurrentUserId());
-            SysUserDbsourcePO sysUserDbsourcePO = new SysUserDbsourcePO(dbsourceQuery);
-            Response<List<SysUserDbsourceResult>> userDbsourceResultRes = sysUserDbsourceService.findList(sysUserDbsourcePO);
-            if (CollectionUtils.isNotEmpty(userDbsourceResultRes.getData())) {
-                value = userDbsourceResultRes.getData().get(0).getDbsourceName() + SplitCharEnum.COLON.getName() + UsableEnum.YES.getCode();
-                RedisCacheUtils.setSysCache(datasourceKey, value);
-            } else {
-                SysUserDbsource sysUserDbsource = new SysUserDbsource();
-                sysUserDbsource.setUserId(UserUtils.getCurrentUserId());
-                sysUserDbsource.setDbsourceId(DbsourceUtils.getSysDbsourceId(DEFAULT_DATASOURCE_KEY));
-                sysUserDbsourceService.save(sysUserDbsource);
-                value = DEFAULT_DATASOURCE_KEY + SplitCharEnum.COLON.getName() + UsableEnum.YES.getCode();
-                RedisCacheUtils.setSysCache(datasourceKey, value);
-            }
+    private static String initCurrentDataSourceValue(String userId) {
+        String value = null;
+        SysUserDbsourceService sysUserDbsourceService = (SysUserDbsourceService) SpringContextUtils.getBean("sysUserDbsourceService");
+        SysUserDbsourceQuery dbsourceQuery = new SysUserDbsourceQuery();
+        dbsourceQuery.setUserId(userId);
+        SysUserDbsourcePO sysUserDbsourcePO = new SysUserDbsourcePO(dbsourceQuery);
+        Response<List<SysUserDbsourceResult>> userDbsourceResultRes = sysUserDbsourceService.findList(sysUserDbsourcePO);
+        if (CollectionUtils.isNotEmpty(userDbsourceResultRes.getData())) {
+            value = userDbsourceResultRes.getData().get(0).getDbsourceName() + SplitCharEnum.COLON.getName() + userDbsourceResultRes.getData().get(0).getUsable();
+        } else {
+            SysUserDbsource sysUserDbsource = new SysUserDbsource();
+            sysUserDbsource.setUserId(userId);
+            sysUserDbsource.setDbsourceId(DbsourceUtils.getSysDbsourceId(DEFAULT_DATASOURCE_KEY));
+            sysUserDbsourceService.save(sysUserDbsource);
+            value = DEFAULT_DATASOURCE_KEY + SplitCharEnum.COLON.getName() + UsableEnum.YES.getCode();
         }
         return value;
     }
 
     public static String getCurrentDataSourceValue() {
-        String datasourceKey = getCurrentDataSourceKey(UserUtils.getCurrentUserId());
-        String values = (String) RedisCacheUtils.getSysCache(datasourceKey);
-        if (StringUtils.isEmpty(values)) {
-            values = initCurrentDataSourceValue();
-        }
+        String values = initCurrentDataSourceValue();
         return values.split(SplitCharEnum.COLON.getName())[0];
     }
 
     public static String getCurrentDataSourceValue(String userId) {
-        String datasourceKey = getCurrentDataSourceKey(userId);
-        String values = (String) RedisCacheUtils.getSysCache(datasourceKey);
-        if (StringUtils.isEmpty(values)) {
-            values = initCurrentDataSourceValue();
-        }
+        String values = initCurrentDataSourceValue(userId);
         return values.split(SplitCharEnum.COLON.getName())[0];
     }
 
     public static boolean getCurrentDataSourceUsable() {
-        String datasourceKey = getCurrentDataSourceKey(UserUtils.getCurrentUserId());
-        String values = (String) RedisCacheUtils.getSysCache(datasourceKey);
-        if (StringUtils.isEmpty(values)) {
-            values = initCurrentDataSourceValue();
-        }
+        String values = initCurrentDataSourceValue();
         int usable = Integer.valueOf(values.split(SplitCharEnum.COLON.getName())[1]);
         if (usable == UsableEnum.YES.getCode()) {
             return true;
@@ -186,8 +160,6 @@ public class DynamicDataSourceContextHolder {
                 sysUserDbsource.setUserId(userId);
                 sysUserDbsource.setDbsourceId(dbsourceId);
                 sysUserDbsourceService.update(sysUserDbsource);
-                String datasourceKey = getCurrentDataSourceKey(userId);
-                RedisCacheUtils.setSysCache(datasourceKey, value + SplitCharEnum.COLON.getName() + usable);
             }
             return;
         }

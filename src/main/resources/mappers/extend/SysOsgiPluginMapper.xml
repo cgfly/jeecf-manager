@@ -9,6 +9,7 @@
         sysOsgiPlugin.boundle_type AS "boundleType",
         sysOsgiPlugin.sys_namespace_id AS "sysNamespaceId",
         sysOsgiPlugin.wiki_uri AS "wikiUri",
+        sysOsgiPlugin.tags AS "tags",
         sysOsgiPlugin.description AS "description",
         sysOsgiPlugin.del_flag AS "delFlag",
         sysOsgiPlugin.create_by AS "createBy",
@@ -21,6 +22,9 @@
             <if test="data != null">
                 <if test="data.pluginName != null and data.pluginName != '' ">
                     AND sysOsgiPlugin.plugin_name = #{data.pluginName}
+                </if>
+                <if test="data.tags != null and data.tags != '' ">
+                    AND sysOsgiPlugin.tags like CONCAT('%',#{data.tags},'%')  
                 </if>
                 <if test="data.delFlag != null ">
                     AND sysOsgiPlugin.del_flag = #{data.delFlag}
@@ -68,7 +72,7 @@
             </foreach>
         </if>
         <if test="sorts == null">
-            ORDER BY sysOsgiPlugin.update_date desc
+            ORDER BY sysOsgiPlugin.create_date asc
         </if>
     </sql>
 
@@ -115,6 +119,9 @@
             <if test="wikiUri != null">
                 wiki_uri,
             </if>
+            <if test="tags != null">
+                tags,
+            </if>
             <if test="description != null">
                 description,
             </if>
@@ -148,6 +155,9 @@
             <if test="wikiUri != null">
                 #{wikiUri},
             </if>
+            <if test="tags != null">
+                #{tags},
+            </if>
             <if test="description != null">
                 #{description},
             </if>
@@ -180,6 +190,9 @@
             </if>
             <if test="wikiUri != null">
                 wiki_uri = #{wikiUri},
+            </if>
+            <if test="tags != null">
+                tags = #{tags},
             </if>
             <if test="description != null">
                 description = #{description},
@@ -233,6 +246,9 @@
             </if>
             <if test="wikiUri != null">
                 wiki_uri = #{wikiUri},
+            </if>
+            <if test="tags != null">
+                tags = #{tags},
             </if>
             <if test="description != null">
                 description = #{description},

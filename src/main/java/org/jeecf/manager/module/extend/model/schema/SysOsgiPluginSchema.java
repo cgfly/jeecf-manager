@@ -27,6 +27,11 @@ public class SysOsgiPluginSchema {
     /**
      * wiki地址
      */
+    @ApiModelProperty(value = "标签", name = "tags")
+    private boolean tags = true;
+    /**
+     * wiki地址
+     */
     @ApiModelProperty(value = "wiki地址", name = "wikiUri")
     private boolean wikiUri = true;
     /**
@@ -82,6 +87,14 @@ public class SysOsgiPluginSchema {
 
     public void setBoundleType(boolean boundleType) {
         this.boundleType = boundleType;
+    }
+
+    public boolean isTags() {
+        return tags;
+    }
+
+    public void setTags(boolean tags) {
+        this.tags = tags;
     }
 
     public boolean isWikiUri() {

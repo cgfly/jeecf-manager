@@ -101,7 +101,7 @@
             </foreach>
         </if>
         <if test="sorts == null">
-            ORDER BY genTemplate.update_date desc
+            ORDER BY genTemplate.create_date asc
         </if>
     </sql>
 

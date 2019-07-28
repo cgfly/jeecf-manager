@@ -7,7 +7,6 @@ import javax.validation.constraints.Pattern;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.ScriptAssert;
 import org.jeecf.manager.common.model.PermissionEntity;
-import org.jeecf.manager.validate.constraints.Jdbc;
 import org.jeecf.manager.validate.groups.Add;
 
 import io.swagger.annotations.ApiModel;
@@ -19,12 +18,12 @@ import io.swagger.annotations.ApiModelProperty;
  * @author GloryJian
  * @version 1.0
  */
-@ScriptAssert.List({ 
-    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.keyName)", message = "{dbsource.keyName.isEmpty}", groups = { Add.class }),
-    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.url)", message = "{dbsource.url.isEmpty}", groups = { Add.class }),
-    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.userName)", message = "{dbsource.userName.isEmpty}", groups = { Add.class }),
-    @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.password)", message = "{dbsource.password.isEmpty}", groups = { Add.class }) 
-})
+@ScriptAssert.List({
+        @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.keyName)", message = "{dbsource.keyName.isEmpty}", groups = { Add.class }),
+        @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.url)", message = "{dbsource.url.isEmpty}", groups = { Add.class }),
+        @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.userName)", message = "{dbsource.userName.isEmpty}", groups = { Add.class }),
+        @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.password)", message = "{dbsource.password.isEmpty}", groups = {
+                Add.class }) })
 @ApiModel(value = "sysDbsource", description = "系统数据源实体")
 public class SysDbsource extends PermissionEntity implements Serializable {
 
@@ -74,7 +73,6 @@ public class SysDbsource extends PermissionEntity implements Serializable {
     }
 
     @Length(min = 1, max = 150, message = "{dbsource.url.length}", groups = { Add.class })
-    @Jdbc(message = "{dbsource.url.jdbc}", groups = { Add.class })
     public String getUrl() {
         return url;
     }

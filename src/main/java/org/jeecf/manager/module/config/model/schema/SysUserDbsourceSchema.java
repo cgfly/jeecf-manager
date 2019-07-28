@@ -36,6 +36,9 @@ public class SysUserDbsourceSchema {
     @ApiModelProperty(value = "更新时间", name = "updateDate")
     private boolean updateDate = true;
 
+    @ApiModelProperty(value = "可用性", name = "usable")
+    private boolean usable = true;
+
     public boolean isId() {
         return id;
     }
@@ -75,5 +78,13 @@ public class SysUserDbsourceSchema {
     public void setDbsourceName(boolean dbsourceName) {
         this.dbsourceName = dbsourceName;
     }
-    
+
+    public boolean isUsable() {
+        return usable;
+    }
+
+    public void setUsable(boolean usable) {
+        this.usable = usable;
+    }
+
 }

@@ -9,6 +9,7 @@
         "userId",
         sysDbsource.key_name AS "dbsourceName",
         sysDbsource.del_flag AS "dbsourceDelFlag",
+        sysDbsource.usable AS "usable",
         sysDbsource.id AS "dbsourceId",
         sysUserDbsource.remark AS "remark",
         sysUserDbsource.create_date

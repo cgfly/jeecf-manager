@@ -43,9 +43,9 @@ CREATE PROCEDURE initDB()
   then
       CREATE TABLE `gen_table` (
       `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '编号',
-      `gen_table_name` varchar(30) COLLATE utf8_bin NOT NULL DEFAULT '' COMMENT '名称',
-      `comments` varchar(50) COLLATE utf8_bin NOT NULL DEFAULT '' COMMENT '解释',
-      `class_name` varchar(30) COLLATE utf8_bin NOT NULL DEFAULT '' COMMENT '实体类名称',
+      `gen_table_name` varchar(60) COLLATE utf8_bin NOT NULL DEFAULT '' COMMENT '名称',
+      `comments` varchar(100) COLLATE utf8_bin NOT NULL DEFAULT '' COMMENT '解释',
+      `class_name` varchar(60) COLLATE utf8_bin NOT NULL DEFAULT '' COMMENT '实体类名称',
       `parent_table_id` varchar(20) COLLATE utf8_bin NOT NULL DEFAULT '' COMMENT '关联父表',
       `parent_table_fk` varchar(10) COLLATE utf8_bin NOT NULL DEFAULT '' COMMENT '关联父表外键',
       `sys_namespace_id` int(11) NOT NULL DEFAULT '0' COMMENT '命名空间',
@@ -67,8 +67,8 @@ CREATE PROCEDURE initDB()
       CREATE TABLE `gen_table_column` (
       `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
       `gen_table_id` int(11) NOT NULL DEFAULT '0' COMMENT '归属表编号',
-      `gen_column_name` varchar(30) COLLATE utf8_bin NOT NULL DEFAULT '' COMMENT '名称',
-      `comments` varchar(50) COLLATE utf8_bin NOT NULL DEFAULT '' COMMENT '解释',
+      `gen_column_name` varchar(80) COLLATE utf8_bin NOT NULL DEFAULT '' COMMENT '名称',
+      `comments` varchar(200) COLLATE utf8_bin NOT NULL DEFAULT '' COMMENT '解释',
       `jdbc_type` varchar(50) COLLATE utf8_bin NOT NULL DEFAULT '' COMMENT 'jdbc类型',
       `field` varchar(50) COLLATE utf8_bin NOT NULL DEFAULT '' COMMENT 'JAVA字段名',
       `is_key` int(1) NOT NULL DEFAULT '0' COMMENT '是否为主键',
@@ -245,6 +245,7 @@ CREATE PROCEDURE initDB()
       `plugin_name` varchar(50) NOT NULL DEFAULT '' COMMENT '名称',
       `sys_namespace_id` int(11) NOT NULL DEFAULT '0' COMMENT '命名空间',
       `boundle_type` int(5) NOT NULL DEFAULT '0' COMMENT '插件类型',
+      `tags` varchar(64) NOT NULL DEFAULT '' COMMENT '标签',
       `wiki_uri` varchar(100) NOT NULL DEFAULT '' COMMENT 'wiki地址',
       `description` varchar(50) NOT NULL DEFAULT '' COMMENT '描述',
       `remark` varchar(255) NOT NULL DEFAULT '' COMMENT '备注',

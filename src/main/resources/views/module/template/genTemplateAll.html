@@ -41,7 +41,7 @@
 					<th>标签</th>
 					<th>描述</th>
 					<th>创建人</th>
-					<th>更新时间</th>
+					<th>创建时间</th>
 					<th>操作</th>
 				</tr>
 
@@ -55,7 +55,7 @@
 					<td>{{ genTemplateAll.tags }}</td>
 					<td>{{ genTemplateAll.description }}</td>
 					<td>{{ genTemplateAll.createByName }}</td>
-					<td>{{ genTemplateAll.updateDate | date:'yyyy-MM-dd HH:mm:ss'
+					<td>{{ genTemplateAll.createDate | date:'yyyy-MM-dd HH:mm:ss'
 						}}</td>
 					<td><span><a href="javascript:void(0)"
 							ng-click="detailModal($index)">详情</a></span> <span><a

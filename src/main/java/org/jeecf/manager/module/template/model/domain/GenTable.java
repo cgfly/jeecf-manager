@@ -80,7 +80,7 @@ public class GenTable extends NamespaceAndDbAuthEntity implements Serializable {
         super(id);
     }
 
-    @Length(min = 1, max = 30, message = "{genTable.genTableName.length}", groups = { Add.class })
+    @Length(min = 1, max = 60, message = "{genTable.genTableName.length}", groups = { Add.class })
     @Pattern(regexp = "^[a-zA-Z]+[a-zA-Z_]*[a-zA-Z]$", message = "{genTable.tableName.pattern}", groups = { Add.class })
     public String getGenTableName() {
         return genTableName;
@@ -93,7 +93,7 @@ public class GenTable extends NamespaceAndDbAuthEntity implements Serializable {
         this.genTableName = genTableName;
     }
 
-    @Length(min = 1, max = 30, message = "{genTable.className.length}", groups = { Add.class })
+    @Length(min = 1, max = 60, message = "{genTable.className.length}", groups = { Add.class })
     @Pattern(regexp = "^[a-zA-Z]+$", message = "{genTable.className.pattern}", groups = { Add.class })
     public String getClassName() {
         return className;
@@ -103,7 +103,7 @@ public class GenTable extends NamespaceAndDbAuthEntity implements Serializable {
         this.className = className;
     }
 
-    @Length(min = 1, max = 50, message = "{genTable.comments.length}", groups = { Add.class })
+    @Length(min = 1, max = 100, message = "{genTable.comments.length}", groups = { Add.class })
     public String getComments() {
         return comments;
     }

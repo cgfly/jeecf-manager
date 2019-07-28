@@ -16,6 +16,11 @@
 					id="searchName" ng-model="request.data.pluginName" />
 			</div>
 			&nbsp;
+		    <div class="form-group">
+				<label>标签:</label> <input type="text" class="form-control"
+					id="searchTags" ng-model="request.data.tags" />
+			</div>
+			&nbsp;
 			<div class="form-group">
 				<label>插件类型:</label> <select class="form-control"
 					ng-model="request.data.boundleType" id="searchBoundleType"
@@ -33,9 +38,10 @@
 					<th>序号</th>
 					<th>名称</th>
 					<th>插件类型</th>
+					<th>标签</th>
 					<th>描述</th>
 					<th>创建人</th>
-					<th>更新时间</th>
+					<th>创建时间</th>
 					<th>操作</th>
 				</tr>
 
@@ -45,9 +51,10 @@
 					<td>{{ $index+1 }}</td>
 					<td>{{ sysOsgiPlugin.pluginName }}</td>
 					<td>{{ sysOsgiPlugin.boundleTypeName }}</td>
+					<td>{{ sysOsgiPlugin.tags }}</td>
 					<td>{{ sysOsgiPlugin.description }}</td>
 					<td>{{ sysOsgiPlugin.createByName }}</td>
-					<td>{{ sysOsgiPlugin.updateDate | date:'yyyy-MM-dd HH:mm:ss'
+					<td>{{ sysOsgiPlugin.createDate | date:'yyyy-MM-dd HH:mm:ss'
 						}}</td>
 					<td><span shiro:hasPermission="extend:sysOsgiPlugin:edit"><a
 							href="javascript:void(0)" data-content="{{ $index }}"

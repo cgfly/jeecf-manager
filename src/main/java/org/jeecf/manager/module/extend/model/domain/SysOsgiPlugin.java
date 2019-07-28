@@ -14,9 +14,13 @@ import io.swagger.annotations.ApiModelProperty;
  * @author jianyiming
  *
  */
-@ScriptAssert.List({ @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.pluginName)", message = "{plugin.pluginName.isEmpty}", groups = { Add.class }),
-        @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notNull(_this.id,_this.pluginType)", message = "{plugin.pluginType.isEmpty}", groups = { Add.class }),
-        @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notNull(_this.id,_this.description)", message = "{plugin.description.isEmpty}", groups = { Add.class }) })
+@ScriptAssert.List({
+        @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notBlank(_this.id,_this.pluginName)", message = "{plugin.pluginName.isEmpty}", groups = {
+                Add.class }),
+        @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notNull(_this.id,_this.pluginType)", message = "{plugin.pluginType.isEmpty}", groups = {
+                Add.class }),
+        @ScriptAssert(lang = "javascript", script = "org.jeecf.manager.validate.constraints.Script.notNull(_this.id,_this.description)", message = "{plugin.description.isEmpty}", groups = {
+                Add.class }) })
 public class SysOsgiPlugin extends NamespaceAuthEntity {
 
     public SysOsgiPlugin() {
@@ -37,6 +41,11 @@ public class SysOsgiPlugin extends NamespaceAuthEntity {
     @ApiModelProperty(value = "插件类型", name = "pluginType")
     private Integer boundleType;
     /**
+     * 标签
+     */
+    @ApiModelProperty(value = "标签", name = "tags")
+    private String tags;
+    /**
      * wiki地址
      */
     @ApiModelProperty(value = "wiki地址", name = "wikiUri")
@@ -48,7 +57,7 @@ public class SysOsgiPlugin extends NamespaceAuthEntity {
     private String description;
 
     @Length(min = 1, max = 50, message = "{plugin.pluginName.length}", groups = { Add.class })
-    @English(message = "{plugin.pluginName.english}",groups = { Add.class })
+    @English(message = "{plugin.pluginName.english}", groups = { Add.class })
     public String getPluginName() {
         return pluginName;
     }
@@ -72,6 +81,15 @@ public class SysOsgiPlugin extends NamespaceAuthEntity {
 
     public void setWikiUri(String wikiUri) {
         this.wikiUri = wikiUri;
+    }
+    
+    @Length(min = 1, max = 64, message = "{plugin.tags.length}", groups = { Add.class })
+    public String getTags() {
+        return tags;
+    }
+
+    public void setTags(String tags) {
+        this.tags = tags;
     }
 
     @Length(min = 1, max = 50, message = "{plugin.description.length}", groups = { Add.class })
