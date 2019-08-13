@@ -16,12 +16,12 @@ import org.jeecf.common.model.Request;
 import org.jeecf.common.model.Response;
 import org.jeecf.manager.common.controller.CurdController;
 import org.jeecf.manager.common.enums.BusinessErrorEnum;
+import org.jeecf.manager.common.enums.TemplateTypeEnum;
 import org.jeecf.manager.common.utils.DownloadUtils;
 import org.jeecf.manager.common.utils.NamespaceUtils;
 import org.jeecf.manager.common.utils.TemplateUtils;
 import org.jeecf.manager.common.utils.UserUtils;
 import org.jeecf.manager.gen.model.GenTemplateEntity;
-import org.jeecf.manager.gen.utils.GenUtils;
 import org.jeecf.manager.module.config.model.domain.SysNamespace;
 import org.jeecf.manager.module.extend.service.SysOsgiPluginService;
 import org.jeecf.manager.module.template.facade.GenTemplateFacade;
@@ -205,8 +205,15 @@ public class GenTemplateController implements CurdController<GenTemplateQuery, G
             SysUser sysUser = UserUtils.getCurrentUser();
             SysNamespace sysNamespace = NamespaceUtils.getNamespace(sysUser.getId());
             if (sysNamespace != null) {
+                if (genTemplate.getTemplateType().equals(TemplateTypeEnum.DICT.getCode())) {
+                    // 数据字典表名称
+                    entity.setTableName("sys_dict");
+                } else if (genTemplate.getTemplateType().equals(TemplateTypeEnum.TABLE_DICT.getCode())) {
+                    // 表字典表名称
+                    entity.setTableName("sys_table_dict");
+                }
                 String sourcePath = TemplateUtils.getUnzipPath(genTemplate.getFileBasePath(), sysNamespace.getNamespaceName());
-                String outPath = GenUtils.build(entity.getParams(), entity.getTableName(), sourcePath, genTemplate.getLanguage(), sysNamespace, sysUser,
+                String outPath = genTemplateFacade.build(entity.getParams(), entity.getTableName(), sourcePath, genTemplate.getLanguage(), sysNamespace, sysUser, genTemplate.getId(),
                         sysOsgiPluginService.findFilePathByBoundleType(BoundleEnum.GEN_HANDLER_PLUGIN_BOUNDLE).getData());
                 if (StringUtils.isNotEmpty(outPath)) {
                     return new Response<>(genTemplate.getFileBasePath());

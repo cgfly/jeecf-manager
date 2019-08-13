@@ -1,5 +1,7 @@
 package org.jeecf.manager.subject;
 
+import java.util.List;
+
 import org.jeecf.manager.listen.Listener;
 
 /**
@@ -15,6 +17,14 @@ public interface Subject {
      * @param topic
      * @param listener
      */
-    public void register(String topic, Listener listener);
+    void register(String topic, Listener listener);
+
+    /**
+     * 根据主题获取监听者
+     * 
+     * @param topic
+     * @return
+     */
+    List<Listener> getListeners(String topic);
 
 }

@@ -31,6 +31,16 @@ public class CustomerActionLog extends BaseEntity implements Serializable {
     @ApiModelProperty(value = "用户姓名", name = "userName")
     private String userName;
     /**
+     * 用户id
+     */
+    @ApiModelProperty(value = "用户id", name = "userId")
+    private String userId;
+    /**
+     * 目标id
+     */
+    @ApiModelProperty(value = "目标id", name = "targetId")
+    private String targetId;
+    /**
      * 操作类型
      */
     @ApiModelProperty(value = "操作类型", name = "actionType")
@@ -71,6 +81,22 @@ public class CustomerActionLog extends BaseEntity implements Serializable {
 
     public void setActionData(String actionData) {
         this.actionData = actionData;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getTargetId() {
+        return targetId;
+    }
+
+    public void setTargetId(String targetId) {
+        this.targetId = targetId;
     }
 
 }

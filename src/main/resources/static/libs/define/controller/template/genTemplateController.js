@@ -115,6 +115,11 @@ define([ 'app', '$httpRequest', '$page', '$ctx', '$jBoxcm' ], function(app,
 					}
 				});
 			});
+			$ctx.getEnum($rootScope,"templateTypeEnum",function(result){
+				$scope.$apply(function () {
+					$scope.templateTypeEnums = result;
+				});
+			});
 		}
 		
 		$scope.detailModal = function(index){
@@ -129,6 +134,9 @@ define([ 'app', '$httpRequest', '$page', '$ctx', '$jBoxcm' ], function(app,
 			$scope.createGenTemplate = {templateName:"",params:[],templateId:""};
 			$scope.createGenTemplate.templateId = $scope.genTemplateList[index].id;
 			$scope.createGenTemplate.templateName = $scope.genTemplateList[index].templateName;
+			$scope.createGenTemplate.templateType = $scope.genTemplateList[index].templateType;
+			$scope.createGenTemplate.templateTypeName = $scope.genTemplateList[index].templateTypeName;
+
 			$scope.queryTemplatParam($scope.createGenTemplate.templateId,function(data){
 			    $scope.createGenTemplate.params = data;
 			    $('#genModal').modal('show');

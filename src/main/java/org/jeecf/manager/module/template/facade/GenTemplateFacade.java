@@ -1,6 +1,7 @@
 package org.jeecf.manager.module.template.facade;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -8,10 +9,16 @@ import org.jeecf.common.exception.BusinessException;
 import org.jeecf.common.lang.StringUtils;
 import org.jeecf.common.model.Response;
 import org.jeecf.common.utils.FileUtils;
+import org.jeecf.gen.chain.ChainContext;
+import org.jeecf.gen.chain.ContextConfigParams;
 import org.jeecf.manager.common.enums.BusinessErrorEnum;
+import org.jeecf.manager.common.properties.ThreadLocalProperties;
 import org.jeecf.manager.common.utils.NamespaceUtils;
 import org.jeecf.manager.common.utils.TemplateUtils;
 import org.jeecf.manager.common.utils.UserUtils;
+import org.jeecf.manager.gen.hook.TableHookImpl;
+import org.jeecf.manager.gen.model.GenParams;
+import org.jeecf.manager.gen.template.ChainTemplate;
 import org.jeecf.manager.module.config.model.domain.SysNamespace;
 import org.jeecf.manager.module.config.service.SysNamespaceService;
 import org.jeecf.manager.module.template.model.domain.GenFieldColumn;
@@ -23,6 +30,9 @@ import org.jeecf.manager.module.template.model.result.GenTemplateResult;
 import org.jeecf.manager.module.template.service.GenFieldColumnService;
 import org.jeecf.manager.module.template.service.GenTemplateService;
 import org.jeecf.manager.module.userpower.model.domain.SysUser;
+import org.jeecf.manager.subject.GenSubject;
+import org.jeecf.manager.subject.LogContextField;
+import org.jeecf.osgi.plugin.Plugin;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,6 +48,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true, rollbackFor = RuntimeException.class)
 public class GenTemplateFacade {
 
+    private static final ChainTemplate CHAIN_TEMPLATE = initTemplate();
+
     @Autowired
     private GenFieldColumnService genFieldColumnService;
 
@@ -46,6 +58,23 @@ public class GenTemplateFacade {
 
     @Autowired
     private SysNamespaceService sysNamespaceService;
+
+    @Autowired
+    private ThreadLocalProperties threadLocalProperties;
+
+    @Autowired
+    private GenSubject genSubject;
+
+    /**
+     * 初始化代码生成责任链
+     * 
+     * @return
+     */
+    private static final synchronized ChainTemplate initTemplate() {
+        ChainTemplate chainTemplateImpl = new ChainTemplate();
+        chainTemplateImpl.initChainContext(new TableHookImpl());
+        return chainTemplateImpl;
+    }
 
     @Transactional(readOnly = false, rollbackFor = RuntimeException.class)
     public Response<GenTemplateResult> save(GenTemplate genTemplate) {
@@ -123,6 +152,36 @@ public class GenTemplateFacade {
             throw new BusinessException(BusinessErrorEnum.DATA_NOT_EXIT);
         }
         throw new BusinessException(BusinessErrorEnum.DATA_EXIT);
+    }
+
+    public String build(List<GenParams> genParamsList, String tableName, String sourcePath, Integer language, SysNamespace sysNamespace, SysUser sysUser, String templateId, List<Plugin> plugins) {
+        ChainContext genChainContext = CHAIN_TEMPLATE.getChainContext();
+        String outZip = sourcePath + File.separator + "code.zip";
+        HashMap<String, Object> extMap = new HashMap<>(8);
+        ContextConfigParams contextParams = new ContextConfigParams();
+        contextParams.setNamespaceId(sysNamespace.getId());
+        contextParams.setNamespaceName(sysNamespace.getNamespaceName());
+        contextParams.setUserId(sysUser.getId());
+        contextParams.setUserName(sysUser.getUsername());
+        contextParams.setSourcePath(sourcePath);
+        contextParams.setTableName(tableName);
+        contextParams.setOutZip(outZip);
+        extMap.put("genParamsList", genParamsList);
+        extMap.put("genHandlerPlugin", plugins);
+        extMap.put("language", language);
+        contextParams.setExtParams(extMap);
+        try {
+            genChainContext.setContextParams(contextParams);
+            genChainContext.next();
+            if (genChainContext.isFlag()) {
+                String ip = threadLocalProperties.get(LogContextField.IP);
+                genSubject.updateCode(sysUser.getId(), sysUser.getUsername(), templateId, ip);
+                return outZip;
+            }
+        } finally {
+            genChainContext.remove();
+        }
+        return null;
     }
 
 }

@@ -125,6 +125,7 @@ CREATE TABLE `gen_template` (
   `sys_namespace_id` int(11) NOT NULL DEFAULT '0' COMMENT '所属命名空间',
   `language` int(1) NOT NULL DEFAULT '1' COMMENT '语言',
   `file_base_path` varchar(100) NOT NULL DEFAULT '' COMMENT '模版文件基础路径',
+  `template_type` int(2) NOT NULL DEFAULT '0' COMMENT '模版类型',
   `version` varchar(20) NOT NULL DEFAULT '' COMMENT '版本号',
   `wiki_uri` varchar(100) NOT NULL DEFAULT '' COMMENT 'wiki地址',
   `tags` varchar(64) NOT NULL DEFAULT '' COMMENT '标签',

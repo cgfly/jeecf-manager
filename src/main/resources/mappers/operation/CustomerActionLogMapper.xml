@@ -6,8 +6,11 @@
 		customerActionLog.id AS "id",
 		customerActionLog.ip AS "ip",
 		customerActionLog.user_name AS "userName",
+        customerActionLog.user_id AS "userId",
+        customerActionLog.target_id AS "targetId",
 		customerActionLog.action_type AS "actionType",
 		customerActionLog.action_data AS "actionData",
+       
 		customerActionLog.create_by AS "createBy",
 		customerActionLog.create_date AS "createDate",
 		customerActionLog.update_by AS "updateBy",
@@ -21,6 +24,12 @@
 				<if test="data.actionType != null and data.actionType != '' ">
 					And customerActionLog.action_type  = #{data.actionType}
 				</if>
+                <if test="data.userId != null and data.userId != '' ">
+                    And customerActionLog.user_id  = #{data.userId}
+                </if>
+                <if test="data.targetId != null and data.targetId != '' ">
+                    And customerActionLog.target_id  = #{data.targetId}
+                </if>
 				<if test="data.userName != null and data.userName != '' ">
 					And customerActionLog.user_name  = #{data.userName}
 				</if>
@@ -113,6 +122,12 @@
 			<if test="userName != null">
 				user_name,
 			</if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="targetId != null">
+                target_id,
+            </if>
 			<if test="actionType != null">
 				action_type,
 			</if>
@@ -143,6 +158,12 @@
 			<if test="userName != null">
 				#{userName},
 			</if>
+            <if test="userId != null">
+                #{userId},
+            </if>
+            <if test="targetId != null">
+                #{targetId},
+            </if>
 			<if test="actionType != null">
 				#{actionType},
 			</if>
@@ -176,6 +197,12 @@
 			<if test="userName != null">
 				user_name = #{userName},
 			</if>
+            <if test="userId != null">
+                user_id = #{userId},
+            </if>
+            <if test="targetId != null">
+                target_id = #{targetId},
+            </if>
 			<if test="actionType != null">
 				action_type = #{actionType},
 			</if>

@@ -1,4 +1,4 @@
-package org.jeecf.manager.gen.utils;
+package org.jeecf.manager.gen.template;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +13,7 @@ import org.jeecf.manager.gen.handler.ToolParamHandler;
  * @author jianyiming
  * @since 2.0
  */
-public class ChainTemplateImpl extends AbstractChainTemplate {
+public class ChainTemplate extends AbstractChainTemplate {
 
     @Override
     public List<AbstractHandler> beforeResolve() {

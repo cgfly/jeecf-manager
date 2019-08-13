@@ -8,25 +8,28 @@ import java.util.Map;
 import org.jeecf.common.mapper.JsonMapper;
 
 /**
- * 操作类型
+ * 模版类型枚举
  * 
  * @author jianyiming
  *
  */
-public enum ActionTypeEnum {
-
+public enum TemplateTypeEnum {
     /**
-     * 登录
+     * 基本类型
      */
-    LOGIN(1, "登录"),
+    BASE(1, "基本类型"),
     /**
-     * 退出
+     * 表类型
      */
-    LOGOUT(2, "退出"),
+    TABLE(2, "表类型"),
     /**
-     * 代码生成
+     * 数字字典
      */
-    CODE_GEN(3, "代码生成"),;
+    DICT(3, "数字字典"),
+    /**
+     * 表字典
+     */
+    TABLE_DICT(4, "表字典"),;
 
     private final int code;
     private final String name;
@@ -36,16 +39,17 @@ public enum ActionTypeEnum {
     }
 
     public String getName() {
+
         return name;
     }
 
-    private ActionTypeEnum(int code, String name) {
+    private TemplateTypeEnum(int code, String name) {
         this.code = code;
         this.name = name;
     }
 
     public static Integer getCode(String name) {
-        for (ActionTypeEnum e : ActionTypeEnum.values()) {
+        for (TemplateTypeEnum e : TemplateTypeEnum.values()) {
             if (e.getName().equals(name)) {
                 return e.getCode();
             }
@@ -54,7 +58,7 @@ public enum ActionTypeEnum {
     }
 
     public static String getName(int code) {
-        for (ActionTypeEnum e : ActionTypeEnum.values()) {
+        for (TemplateTypeEnum e : TemplateTypeEnum.values()) {
             if (e.getCode() == code) {
                 return e.getName();
             }
@@ -64,7 +68,7 @@ public enum ActionTypeEnum {
 
     public static String toJsonString() {
         List<Map<String, Object>> dataMap = new ArrayList<>();
-        for (ActionTypeEnum e : ActionTypeEnum.values()) {
+        for (TemplateTypeEnum e : TemplateTypeEnum.values()) {
             Map<String, Object> map = new HashMap<String, Object>(10);
             map.put("code", e.getCode());
             map.put("name", e.getName());

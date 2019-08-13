@@ -46,6 +46,11 @@ public class GenTemplateSchema {
     @ApiModelProperty(value = "标签", name = "tags")
     private boolean tags = true;
     /**
+     * 标签
+     */
+    @ApiModelProperty(value = "模版类型", name = "templateType")
+    private boolean templateType = true;
+    /**
      * 描述
      */
     @ApiModelProperty(value = "描述", name = "description")
@@ -165,6 +170,14 @@ public class GenTemplateSchema {
 
     public void setCreateDate(boolean createDate) {
         this.createDate = createDate;
+    }
+
+    public boolean isTemplateType() {
+        return templateType;
+    }
+
+    public void setTemplateType(boolean templateType) {
+        this.templateType = templateType;
     }
 
 }

@@ -12,6 +12,7 @@
         "version",
         genTemplate.wiki_uri AS "wikiUri",
         genTemplate.file_base_path AS "fileBasePath",
+        genTemplate.template_type AS "templateType",
         genTemplate.tags AS
         "tags",
         genTemplate.description AS "description",
@@ -37,6 +38,10 @@
                 <if
                     test="data.language != null ">
                     And genTemplate.language = #{data.language}
+                </if>
+                <if
+                    test="data.templateType != null ">
+                    And genTemplate.template_type = #{data.templateType}
                 </if>
                 <if test="data.sysNamespaceId != null ">
                     And genTemplate.sys_namespace_id =
@@ -162,6 +167,9 @@
             <if test="tags != null">
                 tags,
             </if>
+            <if test="templateType != null">
+                template_type,
+            </if>
             <if test="description != null">
                 description,
             </if>
@@ -204,6 +212,9 @@
             <if test="tags != null">
                 #{tags},
             </if>
+            <if test="templateType != null">
+                #{templateType},
+            </if>
             <if test="description != null">
                 #{description},
             </if>
@@ -245,6 +256,9 @@
             </if>
             <if test="tags != null">
                 tags = #{tags},
+            </if>
+            <if test="templateType != null">
+                template_type = #{templateType},
             </if>
             <if test="description != null">
                 description = #{description},

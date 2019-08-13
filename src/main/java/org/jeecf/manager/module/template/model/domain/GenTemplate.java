@@ -63,6 +63,11 @@ public class GenTemplate extends NamespaceAuthEntity implements Serializable {
     @ApiModelProperty(value = "标签", name = "tags")
     private String tags;
     /**
+     * 模版类型
+     */
+    @ApiModelProperty(value = "模版类型", name = "templateType")
+    private Integer templateType;
+    /**
      * 描述
      */
     @ApiModelProperty(value = "描述", name = "description")
@@ -151,6 +156,14 @@ public class GenTemplate extends NamespaceAuthEntity implements Serializable {
 
     public void setTags(String tags) {
         this.tags = tags;
+    }
+
+    public Integer getTemplateType() {
+        return templateType;
+    }
+
+    public void setTemplateType(Integer templateType) {
+        this.templateType = templateType;
     }
 
 }

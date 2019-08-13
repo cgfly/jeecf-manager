@@ -2,6 +2,7 @@ package org.jeecf.manager.module.template.model.result;
 
 import java.io.Serializable;
 
+import org.jeecf.manager.common.enums.TemplateTypeEnum;
 import org.jeecf.manager.module.template.model.domain.GenTemplate;
 import org.jeecf.osgi.enums.LanguageEnum;
 
@@ -25,6 +26,11 @@ public class GenTemplateResult extends GenTemplate implements Serializable {
     @ApiModelProperty(value = "语言名称", name = "languageName")
     private String languageName;
     /**
+     * 模版类型名称
+     */
+    @ApiModelProperty(value = "模版类型名称", name = "templateTypeName")
+    private String templateTypeName;
+    /**
      * 是否在其他命名空间中存在
      */
     @ApiModelProperty(value = "是否存在", name = "isExit")
@@ -46,9 +52,20 @@ public class GenTemplateResult extends GenTemplate implements Serializable {
         this.isExit = isExit;
     }
 
+    public String getTemplateTypeName() {
+        return templateTypeName;
+    }
+
+    public void setTemplateTypeName(String templateTypeName) {
+        this.templateTypeName = templateTypeName;
+    }
+
     public void toConvert() {
         if (this.getLanguage() != null) {
             this.setLanguageName(LanguageEnum.getName(this.getLanguage()));
+        }
+        if (this.getTemplateType() != null) {
+            this.setTemplateTypeName(TemplateTypeEnum.getName(this.getTemplateType()));
         }
     }
 

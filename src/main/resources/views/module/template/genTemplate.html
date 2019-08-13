@@ -39,6 +39,7 @@
 					<th>名称</th>
 					<th>语言</th>
 					<th>版本号</th>
+					<th>类型</th>
 					<th>标签</th>
 					<th>描述</th>
 					<th>创建人</th>
@@ -53,6 +54,7 @@
 					<td>{{ genTemplate.templateName }}</td>
 					<td>{{ genTemplate.languageName }}</td>
 					<td>{{ genTemplate.version }}</td>
+					<td>{{ genTemplate.templateTypeName }}</td>
 					<td>{{ genTemplate.tags }}</td>
 					<td>{{ genTemplate.description }}</td>
 					<td>{{ genTemplate.createByName }}</td>
@@ -124,6 +126,18 @@
 											ng-show="updateGenTemplateForm.version.$dirty &amp;&amp; updateGenTemplateForm.version.$invalid">
 											<span ng-show="updateGenTemplateForm.version.$error.required">版本号是必须的。</span>
 										</span>
+									</div>
+								</div>
+							</div>
+							
+							<div class="form-group">
+								<label class="col-sm-2 control-label">语言：</label>
+								<div class="col-sm-9">
+									<div class="col-sm-6" style="padding-left: 0">
+										<select class="form-control"
+											ng-model="updateGenTemplate.templateType" id="updateTemplateType"
+											name="templateType"
+											ng-options="obj.code as obj.name for obj in templateTypeEnums"></select>
 									</div>
 								</div>
 							</div>
@@ -268,6 +282,13 @@
 								</div>
 							</div>
 							<div class="form-group">
+								<label class="col-sm-2 control-label">模版类型：</label>
+								<div class="col-sm-9" style="padding-left: 0">
+									<label class="control-label">{{ createGenTemplate.templateTypeName
+										}}</label>
+								</div>
+							</div>
+							<div class="form-group" ng-if="createGenTemplate.templateType == 2">
 								<label class="col-sm-2 control-label" style="font-size: 16px;">业务表：</label>
 								<div class="col-sm-6" style="padding-left: 0">
 									<div class="col-sm-8" style="padding-left: 0">
@@ -275,6 +296,22 @@
 											ng-model="createGenTemplate.tableName" id="tableName"
 											style="height: 25px;" name="tableName"
 											ng-options="table.genTableName as table.genTableName for table in genTableList"></select>
+									</div>
+								</div>
+							</div>
+							<div class="form-group" ng-if="createGenTemplate.templateType == 3">
+								<label class="col-sm-2 control-label" style="font-size: 16px;">业务表：</label>
+								<div class="col-sm-6" style="padding-left: 0">
+									<div class="col-sm-8" style="padding-left: 0">
+										<label>sys_dict</label>
+									</div>
+								</div>
+							</div>
+						    <div class="form-group" ng-if="createGenTemplate.templateType == 4">
+								<label class="col-sm-2 control-label" style="font-size: 16px;">业务表：</label>
+								<div class="col-sm-6" style="padding-left: 0">
+									<div class="col-sm-8" style="padding-left: 0">
+										<label>sys_table_dict</label>
 									</div>
 								</div>
 							</div>
@@ -359,6 +396,17 @@
 						</div>
 					</div>
 				</div>
+				
+				<div class="form-group">
+					<label class="col-sm-2 control-label">模版类型：</label>
+					<div class="col-sm-4">
+						<div class="col-sm-10" style="padding-left: 0">
+							<select class="form-control" ng-model="genTemplate.templateType"
+								id="templateType" name="templateType"
+								ng-options="obj.code as obj.name for obj in templateTypeEnums"></select>
+						</div>
+					</div>
+				</div>
 
 				<div class="form-group">
 					<label class="col-sm-2 control-label">wiki地址：</label>
@@ -370,6 +418,8 @@
 						</div>
 					</div>
 				</div>
+				
+				
 
 				<div class="form-group">
 					<label class="col-sm-2 control-label">标签：</label>
@@ -488,6 +538,13 @@
 							<label class="col-sm-2 control-label">模版名：</label>
 							<div class="col-sm-9">
 								<label class="control-label">{{ detailGenTemplate.templateName
+									}}</label>
+							</div>
+						</div>
+				        <div class="form-group">
+							<label class="col-sm-2 control-label">模版类型：</label>
+							<div class="col-sm-9">
+								<label class="control-label">{{ detailGenTemplate.templateTypeName
 									}}</label>
 							</div>
 						</div>

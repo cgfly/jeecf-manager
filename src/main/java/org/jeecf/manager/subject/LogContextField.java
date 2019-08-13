@@ -6,10 +6,14 @@ package org.jeecf.manager.subject;
  * @author jianyiming
  *
  */
-public class UserContextField {
+public class LogContextField {
 
     public static final String USER_ID = "id";
 
     public static final String USER_NAME = "username";
+
+    public static final String TARGET_ID = "targetId";
+    
+    public static final String IP = "ip";
 
 }

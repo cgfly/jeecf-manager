@@ -24,7 +24,6 @@ import org.jeecf.manager.common.utils.NamespaceUtils;
 import org.jeecf.manager.common.utils.RedisCacheUtils;
 import org.jeecf.manager.common.utils.TemplateUtils;
 import org.jeecf.manager.gen.model.GenParams;
-import org.jeecf.manager.gen.utils.GenUtils;
 import org.jeecf.manager.interceptor.DynamicDataSourceAspect;
 import org.jeecf.manager.module.cli.model.AuthModel;
 import org.jeecf.manager.module.cli.model.GenModel;
@@ -218,7 +217,7 @@ public class TemplateController {
                     tableName = genSingleModel.getTable().getName();
                 }
                 String sourcePath = TemplateUtils.getUnzipPath(genTemplateResult.getFileBasePath(), sysNamespace.getNamespaceName());
-                String outPath = GenUtils.build(paramsList, tableName, sourcePath, genTemplateResult.getLanguage(), sysNamespace, new SysUser(userId),
+                String outPath = genTemplateFacade.build(paramsList, tableName, sourcePath, genTemplateResult.getLanguage(), sysNamespace, new SysUser(userId), genTemplateResult.getId(),
                         sysOsgiPluginService.findFilePathByBoundleType(BoundleEnum.GEN_HANDLER_PLUGIN_BOUNDLE).getData());
                 String uuid = IdGenUtils.randomUUID(RANDOM_MAX);
                 RedisCacheUtils.setSysCache(CACHE_CODE_PREFIX + uuid, outPath);

@@ -6,9 +6,11 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.jeecf.common.exception.BusinessException;
 import org.jeecf.common.model.Response;
 import org.jeecf.manager.common.enums.BusinessErrorEnum;
+import org.jeecf.manager.common.properties.ThreadLocalProperties;
 import org.jeecf.manager.common.utils.UserUtils;
 import org.jeecf.manager.module.main.model.LoginVo;
 import org.jeecf.manager.module.userpower.model.domain.SysUser;
+import org.jeecf.manager.subject.LogContextField;
 import org.jeecf.manager.subject.UserSubject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -34,6 +36,9 @@ public class LoginController {
     @Autowired
     private UserSubject userSubject;
 
+    @Autowired
+    private ThreadLocalProperties threadLocalProperties;
+
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     @ApiOperation(value = "视图", notes = "登录视图")
     public String login() {
@@ -47,9 +52,7 @@ public class LoginController {
         boolean rememberMe = loginVo.isRememberMe();
         try {
             SecurityUtils.getSubject().login(new UsernamePasswordToken(loginVo.getUsername(), loginVo.getPassword(), rememberMe));
-            SysUser sysUser = new SysUser();
-            sysUser.setUsername(loginVo.getUsername());
-            userSubject.updateLogin(sysUser);
+            userSubject.updateLogin(UserUtils.getCurrentUserId(), loginVo.getUsername(), threadLocalProperties.get(LogContextField.IP));
         } catch (AuthenticationException e) {
             throw new BusinessException(BusinessErrorEnum.USER_USER_AND_PASSWORD_ERROR);
         }
@@ -61,7 +64,7 @@ public class LoginController {
     public String logout(ModelMap map) {
         SysUser sysUser = UserUtils.getCurrentUser();
         SecurityUtils.getSubject().logout();
-        userSubject.updateLogout(sysUser);
+        userSubject.updateLogout(sysUser.getId(), sysUser.getUsername(), threadLocalProperties.get(LogContextField.IP));
         return "login";
     }
 

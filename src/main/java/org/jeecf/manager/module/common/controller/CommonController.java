@@ -8,6 +8,7 @@ import org.jeecf.engine.mysql.enums.TableTypeEnum;
 import org.jeecf.gen.enums.FormTypeEnum;
 import org.jeecf.gen.enums.QueryTypeEnum;
 import org.jeecf.manager.common.enums.PermissionLabelEnum;
+import org.jeecf.manager.common.enums.TemplateTypeEnum;
 import org.jeecf.manager.common.utils.NamespaceUtils;
 import org.jeecf.manager.common.utils.UserUtils;
 import org.jeecf.manager.module.config.model.domain.SysNamespace;
@@ -43,6 +44,7 @@ public class CommonController {
         result.put("permissionLabelEnum", PermissionLabelEnum.toJsonString());
         result.put("formTypeEnum", FormTypeEnum.toJsonString());
         result.put("queryTypeEnum", QueryTypeEnum.toJsonString());
+        result.put("templateTypeEnum", TemplateTypeEnum.toJsonString());
 
         return new Response<>(result);
     }
